@@ -1,6 +1,3 @@
-
-
-
 package base_layer;
 
 public class Facility {
