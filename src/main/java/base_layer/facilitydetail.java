@@ -1,12 +1,12 @@
 package base_layer;
 
-public class FacilityDetail extends Facility {
+public class facilitydetail extends Facility {
 
     private String name;
     private int numberOfRooms;
     private int phoneNumber;
 
-    public FacilityDetail() {}
+    public facilitydetail() {}
 
     public String getName() {
         return name;
