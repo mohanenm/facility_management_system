@@ -1,0 +1,12 @@
+public class Floor extends BuildingAddress{
+    private int floorNum;
+
+    public Floor() {}
+
+    public getFloor(){
+        return floorNum;
+    }
+    public setFloor(int floorNum){
+        this.floorNum = floorNum;
+    }
+}
