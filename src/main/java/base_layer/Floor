@@ -1,12 +1,14 @@
+package base_layer;
+
 public class Floor extends BuildingAddress{
     private int floorNum;
 
     public Floor() {}
 
-    public getFloor(){
+    public int getFloor(){
         return floorNum;
     }
-    public setFloor(int floorNum){
+    public void setFloor(int floorNum){
         this.floorNum = floorNum;
     }
 }

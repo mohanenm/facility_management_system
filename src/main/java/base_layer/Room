@@ -1,5 +1,10 @@
+package base_layer;
 public class Room extends Floor{
     private int roomNum;
+
+    public Room(int roomNum){
+        this.roomNum = roomNum;
+    }
 
     public int getRoomNum() {
         return roomNum;
