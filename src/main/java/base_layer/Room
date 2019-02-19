@@ -1,9 +1,9 @@
 package base_layer;
 public class Room extends Floor{
-    private int roomNum;
+    private static int roomNum;
 
-    public Room(int roomNum){
-        this.roomNum = roomNum;
+    public Room(){
+        super(floorNum);
     }
 
     public int getRoomNum() {
@@ -13,4 +13,5 @@ public class Room extends Floor{
     public void setRoomNum(int roomNum) {
         this.roomNum = roomNum;
     }
+
 }

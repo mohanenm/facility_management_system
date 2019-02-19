@@ -1,9 +1,11 @@
 package base_layer;
 
-public class Floor extends BuildingAddress{
-    private int floorNum;
+public class Floor extends Building{
+    public static int floorNum;
 
-    public Floor() {}
+    public Floor(int floorNum) {
+        this.floorNum = floorNum;
+    }
 
     public int getFloor(){
         return floorNum;

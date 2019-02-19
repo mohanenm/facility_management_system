@@ -1,12 +1,13 @@
 package base_layer;
 
-public class facilitydetail extends Facility {
+public class FacilityDetails extends Facility {
 
-    private String name;
-    private int numberOfRooms;
-    private int phoneNumber;
+    public String name;
+    public int numberOfRooms;
+    public int phoneNumber;
+    public String description;
 
-    public facilitydetail() {}
+    public FacilityDetails() {}
 
     public String getName() {
         return name;
@@ -30,6 +31,14 @@ public class facilitydetail extends Facility {
 
     public void setPhoneNumber(int phoneNumber) {
         this.phoneNumber = phoneNumber;
+    }
+
+    public void setDescription(String description){
+        this.description = description;
+    }
+
+    public String getDescription(){
+        return description;
     }
 
 }

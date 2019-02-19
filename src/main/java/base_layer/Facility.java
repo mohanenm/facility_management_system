@@ -3,15 +3,15 @@ package base_layer;
 public class Facility {
 
     private int facilityID;
-    private facilitydetail detailsAboutFacility;
+    private FacilityDetails detailsAboutFacility;
 
     public Facility() {}
 
-    public facilitydetail getDetailsAboutFacility() {
+    public FacilityDetails getDetailsAboutFacility() {
         return detailsAboutFacility;
     }
 
-    public void setDetailsAboutFacility(facilitydetail detailsAboutFacility) {
+    public void setDetailsAboutFacility(FacilityDetails detailsAboutFacility) {
         this.detailsAboutFacility = detailsAboutFacility;
     }
 
