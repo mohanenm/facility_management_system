@@ -7,6 +7,8 @@ public class Building {
     private String city;
     private String state;
     private String zip;
+    private Floor floor;
+    private Room room;
 
     public Building() {}
 
@@ -41,5 +43,19 @@ public class Building {
     }
     public void setZip(String zip) {
         this.zip = zip;
+    }
+
+    public void addFloor(Floor floor){
+
+    }
+    public void addRoom(Room room) {
+        this.room = new Room();
+    }
+    public void removeRoom(Room room) {
+
+    }
+
+    public String toString(){
+        return("Building ID: " + buildingId + " \n Building Address: " + streetAddress + " " + city + ", " + state + " " + zip);
     }
 }
