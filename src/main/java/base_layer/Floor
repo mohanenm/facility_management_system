@@ -1,6 +1,6 @@
 package base_layer;
 
-public class Floor extends Building{
+public class Floor{
     public static int floorNum;
 
     public Floor(int floorNum) {

@@ -1,27 +1,61 @@
 package base_layer;
+import java.util.*;
 
 public class Facility {
 
+    private String name;
     private int facilityID;
-    private FacilityDetails detailsAboutFacility;
+    private String phoneNumber;
+    private String description;
+    private ArrayList<Room> roomsInFacility = new ArrayList<>();
 
-    public Facility() {}
+    private Facility() {}
 
-    public FacilityDetails getDetailsAboutFacility() {
-        return detailsAboutFacility;
+    private String getName() {
+        return name;
     }
 
-    public void setDetailsAboutFacility(FacilityDetails detailsAboutFacility) {
-        this.detailsAboutFacility = detailsAboutFacility;
-    }
-
-    public void setFacilityID(int facilityID) {
-        this.facilityID = facilityID;
-    }
-
-    public int getFacilityID() {
+    private int getFacilityID() {
         return facilityID;
     }
 
+    private String getPhoneNumber() {
+        return phoneNumber;
+    }
 
+    private String getDescription(){
+        return description;
+    }
+
+    public String toString(){
+        return("~~~~~~~~~~~~~~~~~~~~~~~~~~" + "\nFacility ID: " + facilityID + "\nFacility Name: " + name + " \nPhone: " + phoneNumber + " \nDescription: " + description + "\n~~~~~~~~~~~~~~~~~~~~~~~~~");
+    }
+
+    public static class FacilityBuilder {
+
+        private String name;
+        private int facilityID;
+        private String phoneNumber;
+        private String description;
+        private ArrayList<Room> roomsInFacility = new ArrayList<>();
+
+        public FacilityBuilder(String name, int facilityID){
+            this.name = name;
+            this.facilityID = facilityID;
+        }
+
+        public FacilityBuilder withPhone(String phoneNumber){
+            this.phoneNumber = phoneNumber;
+            return this;
+        }
+
+        public  FacilityBuilder withDescription(String description){
+            this.description = description;
+            return this;
+        }
+
+        public Facility build() {
+            return new Facility(this);
+        }
+    }
 }

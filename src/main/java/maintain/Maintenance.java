@@ -1,9 +1,7 @@
 package maintain;
 
 
-import base_layer.Facility;
-
-public class Maintenance extends Facility{
+public class Maintenance{
 
     private String details;
     private int cost;

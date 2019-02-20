@@ -1,9 +1,10 @@
 package base_layer;
-public class Room extends Floor{
+public class Room{
     private static int roomNum;
+    private boolean isInUse;
+    private boolean downForMaintenance;
 
     public Room(){
-        super(floorNum);
     }
 
     public int getRoomNum() {
@@ -12,6 +13,10 @@ public class Room extends Floor{
 
     public void setRoomNum(int roomNum) {
         this.roomNum = roomNum;
+    }
+
+    public boolean setMaintenance(boolean isInUse, boolean downForMaintenance){
+        if(isInUse == true)
     }
 
 }
