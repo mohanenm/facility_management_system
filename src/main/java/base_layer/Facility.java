@@ -54,6 +54,12 @@ public class Facility {
             return this;
         }
 
+        public FacilityBuilder addRoom(ArrayList<Room> roomsInFacility, Room e){
+            roomsInFacility.add(e);
+            this.roomsInFacility = roomsInFacility;
+            return this;
+        }
+
         public Facility build() {
             return new Facility(this);
         }

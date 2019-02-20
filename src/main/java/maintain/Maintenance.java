@@ -4,7 +4,8 @@ package maintain;
 public class Maintenance{
 
     private String details;
-    private int cost;
+    private int totalCost;
+    private int hourlyCost;
 
     public Maintenance(){}
 
@@ -17,10 +18,10 @@ public class Maintenance{
     }
 
     public int getCost(){
-        return cost;
+        return totalCost;
     }
 
     public void setCost(int cost){
-        this.cost = cost;
+        this.totalCost = cost;
     }
 }

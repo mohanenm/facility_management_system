@@ -1,10 +1,12 @@
 package base_layer;
 
-public class Floor{
-    public static int floorNum;
+import java.util.ArrayList;
 
-    public Floor(int floorNum) {
-        this.floorNum = floorNum;
+public class Floor{
+    private static int floorNum;
+    private ArrayList<Room> roomsInFloor = new ArrayList<>();
+
+    public Floor() {
     }
 
     public int getFloor(){
@@ -12,5 +14,8 @@ public class Floor{
     }
     public void setFloor(int floorNum){
         this.floorNum = floorNum;
+    }
+    public void addRoom(ArrayList<Room> roomsInFloor, Room e){
+
     }
 }

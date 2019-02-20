@@ -14,9 +14,9 @@ public class Room{
     public void setRoomNum(int roomNum) {
         this.roomNum = roomNum;
     }
-
+/*
     public boolean setMaintenance(boolean isInUse, boolean downForMaintenance){
         if(isInUse == true)
     }
-
+*/
 }
