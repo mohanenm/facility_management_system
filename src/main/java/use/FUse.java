@@ -1,11 +1,9 @@
 package use;
 
-import base_layer.Facility;
-
 import java.time.LocalDate;
 
 
-public class FUse extends Facility {
+public class FUse {
 
     private int roomNumber;
     private LocalDate startDate;

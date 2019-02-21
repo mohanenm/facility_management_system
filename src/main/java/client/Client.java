@@ -1,22 +1,19 @@
 package client;
 
-import base_layer.Building;
-import base_layer.Facility;
+import base_layer.*;
 
 public class Client {
     public static void main(String []args){
 
-        Room a = new room;
+        Room r = new Room();
+        r.setRoomNum(101);
 
-        Facility HR = new Facility();
-        HR.setFacilityID(001);
-
-        HR.setDescription("The Human Resources Management facility is in charge of hiring and managing employees across all facilities of AbstractCorp.");
-        HR.setName("Human Resources");
-        HR.setPhoneNumber("(555)555-5555");
+        Facility HR = new Facility.FacilityBuilder("Human Resources", 001)
+            .withPhone("(555)555-5555")
+            .withDescription("The Human Resources Management facility is in charge of hiring and managing employees across all facilities of AbstractCorp.").build();
 
         System.out.print(HR.toString());
-
+/*
         Facility Elec = new Facility();
         Elec.setFacilityID(002);
 
@@ -31,7 +28,7 @@ public class Client {
         IT.setDescription("The Information Technology facility is in charge of maintaining computer and phone networks across all facilities, " +
                 "all employees of AbstractCorp can call upon them for tech support.");
         IT.setPhoneNumber("(777)777-7777");
-
+*/
         Building A = new Building();
         A.setBuildingId(0001);
         A.setCity("Abstractville");
