@@ -6,7 +6,10 @@ public class Facility {
     private int facilityID;
     private String phoneNumber;
     private String description;
-   private ArrayList<Room> roomsInFacility;
+    private java.util.ArrayList<Room> roomsInFacility;
+
+    public Facility() {
+    }
 
     public String getName() {
         return name;

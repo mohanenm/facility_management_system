@@ -1,13 +1,16 @@
 package maintain;
 
+import base_layer.Facility;
 
-public class Maintenance{
+public class Maintenance extends Facility {
 
     private String details;
     private int totalCost;
     private int hourlyCost;
 
-    public Maintenance(){}
+    public Maintenance() {
+
+    }
 
     public String getDetails() {
         return details;
