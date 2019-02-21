@@ -6,6 +6,8 @@ import base_layer.Facility;
 public class Client {
     public static void main(String []args){
 
+        Room a = new room;
+
         Facility HR = new Facility();
         HR.setFacilityID(001);
 

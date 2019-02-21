@@ -1,35 +1,33 @@
 package base_layer;
 import java.util.*;
-
 public class Facility {
 
     private String name;
     private int facilityID;
     private String phoneNumber;
     private String description;
-    private ArrayList<Room> roomsInFacility = new ArrayList<>();
+   private ArrayList<Room> roomsInFacility;
 
-    private Facility() {}
-
-    private String getName() {
+    public String getName() {
         return name;
     }
 
-    private int getFacilityID() {
+    public int getFacilityID() {
         return facilityID;
     }
 
-    private String getPhoneNumber() {
+    public String getPhoneNumber() {
         return phoneNumber;
     }
 
-    private String getDescription(){
+    public String getDescription(){
         return description;
     }
-
+/*
     public String toString(){
         return("~~~~~~~~~~~~~~~~~~~~~~~~~~" + "\nFacility ID: " + facilityID + "\nFacility Name: " + name + " \nPhone: " + phoneNumber + " \nDescription: " + description + "\n~~~~~~~~~~~~~~~~~~~~~~~~~");
     }
+    */
 
     public static class FacilityBuilder {
 
@@ -63,5 +61,12 @@ public class Facility {
         public Facility build() {
             return new Facility(this);
         }
+    }
+    private Facility(FacilityBuilder b){
+        this.name = b.name;
+        this.facilityID = b.facilityID;
+        this.phoneNumber = b.phoneNumber;
+        this.description = b.description;
+        this.roomsInFacility = b.roomsInFacility;
     }
 }
