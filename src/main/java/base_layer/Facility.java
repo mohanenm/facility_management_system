@@ -23,11 +23,11 @@ public class Facility {
     public String getDescription(){
         return description;
     }
-/*
+
     public String toString(){
         return("~~~~~~~~~~~~~~~~~~~~~~~~~~" + "\nFacility ID: " + facilityID + "\nFacility Name: " + name + " \nPhone: " + phoneNumber + " \nDescription: " + description + "\n~~~~~~~~~~~~~~~~~~~~~~~~~");
     }
-    */
+
 
     public static class FacilityBuilder {
 
