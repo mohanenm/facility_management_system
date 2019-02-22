@@ -14,7 +14,7 @@ public class Client {
 
         Facility HR = new Facility.FacilityBuilder("Human Resources", 001)
             .withPhone("(555)555-5555")
-            .withDescription("The Human Resources Management facility is in charge of hiring and managing employees across all facilities of AbstractCorp.")
+            .withDescription("The Human Resources  Management facility is in charge of hiring and managing employees across all facilities of AbstractCorp.")
                 .build();
 
         HR.getRoomsInFacility().add(rA);

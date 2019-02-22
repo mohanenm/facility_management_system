@@ -1,7 +1,5 @@
 package base_layer;
 
-import java.util.ArrayList;
-
 public class Building {
 
     private int buildingId;
@@ -9,7 +7,6 @@ public class Building {
     private String city;
     private String state;
     private String zip;
-    private ArrayList<Floor> floorsInBuilding = new ArrayList<>();
 
     public Building() {}
 
