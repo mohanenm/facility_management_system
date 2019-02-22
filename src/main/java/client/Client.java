@@ -5,20 +5,14 @@ import base_layer.*;
 public class Client {
     public static void main(String []args){
 
-        Room rA = new Room();
-        rA.setRoomNum(101);
-
-        Room rB = new Room();
-        rB.setRoomNum(102);
-
 
         Facility HR = new Facility.FacilityBuilder("Human Resources", 001)
             .withPhone("(555)555-5555")
             .withDescription("The Human Resources  Management facility is in charge of hiring and managing employees across all facilities of AbstractCorp.")
                 .build();
 
-        HR.getRoomsInFacility().add(rA);
-        HR.getRoomsInFacility().add(rB);
+        HR.getRoomsInFacility().add(101);
+        HR.getRoomsInFacility().add(102);
 
         System.out.print(HR.toString());
 /*
@@ -42,7 +36,8 @@ public class Client {
         A.setCity("Abstractville");
         A.setState("Illinois");
         A.setStreetAddress("6969 Cool Address Lane");
-        A.toString();
+        A.setZip(60660);
+        System.out.println(A.toString());
 
         Building B = new Building();
         B.setBuildingId(0002);

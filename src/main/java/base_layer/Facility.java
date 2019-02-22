@@ -6,7 +6,8 @@ public class Facility {
     private int facilityID;
     private String phoneNumber;
     private String description;
-    private java.util.ArrayList<Room> roomsInFacility;
+    private java.util.ArrayList<Integer> roomsInFacility;
+    private int buildingID;
 
     public Facility() {
     }
@@ -26,7 +27,7 @@ public class Facility {
     public String getDescription(){
         return description;
     }
-    public ArrayList<Room> getRoomsInFacility(){
+    public ArrayList<Integer> getRoomsInFacility(){
         return roomsInFacility;
     }
 
@@ -41,7 +42,7 @@ public class Facility {
         private int facilityID;
         private String phoneNumber;
         private String description;
-        private ArrayList<Room> roomsInFacility = new ArrayList<>();
+        private ArrayList<Integer> roomsInFacility = new ArrayList<>();
 
         public FacilityBuilder(String name, int facilityID){
             this.name = name;
@@ -57,13 +58,6 @@ public class Facility {
             this.description = description;
             return this;
         }
-/*
-        public FacilityBuilder addRoom(ArrayList<Room> roomsInFacility){
-           // roomsInFacility.add(e);
-            this.roomsInFacility = roomsInFacility;
-            return this;
-        }
-        */
 
         public Facility build() {
             return new Facility(this);

@@ -6,7 +6,7 @@ public class Building {
     private String streetAddress;
     private String city;
     private String state;
-    private String zip;
+    private int zip;
 
     public Building() {}
 
@@ -36,14 +36,14 @@ public class Building {
     public void setState(String state) {
         this.state = state;
     }
-    public String getZip() {
+    public int getZip() {
         return zip;
     }
-    public void setZip(String zip) {
+    public void setZip(int zip) {
         this.zip = zip;
     }
 
     public String toString(){
-        return("Building ID: " + buildingId + " \n Building Address: " + streetAddress + " " + city + ", " + state + " " + zip);
+        return("\nBuilding ID: " + buildingId + " \n Building Address: " + streetAddress + " " + city + ", " + state + " " + zip);
     }
 }

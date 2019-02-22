@@ -20,11 +20,19 @@ public class Maintenance extends Facility {
         this.details = details;
     }
 
-    public int getCost(){
+    public int getTotalCost(){
         return totalCost;
     }
 
-    public void setCost(int cost){
-        this.totalCost = cost;
+    public void setTotalCost(int totalCost){
+        this.totalCost = totalCost;
+    }
+
+    public int getHourlyCost(){
+        return hourlyCost;
+    }
+
+    public void setHourlyCost(int hourlyCost){
+        this.hourlyCost = hourlyCost;
     }
 }
