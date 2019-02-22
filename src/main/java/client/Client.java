@@ -5,14 +5,20 @@ import base_layer.*;
 public class Client {
     public static void main(String []args){
 
-        Room r = new Room();
-        r.setRoomNum(101);
+        Room rA = new Room();
+        rA.setRoomNum(101);
+
+        Room rB = new Room();
+        rB.setRoomNum(102);
+
 
         Facility HR = new Facility.FacilityBuilder("Human Resources", 001)
             .withPhone("(555)555-5555")
             .withDescription("The Human Resources Management facility is in charge of hiring and managing employees across all facilities of AbstractCorp.")
-           // .addRoom(r);
                 .build();
+
+        HR.getRoomsInFacility().add(rA);
+        HR.getRoomsInFacility().add(rB);
 
         System.out.print(HR.toString());
 /*
