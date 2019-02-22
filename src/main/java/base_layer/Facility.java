@@ -7,7 +7,7 @@ public class Facility {
     private String phoneNumber;
     private String description;
     private java.util.ArrayList<Integer> roomsInFacility;
-    private int buildingID;
+    //private int buildingID; want to use buildingID as a foreign key - 1 to many relationship with multiple facilities to a single building
 
     public Facility() {
     }
