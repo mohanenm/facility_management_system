@@ -26,9 +26,12 @@ public class Facility {
     public String getDescription(){
         return description;
     }
+    public ArrayList<Room> getRoomsInFacility(){
+        return roomsInFacility;
+    }
 
     public String toString(){
-        return("~~~~~~~~~~~~~~~~~~~~~~~~~~" + "\nFacility ID: " + facilityID + "\nFacility Name: " + name + " \nPhone: " + phoneNumber + " \nDescription: " + description + "\n~~~~~~~~~~~~~~~~~~~~~~~~~");
+        return("~~~~~~~~~~~~~~~~~~~~~~~~~~" + "\nFacility ID: " + facilityID + "\nFacility Name: " + name + " \nPhone: " + phoneNumber + " \nDescription: " + description + "\nRooms in Facility: " + roomsInFacility + "\n~~~~~~~~~~~~~~~~~~~~~~~~~");
     }
 
 
@@ -54,12 +57,13 @@ public class Facility {
             this.description = description;
             return this;
         }
-
-        public FacilityBuilder addRoom(ArrayList<Room> roomsInFacility, Room e){
-            roomsInFacility.add(e);
+/*
+        public FacilityBuilder addRoom(ArrayList<Room> roomsInFacility){
+           // roomsInFacility.add(e);
             this.roomsInFacility = roomsInFacility;
             return this;
         }
+        */
 
         public Facility build() {
             return new Facility(this);
