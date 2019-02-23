@@ -2,9 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="ed214d4f-d614-4660-b561-17d15cd1f60f" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/docs/use_cases.md" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/facility.schema.sql" beforeDir="false" afterPath="$PROJECT_DIR$/docs/schema/facility.schema.sql" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/schema/facility.schema.sql" beforeDir="false" afterPath="$PROJECT_DIR$/docs/schema/facility.schema.sql" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <ignored path="$PROJECT_DIR$/.gradle/" />
@@ -90,8 +89,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/docs/schema/facility.schema.sql">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1365">
-              <caret line="91" lean-forward="true" selection-start-line="91" selection-end-line="91" />
+            <state relative-caret-position="135">
+              <caret line="9" column="22" lean-forward="true" selection-start-line="9" selection-start-column="22" selection-end-line="9" selection-end-column="22" />
             </state>
           </provider>
         </entry>
@@ -100,7 +99,7 @@
         <entry file="file://$PROJECT_DIR$/docs/use_cases.md">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="245">
-              <caret line="20" column="23" lean-forward="true" selection-start-line="20" selection-start-column="23" selection-end-line="20" selection-end-column="23" />
+              <caret line="20" column="23" selection-start-line="20" selection-start-column="23" selection-end-line="20" selection-end-column="23" />
             </state>
           </provider>
         </entry>
@@ -194,6 +193,12 @@
             <path>
               <item name="mohanenm-facilityManagment" type="b2602c69:ProjectViewProjectNode" />
               <item name="-Facility-Management-System-" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name="docs" type="462c0819:PsiDirectoryNode" />
+              <item name="schema" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="mohanenm-facilityManagment" type="b2602c69:ProjectViewProjectNode" />
+              <item name="-Facility-Management-System-" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
@@ -266,7 +271,7 @@
     </panes>
   </component>
   <component name="PropertiesComponent">
-    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1550937008968" />
+    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1550938749037" />
     <property name="project.structure.last.edited" value="Project" />
     <property name="project.structure.proportion" value="0.15" />
     <property name="project.structure.side.proportion" value="0.0" />
@@ -431,7 +436,21 @@
       <option name="project" value="LOCAL" />
       <updated>1550929280959</updated>
     </task>
-    <option name="localTasksCounter" value="16" />
+    <task id="LOCAL-00016" summary="updated schema, added use case doc">
+      <created>1550937061564</created>
+      <option name="number" value="00016" />
+      <option name="presentableId" value="LOCAL-00016" />
+      <option name="project" value="LOCAL" />
+      <updated>1550937061564</updated>
+    </task>
+    <task id="LOCAL-00017" summary="updated schema">
+      <created>1550937302021</created>
+      <option name="number" value="00017" />
+      <option name="presentableId" value="LOCAL-00017" />
+      <option name="project" value="LOCAL" />
+      <updated>1550937302021</updated>
+    </task>
+    <option name="localTasksCounter" value="18" />
     <servers />
   </component>
   <component name="TodoView">
@@ -455,8 +474,8 @@
       <window_info id="UI Designer" order="5" />
       <window_info id="Favorites" order="6" side_tool="true" />
       <window_info id="Learn" order="7" weight="0.32967034" />
-      <window_info id="DB Browser" order="8" />
-      <window_info id="Project Explorer" order="9" />
+      <window_info id="DB Browser" order="8" weight="0.32967034" />
+      <window_info id="Project Explorer" order="9" weight="0.32967034" />
       <window_info id="Job Explorer" order="10" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" sideWeight="0.498779" weight="0.32959184" />
@@ -465,9 +484,9 @@
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" sideWeight="0.4993895" weight="0.32959184" />
-      <window_info anchor="bottom" id="Terminal" order="7" sideWeight="0.498779" weight="0.2545249" />
+      <window_info anchor="bottom" id="Terminal" order="7" sideWeight="0.498779" visible="true" weight="0.2545249" />
       <window_info anchor="bottom" id="Event Log" order="8" sideWeight="0.501221" side_tool="true" weight="0.32959184" />
-      <window_info anchor="bottom" id="Version Control" order="9" sideWeight="0.4993895" visible="true" weight="0.32918552" />
+      <window_info anchor="bottom" id="Version Control" order="9" sideWeight="0.4993895" weight="0.32918552" />
       <window_info anchor="bottom" id="Build" order="10" weight="0.32857144" />
       <window_info anchor="bottom" id="Messages" order="11" sideWeight="0.498779" visible="true" weight="0.32959184" />
       <window_info anchor="bottom" id="Inspection Results" order="12" visible="true" weight="0.32959184" />
@@ -505,7 +524,9 @@
     <MESSAGE value="fuck a floor class we don't need it" />
     <MESSAGE value="Simplified the building/facility models to just what we'll need for the required use cases" />
     <MESSAGE value="added schema" />
-    <option name="LAST_COMMIT_MESSAGE" value="added schema" />
+    <MESSAGE value="updated schema, added use case doc" />
+    <MESSAGE value="updated schema" />
+    <option name="LAST_COMMIT_MESSAGE" value="updated schema" />
   </component>
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/src/main/java/use/test.java" />
@@ -529,13 +550,6 @@
     <entry file="file://$PROJECT_DIR$/src/main/java/client/useClient.java" />
     <entry file="file://$PROJECT_DIR$/src/main/java/client/maintenanceClient.java" />
     <entry file="file://$PROJECT_DIR$/src/main/java/client/facultyClient.java" />
-    <entry file="file://$PROJECT_DIR$/src/main/java/maintain/Maintenance.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="105">
-          <caret line="7" selection-start-line="7" selection-end-line="7" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/maintain/Schedule.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="105">
@@ -599,14 +613,21 @@
     <entry file="file://$PROJECT_DIR$/docs/use_cases.md">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="245">
-          <caret line="20" column="23" lean-forward="true" selection-start-line="20" selection-start-column="23" selection-end-line="20" selection-end-column="23" />
+          <caret line="20" column="23" selection-start-line="20" selection-start-column="23" selection-end-line="20" selection-end-column="23" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/maintain/Maintenance.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="105">
+          <caret line="7" selection-start-line="7" selection-end-line="7" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/docs/schema/facility.schema.sql">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1365">
-          <caret line="91" lean-forward="true" selection-start-line="91" selection-end-line="91" />
+        <state relative-caret-position="135">
+          <caret line="9" column="22" lean-forward="true" selection-start-line="9" selection-start-column="22" selection-end-line="9" selection-end-column="22" />
         </state>
       </provider>
     </entry>

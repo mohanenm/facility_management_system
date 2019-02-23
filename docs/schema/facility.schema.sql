@@ -1,3 +1,4 @@
+drop table if exists maintenance_request;
 drop table if exists maintenance_rate;
 drop table if exists maintenance_type;
 drop table if exists facility_inspection;
@@ -25,27 +26,27 @@ create table building(
 create table room(
 	id SERIAL PRIMARY KEY,
 	building_id INTEGER REFERENCES building(id) NOT NULL,
-	room_number INTEGER
+	room_number INTEGER NOT NULL
 );
 
 create table facility_reservation(
 	id SERIAL PRIMARY KEY,
 	room_id INTEGER REFERENCES room(id) NOT NULL,
-	start TIMESTAMP,
-	finish TIMESTAMP,
+	start TIMESTAMP NOT NULL,
+	finish TIMESTAMP NOT NULL,
 	is_maintenance BOOLEAN DEFAULT false
 );
 
 create table facility_inspection(
 	id SERIAL PRIMARY KEY,
 	facility_id INTEGER REFERENCES facility(id) NOT NULL,
-	completed TIMESTAMP,
-	passed BOOLEAN
+	completed TIMESTAMP NOT NULL,
+	passed BOOLEAN NOT NULL
 );
 
 create table maintenance_type(
 	id SERIAL PRIMARY KEY,
-	description varchar(128)
+	description varchar(128) NOT NULL
 
 );
 
@@ -53,7 +54,24 @@ create table maintenance_rate(
 	id SERIAL PRIMARY KEY,
 	facility_id INTEGER REFERENCES facility(id) NOT NULL,
 	maintenance_type_id INTEGER REFERENCES maintenance_type(id) NOT NULL,
-	rate DOUBLE PRECISION
+	rate DOUBLE PRECISION DEFAULT 15.00
+);
+
+create table maintenance_request(
+	id SERIAL PRIMARY KEY,
+	facility_id INTEGER REFERENCES facility(id) NOT NULL,
+	room_id INTEGER REFERENCES room(id),
+	maintenance_type_id INTEGER REFERENCES maintenance_type(id) NOT NULL,
+	description varchar(250)NOT NULL,
+	is_vacate_required BOOLEAN DEFAULT false
+);
+
+---Refers to facility wide maintenance requests
+create table facility_maintenance_schedule (
+	id SERIAL PRIMARY KEY,
+	maintenance_request_id INTEGER REFERENCES maintenance_request(id) NOT NULL,
+	start TIMESTAMP NOT NULL,
+	finish TIMESTAMP NOT NULL
 );
 
 insert into facility (name, description) values('F1', 'Health & Fitness');
