@@ -1,5 +1,8 @@
+drop table if exists room_maintenance_schedule;
 drop table if exists room_reservation;
+drop table if exists room_maintenance_request;
 drop table if exists facility_maintenance_schedule;
+drop table if exists facility_maintenance_request;
 drop table if exists maintenance_request;
 drop table if exists maintenance_rate;
 drop table if exists maintenance_type;
