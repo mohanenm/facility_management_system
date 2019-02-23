@@ -1,0 +1,9 @@
+{
+    "workbench.colorTheme": "Default Light+",
+    "files.exclude": {
+        "**/.classpath": true,
+        "**/.project": true,
+        "**/.settings": true,
+        "**/.factorypath": true
+    }
+}
