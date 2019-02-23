@@ -11,7 +11,7 @@ drop table if exists room;
 drop table if exists building;
 drop table if exists facility;
 
-create table facility(
+create table facility (
 	id SERIAL PRIMARY KEY,
 	name varchar(128) not null UNIQUE,
 	description varchar(128) not null

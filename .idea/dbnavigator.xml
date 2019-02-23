@@ -2,7 +2,7 @@
 <project version="4">
   <component name="DBNavigator.Project.DataEditorManager">
     <record-view-column-sorting-type value="BY_INDEX" />
-    <value-preview-text-wrapping value="true" />
+    <value-preview-text-wrapping value="false" />
     <value-preview-pinned value="false" />
   </component>
   <component name="DBNavigator.Project.DataExportManager">
@@ -25,18 +25,20 @@
     <show-object-properties value="true" />
     <loaded-nodes>
       <connection connection-id="0b42631a-774e-4d7c-8cf1-f6f4a3a76644">
-        <schema name="information_schema" object-types="function, table, view" />
-        <schema name="pg_catalog" object-types="function, table, view" />
-        <schema name="public" object-types="index, column, sequence, constraint, function, table, view, dataset trigger" />
+        <schema name="pg_catalog" object-types="function" />
+        <schema name="public" object-types="sequence, table, function, view" />
       </connection>
     </loaded-nodes>
   </component>
   <component name="DBNavigator.Project.DatabaseConsoleManager">
     <connection id="0b42631a-774e-4d7c-8cf1-f6f4a3a76644">
-      <console name="facility" type="STANDARD" schema="information_schema" session="Main" />
-      <console name="facility queries" type="STANDARD" schema="public" session="Main"><![CDATA[select * from facility;
+      <console name="facility" type="STANDARD" schema="public" session="Main"><![CDATA[select * from facility;
 
-select * from room;]]></console>
+
+select * from building;]]></console>
+      <console name="facility queries" type="STANDARD" schema="public" session="Main">select * from facility;
+
+select * from room;</console>
     </connection>
   </component>
   <component name="DBNavigator.Project.DatabaseFileManager">

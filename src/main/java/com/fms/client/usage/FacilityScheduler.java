@@ -1,4 +1,4 @@
-package com.fms.usage;
+package com.fms.client.usage;
 
 public class FacilityScheduler {
 }
