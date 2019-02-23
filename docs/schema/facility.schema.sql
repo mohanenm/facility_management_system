@@ -32,7 +32,8 @@ create table facility_reservation(
 	id SERIAL PRIMARY KEY,
 	room_id INTEGER REFERENCES room(id) NOT NULL,
 	start TIMESTAMP,
-	finish TIMESTAMP
+	finish TIMESTAMP,
+	is_maintenance BOOLEAN DEFAULT false
 );
 
 create table facility_inspection(
