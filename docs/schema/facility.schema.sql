@@ -1,3 +1,4 @@
+drop table if exists facility_maintenance_schedule;
 drop table if exists maintenance_request;
 drop table if exists maintenance_rate;
 drop table if exists maintenance_type;
@@ -63,7 +64,8 @@ create table maintenance_request(
 	room_id INTEGER REFERENCES room(id),
 	maintenance_type_id INTEGER REFERENCES maintenance_type(id) NOT NULL,
 	description varchar(250)NOT NULL,
-	is_vacate_required BOOLEAN DEFAULT false
+	is_vacate_required BOOLEAN DEFAULT false,
+	is_routine BOOLEAN DEFAULT true
 );
 
 ---Refers to facility wide maintenance requests

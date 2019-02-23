@@ -172,7 +172,7 @@ Given a _room_id_ and _timeRange_, returns a percentage of time the room has bee
 
 Corresponds to _makeFacilityMaintRequest_
 
-Given a _facility_id_, _maintenance_type_, _description_, and optional _is_vacate_required_ (the default here is false). Returns the _maintenance_request_id_ for later scheduling.
+Given a _facility_id_, _maintenance_type_, _description_, optional _is_vacate_required_ (default is false), and optional _is_routine_ (default is true). Returns the _maintenance_request_id_ for later scheduling.
 
 ### Room Maintenance Request
 
@@ -186,7 +186,21 @@ Corresponds to _scheduleMaintenance_
 
 Given a _maintenance_request_id_ and _timeRange_, looks up maintenance record and if _room_id_ is present schedules in `facility_reservation` with _is_maintenance_ set to true. If _facility_id_ was present in _maintenance_request_, it is scheduled with `facility_maintenance_schedule`. Otherwise, scheduled with _facility_maintenance_schedule_. Either case will return an _id_ from the relevant schedule table.
 
+### Calculate Maintenance Cost For Facility
 
+Corresponds to _calcMaintenanceCostForFacility_
+
+Given a _facility_id_ and _timeRange_, calculates total cost of maintenance for facility.
+
+### Calculate Problem Rate For Facility
+
+> Every Maintenance Request Represents a Problem or Routine Expected Maintenance
+
+Corresponds to _calcProblemRateForFacility_
+
+Given a _facility_id_ and _timeRange_, calculate the number of _maintenance_requests_ within both `facility_reservation` and `facility_maintenance_schedule` tables.
+
+### 
 
 
 
