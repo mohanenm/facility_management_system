@@ -1,9 +1,9 @@
+drop table if exists room_reservation;
 drop table if exists facility_maintenance_schedule;
 drop table if exists maintenance_request;
 drop table if exists maintenance_rate;
 drop table if exists maintenance_type;
 drop table if exists facility_inspection;
-drop table if exists facility_reservation;
 drop table if exists room;
 drop table if exists building;
 drop table if exists facility;
@@ -30,14 +30,6 @@ create table room(
 	room_number INTEGER NOT NULL
 );
 
-create table facility_reservation(
-	id SERIAL PRIMARY KEY,
-	room_id INTEGER REFERENCES room(id) NOT NULL,
-	start TIMESTAMP NOT NULL,
-	finish TIMESTAMP NOT NULL,
-	is_maintenance BOOLEAN DEFAULT false
-);
-
 create table facility_inspection(
 	id SERIAL PRIMARY KEY,
 	facility_id INTEGER REFERENCES facility(id) NOT NULL,
@@ -48,7 +40,6 @@ create table facility_inspection(
 create table maintenance_type(
 	id SERIAL PRIMARY KEY,
 	description varchar(128) NOT NULL
-
 );
 
 create table maintenance_rate(
@@ -58,20 +49,45 @@ create table maintenance_rate(
 	rate DOUBLE PRECISION DEFAULT 15.00
 );
 
-create table maintenance_request(
+create table maintenance_request (
 	id SERIAL PRIMARY KEY,
-	facility_id INTEGER REFERENCES facility(id) NOT NULL,
-	room_id INTEGER REFERENCES room(id),
 	maintenance_type_id INTEGER REFERENCES maintenance_type(id) NOT NULL,
 	description varchar(250)NOT NULL,
 	is_vacate_required BOOLEAN DEFAULT false,
 	is_routine BOOLEAN DEFAULT true
 );
 
+create table facility_maintenance_request (
+	id SERIAL PRIMARY KEY,
+	maintenance_request_id INTEGER REFERENCES maintenance_type(id) NOT NULL,
+	facility_id INTEGER REFERENCES facility(id)
+);
+
 ---Refers to facility wide maintenance requests
 create table facility_maintenance_schedule (
 	id SERIAL PRIMARY KEY,
-	maintenance_request_id INTEGER REFERENCES maintenance_request(id) NOT NULL,
+	facility_maintenence_request_id INTEGER REFERENCES facility_maintenance_request(id) NOT NULL,
+	start TIMESTAMP NOT NULL,
+	finish TIMESTAMP NOT NULL
+);
+
+create table room_maintenance_request (
+	id SERIAL PRIMARY KEY,
+	maintenance_request_id INTEGER REFERENCES maintenance_type(id) NOT NULL,
+	room_id INTEGER REFERENCES room(id)
+);
+
+create table room_reservation (
+	id SERIAL PRIMARY KEY,
+	room_id INTEGER REFERENCES room(id) NOT NULL,
+	start TIMESTAMP NOT NULL,
+	finish TIMESTAMP NOT NULL,
+	maintenance_request_id INTEGER REFERENCES maintenance_request(id)
+);
+
+create table room_maintenance_schedule (
+	id SERIAL PRIMARY KEY,
+	room_maintenance_request_id INTEGER REFERENCES room_maintenance_request(id) NOT NULL,
 	start TIMESTAMP NOT NULL,
 	finish TIMESTAMP NOT NULL
 );
@@ -98,7 +114,7 @@ insert into room (building_id, room_number) values
 (3, 101),
 (3, 201),
 (3, 301);
-insert into facility_reservation(room_id, start, finish) values
+insert into room_reservation(room_id, start, finish) values
 (1,'2019-01-30 07:00:00', '2019-01-30 08:00:00'),
 (1,'2019-01-30 10:00:00', '2019-01-30 11:00:00'),
 (1,'2019-01-30 9:00:00', '2019-01-30 09:59:00'),
@@ -107,6 +123,7 @@ insert into facility_reservation(room_id, start, finish) values
 insert into facility_inspection (facility_id, completed, passed) values
 (1, '2019-01-30 06:00:00', true),
 (2, '2019-01-30 06:00:00', false);
+
 
 
 

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="ed214d4f-d614-4660-b561-17d15cd1f60f" name="Default Changelist" comment="updated schema and use cases">
+    <list default="true" id="ed214d4f-d614-4660-b561-17d15cd1f60f" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/docs/schema/facility.schema.sql" beforeDir="false" afterPath="$PROJECT_DIR$/docs/schema/facility.schema.sql" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/docs/use_cases.md" beforeDir="false" afterPath="$PROJECT_DIR$/docs/use_cases.md" afterDir="false" />
@@ -90,8 +90,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/docs/schema/facility.schema.sql">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="504">
-              <caret line="112" lean-forward="true" selection-start-line="112" selection-end-line="112" />
+            <state relative-caret-position="243">
+              <caret line="64" lean-forward="true" selection-start-line="64" selection-end-line="64" />
             </state>
           </provider>
         </entry>
@@ -134,6 +134,11 @@
         <option value="Class" />
       </list>
     </option>
+  </component>
+  <component name="FindInProjectRecents">
+    <findStrings>
+      <find>create table</find>
+    </findStrings>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -272,7 +277,7 @@
     </panes>
   </component>
   <component name="PropertiesComponent">
-    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1550942616761" />
+    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1550946479737" />
     <property name="project.structure.last.edited" value="Project" />
     <property name="project.structure.proportion" value="0.15" />
     <property name="project.structure.side.proportion" value="0.0" />
@@ -465,7 +470,14 @@
       <option name="project" value="LOCAL" />
       <updated>1550941885598</updated>
     </task>
-    <option name="localTasksCounter" value="20" />
+    <task id="LOCAL-00020" summary="updated schema and use cases">
+      <created>1550942689742</created>
+      <option name="number" value="00020" />
+      <option name="presentableId" value="LOCAL-00020" />
+      <option name="project" value="LOCAL" />
+      <updated>1550942689742</updated>
+    </task>
+    <option name="localTasksCounter" value="21" />
     <servers />
   </component>
   <component name="TodoView">
@@ -500,8 +512,8 @@
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" sideWeight="0.4993895" weight="0.32959184" />
       <window_info anchor="bottom" id="Terminal" order="7" sideWeight="0.498779" weight="0.2545249" />
-      <window_info anchor="bottom" id="Event Log" order="8" sideWeight="0.501221" side_tool="true" weight="0.32959184" />
-      <window_info active="true" anchor="bottom" id="Version Control" order="9" sideWeight="0.4993895" visible="true" weight="0.32918552" />
+      <window_info anchor="bottom" id="Event Log" order="8" sideWeight="0.501221" side_tool="true" visible="true" weight="0.32918552" />
+      <window_info active="true" anchor="bottom" id="Version Control" order="9" sideWeight="0.498779" visible="true" weight="0.32918552" />
       <window_info anchor="bottom" id="Build" order="10" weight="0.32857144" />
       <window_info anchor="bottom" id="Messages" order="11" sideWeight="0.498779" visible="true" weight="0.32959184" />
       <window_info anchor="bottom" id="Inspection Results" order="12" visible="true" weight="0.32959184" />
@@ -668,8 +680,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/docs/schema/facility.schema.sql">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="504">
-          <caret line="112" lean-forward="true" selection-start-line="112" selection-end-line="112" />
+        <state relative-caret-position="243">
+          <caret line="64" lean-forward="true" selection-start-line="64" selection-end-line="64" />
         </state>
       </provider>
     </entry>

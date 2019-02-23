@@ -123,11 +123,11 @@ Corresponds to _isInUseDuringInterval_
 
 Queries system given _room_id_ and _timeRange_ to determine if room is in use at any point during that range
 
-### Assign Facility to Use
+### Assign Facility/Room to Use
 
 Corresponds to _assignFacilityToUse_
 
-Technically this is assigning rooms. All scheduling in system is for rooms. 
+>Technically this is assigning rooms. All scheduling in system is for rooms. 
 
 Given _room_id_ and _timeRange_. Assuming facility is not in use during that range (see also _inInUseDuringInterval_) records facility as in use during range
 
@@ -172,19 +172,41 @@ Given a _room_id_ and _timeRange_, returns a percentage of time the room has bee
 
 Corresponds to _makeFacilityMaintRequest_
 
-Given a _facility_id_, _maintenance_type_, _description_, optional _is_vacate_required_ (default is false), and optional _is_routine_ (default is true). Returns the _maintenance_request_id_ for later scheduling.
+Given a _facility_id_, _maintenance_type_, _description_, optional _is_vacate_required_ (default is false), and optional _is_routine_ (default is true). Returns the _facility_maintenance_request_id_ for later scheduling.
+
+Inserts record to `maintenance_request` and `facility_maintenance_request`
 
 ### Room Maintenance Request
 
 Corresponds to _makeRoomMaintRequest_
 
-Given a _room_id_, _maintenance_type_, _description_, and optional _is_vacate_required_. Returns the _maintenance_request_id_ for later scheduling.
+Given a _room_id_, _maintenance_type_, _description_, and optional _is_vacate_required_. Returns the _room_maintenance_request_id_ for later scheduling.
 
-### Schedule Maintenance
+Inserts record to `maintenance_request` and `room_maintenance_request`
 
-Corresponds to _scheduleMaintenance_
+### Schedule Room Maintenance
 
-Given a _maintenance_request_id_ and _timeRange_, looks up maintenance record and if _room_id_ is present schedules in `facility_reservation` with _is_maintenance_ set to true. If _facility_id_ was present in _maintenance_request_, it is scheduled with `facility_maintenance_schedule`. Otherwise, scheduled with _facility_maintenance_schedule_. Either case will return an _id_ from the relevant schedule table.
+Corresponds to _scheduleRoomMaintenance_
+
+#### Case - vacancy required for maintenance
+
+Given a _room_maintenance_request_id_ and _timeRange_, verifies the time range is available in `room_reservation`.
+
+If available, inserts record to `room_reservation` and `room_maintenance_schedule`.
+
+Returns: Status success or failure
+
+#### Case - users can remain during maintenance
+
+Given a _room_maintenance_request_id_ and _timeRange_, insert record to `room_maintenance_schedule`.
+
+### Schedule Facility-wide Maintenance
+
+Corresponds to _scheduleFacilityMaintenance_
+
+> *NOTE* All facility-wide maintenance assume no rooms are impacted.
+
+Given a _maintenance_request_id_ and _timeRange_, insert record to `facility_maintenance_schedule`.
 
 ### Calculate Maintenance Cost For Facility
 
@@ -198,11 +220,25 @@ Given a _facility_id_ and _timeRange_, calculates total cost of maintenance for 
 
 Corresponds to _calcProblemRateForFacility_
 
-Given a _facility_id_ and _timeRange_, calculate the number of _maintenance_requests_ within both `facility_reservation` and `facility_maintenance_schedule` tables.
+Given a _facility_id_ and _timeRange_, calculate the number of events within both `room_reservation` and `facility_maintenance_schedule` tables where _is_routine_ is false.
 
-### 
+### Calculate Down Time For Facility
 
+Corresponds to _calcDownTimeForFacility_
 
+Given a _facility_id_ and _timeRange_, calculate the total time filled by _maintenance_requests_ excluding requests where _is_vacate_ is false.
+
+### List Maintenance Request
+
+Corresponds to _listMaintRequests_
+
+Given a _facility_id_ and _timeRange_, list all _maintenance_requests_ during the period.
+
+### List Maintenance
+
+Corresponds to _listMaintenance_
+
+Given a _facility_id_ and _timeRange_, list all 
 
 
 
