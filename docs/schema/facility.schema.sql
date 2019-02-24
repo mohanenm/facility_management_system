@@ -74,7 +74,7 @@ create table maintenance_request (
 
 create table facility_maintenance_request (
 	id SERIAL PRIMARY KEY,
-	maintenance_request_id INTEGER REFERENCES maintenance_type(id) NOT NULL,
+	maintenance_request_id INTEGER REFERENCES maintenance_request(id) NOT NULL,
 	facility_id INTEGER REFERENCES facility(id)
 );
 

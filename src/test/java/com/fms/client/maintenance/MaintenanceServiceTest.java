@@ -1,7 +1,7 @@
 package com.fms.client.maintenance;
 
 import com.fms.TestData;
-import com.fms.model.Facility;
+import com.fms.model.FacilityMaintenanceRequestResult;
 import org.junit.Test;
 
 import java.util.ArrayList;
@@ -12,6 +12,10 @@ public class MaintenanceServiceTest {
 
     @Test
     public void facilityMaintenanceRequest() {
-        maintenanceService.makeFacilityMaintRequest(1, TestData.sampleMaintenanceRequest());
+        FacilityMaintenanceRequestResult facilityMaintenanceRequest =
+                maintenanceService.makeFacilityMaintRequest
+                        (1, TestData.sampleMaintenanceRequest());
+
+        System.out.println("Fac maint request -> " + facilityMaintenanceRequest.toString());
     }
 }
