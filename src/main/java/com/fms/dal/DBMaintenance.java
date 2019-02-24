@@ -23,6 +23,13 @@ public class DBMaintenance {
                         "is_routine) values (?,?,?,?) " +
                         "RETURNING id");
 
+        insertFacilityMaintenanceRequest = DBConnection
+                .getConnection()
+                .prepareStatement("INSERT into facility_maintenance_request " +
+                        "(maintenance_request_id, facility_id) " +
+                        " values (?,?) " +
+                        "RETURNING id");
+
     }
 
 
@@ -32,6 +39,7 @@ public class DBMaintenance {
 
         try {
 
+            ///// Insert base maintenance request
             insertMaintenanceRequest.setInt(1, maintenanceRequest.getMaintenanceTypeId());
             insertMaintenanceRequest.setString(2, maintenanceRequest.getDescription());
             insertMaintenanceRequest.setBoolean(3, maintenanceRequest.isVacateRequired());
@@ -39,7 +47,18 @@ public class DBMaintenance {
 
             ResultSet resultSet = insertMaintenanceRequest.executeQuery();
             resultSet.next();
-            System.out.println("Insert of maint req id -> " + resultSet.getInt((1)));
+
+            int maintenanceRequestId = resultSet.getInt((1));
+            System.out.println("Insert of maint req id -> " + maintenanceRequestId);
+
+            ///// Insert facility maintenance request
+            insertFacilityMaintenanceRequest.setInt(1, maintenanceRequestId);
+            insertFacilityMaintenanceRequest.setInt(2, facilityId);
+            resultSet = insertFacilityMaintenanceRequest.executeQuery();
+            resultSet.next();
+
+            int facilityMaintenanceRequestId = resultSet.getInt((1));
+            System.out.println("Insert of facility maint req id -> " + facilityMaintenanceRequestId);
 
             return true;
 

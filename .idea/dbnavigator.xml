@@ -51,7 +51,9 @@ from
     left join room as r on (r.building_id = b.id)
     where f.id = 1;
 
-select * from maintenance_request;]]></console>
+select * from maintenance_request;
+
+select * from facility_maintenance_request;]]></console>
       <console name="facility queries" type="STANDARD" schema="public" session="Main"><![CDATA[select * from facility;
 
 select * from room;]]></console>
