@@ -1,10 +1,10 @@
 package com.fms;
 
-import com.fms.model.Building;
-import com.fms.model.Facility;
-import com.fms.model.FacilityDetail;
-import com.fms.model.Room;
+import com.fms.model.*;
 
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
+import java.time.Month;
 import java.util.ArrayList;
 
 public class TestData {
@@ -27,5 +27,10 @@ public class TestData {
     public static Facility sampleFacility() {
         return new Facility(3, "F1",
                 "sample facility for test", sampleFacilityDetail());
+    }
+
+    public static FacilityInspection sampleFacilityInspection() {
+        return new FacilityInspection(1,2,
+                LocalDateTime.of(1990, Month.JANUARY, 8, 12, 30), false);
     }
 }
