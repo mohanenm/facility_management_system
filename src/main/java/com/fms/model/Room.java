@@ -11,12 +11,13 @@ import java.io.StringReader;
 public class Room {
 
     public Room(int id, int buildingId, int roomNumber) {
-        this.id = -1;
+        this.id = id;
         this.buildingId = buildingId;
         this.roomNumber = roomNumber;
     }
 
     public Room(int buildingId, int roomNumber) {
+        this.id = -1;
         this.buildingId = buildingId;
         this.roomNumber = roomNumber;
     }

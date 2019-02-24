@@ -148,7 +148,7 @@ public class DBFacility {
         }
     }
 
-    public static GetFacilityDetailResult getFacilityInformation(int facilityId) throws SQLException{
+    public static GetFacilityDetailResult getFacilityInformation(int facilityId) throws SQLException {
         PreparedStatement preparedStatement = DBConnection
                 .getConnection()
                 .prepareStatement("" +
@@ -172,14 +172,48 @@ public class DBFacility {
         preparedStatement.setInt(1, facilityId);
         ResultSet resultSet = preparedStatement.executeQuery();
 
-        Integer prevBuildingId = null;
-        Integer prevRoomId = null;
+        ArrayList<Building> buildings = new ArrayList<>();
+        Building building = null;
+        Room room = null;
+        String facilityName = null;
+        String facilityDescription = null;
+
         while(resultSet.next()) {
+
+            if(facilityName == null) {
+                facilityName = resultSet.getString("facility_name");
+                facilityDescription = resultSet.getString("description");
+            }
+
             Integer buildingId = resultSet.getInt("building_id");
             Integer roomId = resultSet.getInt("room_id");
 
-            System.out.println("Row -> "+ resultSet.getString("facility_name") + "bid ->" + buildingId);
+            if(building == null || building.getId() != buildingId) {
+                // Create new buildings
+                building = new Building(resultSet.getInt("building_id"),
+                        resultSet.getString("building_name"),
+                        resultSet.getString("street_address"),
+                        resultSet.getString("city"),
+                        resultSet.getString("state"),
+                        resultSet.getInt("zip"),
+                        new ArrayList<>());
+
+                buildings.add(building);
+
+                if (room == null || room.getId() != roomId) {
+                    // Create new room
+                    room = new Room(resultSet.getInt("room_id"),
+                            resultSet.getInt("building_id"),
+                            resultSet.getInt("room_number"));
+                    building.getRooms().add(room);
+                }
+            }
         }
-        return null;
+
+        FacilityDetail facilityDetail = new FacilityDetail(buildings);
+        Facility facility = new Facility(facilityId, facilityName, facilityDescription,
+                facilityDetail);
+
+        return new GetFacilityDetailResult(null, facility);
     }
 }
