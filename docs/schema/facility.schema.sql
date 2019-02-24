@@ -47,6 +47,16 @@ create table maintenance_type (
 	description varchar(128) NOT NULL
 );
 
+insert into maintenance_type (description) values
+('Heating System'),
+('Air Conditioning System'),
+('Plumbing Issue'),
+('Animal Services'),
+('Audio Visual'),
+('Ghostbuster - Removal'),
+('Blown Transformer'),
+('Paint Required');
+
 create table maintenance_rate (
 	id SERIAL PRIMARY KEY,
 	facility_id INTEGER REFERENCES facility(id) NOT NULL,

@@ -6,9 +6,15 @@ import java.io.IOException;
 
 public class FacilityMaintenanceRequest {
 
-    public FacilityMaintenanceRequest(int id, int maintenanceRequestId, int facilityId) {
+    public FacilityMaintenanceRequest(int facilityId, MaintenanceRequest maintenanceRequest) {
+        this.id = -1;
+        this.maintenanceRequest = maintenanceRequest;
+        this.facilityId = facilityId;
+    }
+
+    public FacilityMaintenanceRequest(int id, MaintenanceRequest maintenanceRequest, int facilityId) {
         this.id = id;
-        this.maintenanceRequestId = maintenanceRequestId;
+        this.maintenanceRequest = maintenanceRequest;
         this.facilityId = facilityId;
     }
 
@@ -16,9 +22,6 @@ public class FacilityMaintenanceRequest {
         return id;
     }
 
-    public int getMaintenanceRequestId() {
-        return maintenanceRequestId;
-    }
 
     public int getFacilityId() {
         return facilityId;
@@ -37,8 +40,13 @@ public class FacilityMaintenanceRequest {
         JsonElement jsonTree = parser.parse(facilityMaintenanceRequest);
         JsonObject jsonObject = jsonTree.getAsJsonObject();
 
+        MaintenanceRequest maintenanceRequest = MaintenanceRequest.fromJson(jsonObject
+                .get("maintenanceRequest")
+                .getAsJsonObject()
+                .toString());
+
         return new FacilityMaintenanceRequest(jsonObject.get("id").getAsInt(),
-                jsonObject.get("maintenanceRequestId").getAsInt(),
+                maintenanceRequest,
                 jsonObject.get("facilityId").getAsInt());
     }
 
@@ -49,11 +57,11 @@ public class FacilityMaintenanceRequest {
             return true;
         }
         return id == r.id &&
-                maintenanceRequestId == r.maintenanceRequestId &&
+                maintenanceRequest.equals(r.maintenanceRequest) &&
                 facilityId == r.facilityId;
     }
 
     private int id;
-    private int maintenanceRequestId;
+    private MaintenanceRequest maintenanceRequest;
     private int facilityId;
 }

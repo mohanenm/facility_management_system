@@ -50,7 +50,7 @@ public class TestData {
     }
 
     public static FacilityMaintenanceRequest sampleFacilityMaintenanceRequest() {
-        return new FacilityMaintenanceRequest(1, 1, 1);
+        return new FacilityMaintenanceRequest(1, sampleMaintenanceRequest(), 1);
     }
 
     public static FacilityMaintenanceSchedule sampleFacilityMaintenanceSchedule() {
