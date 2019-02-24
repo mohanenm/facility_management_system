@@ -6,10 +6,25 @@ import java.io.IOException;
 import java.io.StringReader;
 import java.util.ArrayList;
 
+import com.google.gson.annotations.SerializedName;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonToken;
 
 public class Building {
+
+    /// Client constructor - no id specified
+    public Building(String name, String streetAddress, String city, String state, int zip, ArrayList<Room> rooms) {
+        this.id = -1;
+        this.name = name;
+        this.streetAddress = streetAddress;
+        this.city = city;
+        this.state = state;
+        this.zip = zip;
+        this.rooms = rooms;
+    }
+
+    /// Constructor for database, id required
+
     public Building(int id, String name, String streetAddress, String city, String state, int zip, ArrayList<Room> rooms) {
         this.id = id;
         this.name = name;
@@ -18,6 +33,14 @@ public class Building {
         this.state = state;
         this.zip = zip;
         this.rooms = rooms;
+    }
+
+    // In terms of encapsulation, this is a backdoor to setting id.
+    // Giving it a specific name that is not `setId` makes clear what is happening.
+    // This is to be used only by DB related code.
+    public static Building buildingWithId(int id, Building building) {
+        building.id = id;
+        return building;
     }
 
 
@@ -37,9 +60,15 @@ public class Building {
         return state;
     }
 
+    public ArrayList<Room> getRooms() {
+        return rooms;
+    }
+
     public int getZip() {
         return zip;
     }
+
+
 
     public int getId() {
         return id;

@@ -12,9 +12,8 @@ public class TestData {
         ArrayList<Room> rooms = new ArrayList<>();
         rooms.add(new Room(1, 2, 303));
         rooms.add(new Room(2, 2, 304));
-        return new Building(1, name,
+        return new Building(name,
                 "4 Marshall Ln", "Albequerque", "NM", 66540, rooms);
-
     }
 
     public static FacilityDetail sampleFacilityDetail() {

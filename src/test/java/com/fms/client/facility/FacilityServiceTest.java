@@ -1,11 +1,8 @@
 package com.fms.client.facility;
 
-import com.fms.model.AddFacilityResult;
-import com.fms.model.Building;
-import com.fms.model.FacilityDetail;
+import com.fms.model.*;
 import org.junit.Test;
 
-import com.fms.model.Facility;
 import com.fms.client.facility.FacilityService;
 import com.fms.TestData;
 
@@ -31,9 +28,18 @@ public class FacilityServiceTest {
                 .addNewFacility("Test Facility", "Healthcare Facility");
 
         int insertedFacilityId = result.getFacility().getId();
+        assert(insertedFacilityId > 0);
+
         System.out.println(result.toString());
 
-        assert(insertedFacilityId > 0);
+        AddFacilityDetailResult facilityDetailResult = facilityService
+                .addFacilityDetail(insertedFacilityId, TestData.sampleFacilityDetail());
+
+        System.out.println("Inserted -> " + facilityDetailResult);
+
+        assert(facilityDetailResult.getErrorMessage() == null ||
+                facilityDetailResult.getErrorMessage().isEmpty());
+
         assert (true == facilityService.removeFacility(insertedFacilityId));
 
 

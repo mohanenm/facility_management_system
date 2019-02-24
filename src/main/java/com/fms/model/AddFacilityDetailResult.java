@@ -15,7 +15,7 @@ public class AddFacilityDetailResult {
     }
 
     public String toString() {
-        GsonBuilder builder = new GsonBuilder().setPrettyPrinting();
+        GsonBuilder builder = new GsonBuilder().serializeNulls().setPrettyPrinting();
         Gson gson = builder.create();
         return gson.toJson(this);
     }

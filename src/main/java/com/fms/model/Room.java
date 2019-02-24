@@ -11,9 +11,19 @@ import java.io.StringReader;
 public class Room {
 
     public Room(int id, int buildingId, int roomNumber) {
-        this.id = id;
+        this.id = -1;
         this.buildingId = buildingId;
         this.roomNumber = roomNumber;
+    }
+
+    public Room(int buildingId, int roomNumber) {
+        this.buildingId = buildingId;
+        this.roomNumber = roomNumber;
+    }
+
+    public static Room roomWithId(int id, Room room) {
+        room.id = id;
+        return room;
     }
 
     public int getId() {
