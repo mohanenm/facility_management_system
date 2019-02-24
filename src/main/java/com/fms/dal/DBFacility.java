@@ -1,9 +1,6 @@
 package com.fms.dal;
 
-import com.fms.model.Building;
-import com.fms.model.Facility;
-import com.fms.model.FacilityDetail;
-import com.fms.model.Room;
+import com.fms.model.*;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -149,5 +146,40 @@ public class DBFacility {
             System.out.println("caught exception: " + e.toString());
             throw e;
         }
+    }
+
+    public static GetFacilityDetailResult getFacilityInformation(int facilityId) throws SQLException{
+        PreparedStatement preparedStatement = DBConnection
+                .getConnection()
+                .prepareStatement("" +
+                        "select \n" +
+                        "    f.id as facility_id,\n" +
+                        "    f.name as facility_name, \n" +
+                        "    f.description as description,\n" +
+                        "    b.id as building_id,\n" +
+                        "    b.name as building_name,\n" +
+                        "    b.street_address as street_address,\n" +
+                        "    b.city as city,\n" +
+                        "    b.state as state,\n" +
+                        "    b.zip as zip,\n" +
+                        "    r.id as room_id,\n" +
+                        "    r.room_number as room_number\n" +
+                        "from\n" +
+                        "    facility as f \n" +
+                        "    left join building as b on (b.facility_id = f.id)\n" +
+                        "    left join room as r on (r.building_id = b.id)" +
+                        "where f.id = ?");
+        preparedStatement.setInt(1, facilityId);
+        ResultSet resultSet = preparedStatement.executeQuery();
+
+        Integer prevBuildingId = null;
+        Integer prevRoomId = null;
+        while(resultSet.next()) {
+            Integer buildingId = resultSet.getInt("building_id");
+            Integer roomId = resultSet.getInt("room_id");
+
+            System.out.println("Row -> "+ resultSet.getString("facility_name") + "bid ->" + buildingId);
+        }
+        return null;
     }
 }

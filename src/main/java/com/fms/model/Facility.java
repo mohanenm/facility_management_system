@@ -46,9 +46,9 @@ public class Facility {
         return facilityDetail;
     }
 
-    public static Facility fromJson(String Facility) throws IOException {
+    public static Facility fromJson(String facility) throws IOException {
         JsonParser parser = new JsonParser();
-        JsonElement jsonTree = parser.parse(Facility);
+        JsonElement jsonTree = parser.parse(facility);
         JsonObject jsonObject = jsonTree.getAsJsonObject();
 
         JsonElement facilityDetailJE = jsonObject.get("facilityDetail");

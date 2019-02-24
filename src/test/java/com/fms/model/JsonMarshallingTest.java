@@ -27,6 +27,17 @@ public class JsonMarshallingTest {
     }
 
     @Test
+    public void GetFacilityDetailResultMarshalling() throws IOException{
+        GetFacilityDetailResult getFacilityDetailResult = new GetFacilityDetailResult(
+                null, TestData.sampleFacility());
+        GetFacilityDetailResult again = GetFacilityDetailResult.fromJson(getFacilityDetailResult.toString());
+        boolean areEqual = again.equals(getFacilityDetailResult);
+
+        System.out.println("GetFacilityDetailResult -> " + getFacilityDetailResult.toString());
+        assert (areEqual);
+    }
+
+    @Test
     public void BuildingMarshalling() throws IOException {
         Building building = TestData.sampleBuilding("B1");
         Building again = Building.fromJson(building.toString());

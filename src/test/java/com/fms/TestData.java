@@ -1,6 +1,7 @@
 package com.fms;
 
 import com.fms.model.Building;
+import com.fms.model.Facility;
 import com.fms.model.FacilityDetail;
 import com.fms.model.Room;
 
@@ -21,5 +22,10 @@ public class TestData {
         buildings.add(sampleBuilding("B1"));
         buildings.add(sampleBuilding("B2"));
         return new FacilityDetail(buildings);
+    }
+
+    public static Facility sampleFacility() {
+        return new Facility(3, "F1",
+                "sample facility for test", sampleFacilityDetail());
     }
 }

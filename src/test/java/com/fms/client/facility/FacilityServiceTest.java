@@ -7,6 +7,7 @@ import com.fms.client.facility.FacilityService;
 import com.fms.TestData;
 
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 import static org.junit.Assert.*;
@@ -55,5 +56,10 @@ public class FacilityServiceTest {
         buildings.add(buildings.get(0));
 
         assert(false == FacilityService.validBuildingNames(sample));
+    }
+
+    @Test
+    public void getFacilityInformation() throws SQLException {
+        facilityService.getFacilityInformation(1);
     }
 }

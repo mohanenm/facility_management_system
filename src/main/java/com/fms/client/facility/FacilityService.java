@@ -82,5 +82,15 @@ public class FacilityService {
         return true;
     }
 
+    public static GetFacilityDetailResult getFacilityInformation(int facilityId) throws SQLException{
+        try {
+            DBFacility.getFacilityInformation(facilityId);
+            return null;
+        } catch (SQLException e) {
+            return new GetFacilityDetailResult("Unable to get facility information: " +
+                    e.toString(), null);
+        }
+    }
+
 
 }
