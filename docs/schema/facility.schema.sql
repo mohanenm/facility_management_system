@@ -34,19 +34,19 @@ create table room (
 	room_number INTEGER NOT NULL
 );
 
-create table facility_inspection(
+create table facility_inspection (
 	id SERIAL PRIMARY KEY,
 	facility_id INTEGER REFERENCES facility(id) ON DELETE CASCADE NOT NULL,
 	completed TIMESTAMP NOT NULL,
 	passed BOOLEAN NOT NULL
 );
 
-create table maintenance_type(
+create table maintenance_type (
 	id SERIAL PRIMARY KEY,
 	description varchar(128) NOT NULL
 );
 
-create table maintenance_rate(
+create table maintenance_rate (
 	id SERIAL PRIMARY KEY,
 	facility_id INTEGER REFERENCES facility(id) NOT NULL,
 	maintenance_type_id INTEGER REFERENCES maintenance_type(id) NOT NULL,

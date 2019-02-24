@@ -1,6 +1,8 @@
 package com.fms.dal;
 
+import com.fms.model.Building;
 import com.fms.model.Facility;
+import com.fms.model.FacilityDetail;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -37,7 +39,7 @@ public class DBFacility {
     }
 
 
-    public static Facility createFacility(String name, String description) throws java.sql.SQLException {
+    public static Facility createFacility(String name, String description) throws SQLException {
         PreparedStatement preparedStatement = null;
         try {
             preparedStatement = DBConnection
@@ -68,6 +70,20 @@ public class DBFacility {
             return true;
         } catch (SQLException e) {
             return false;
+        }
+    }
+
+
+    public static void addFacilityDetail(int facilityId, FacilityDetail facilityDetail) throws SQLException {
+        PreparedStatement preparedStatement = DBConnection
+                .getConnection()
+                .prepareStatement("select id from facility where id = ?");
+        preparedStatement.setInt(1, facilityId);
+        ResultSet resultSet = preparedStatement.executeQuery();
+        resultSet.next();
+
+        for(Building building: facilityDetail.getBuildings()) {
+
         }
     }
 }

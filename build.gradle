@@ -36,6 +36,9 @@ dependencies {
 
     compile name: 'postgresql-42.2.5'
 
+    compile group: 'org.apache.logging.log4j', name: 'log4j-api', version: '2.11.2'
+    compile group: 'org.apache.logging.log4j', name: 'log4j-core', version: '2.11.2'
+
     // Use JUnit test framework
     testImplementation 'junit:junit:4.12'
 }

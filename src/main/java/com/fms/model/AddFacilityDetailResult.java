@@ -5,18 +5,13 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import jdk.jshell.execution.Util;
 
-public class AddFacilityResult {
-    public AddFacilityResult(String errorMessage, Facility facility) {
+public class AddFacilityDetailResult {
+    public AddFacilityDetailResult(String errorMessage) {
         this.errorMessage = errorMessage;
-        this.facility = facility;
     }
 
     public String getErrorMessage() {
         return errorMessage;
-    }
-
-    public Facility getFacility() {
-        return facility;
     }
 
     public String toString() {
@@ -26,6 +21,5 @@ public class AddFacilityResult {
     }
 
     private String errorMessage;
-    private Facility facility;
 
 }
