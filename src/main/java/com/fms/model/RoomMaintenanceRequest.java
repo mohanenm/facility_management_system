@@ -1,11 +1,11 @@
 package com.fms.model;
 
-public class FacilityMaintenanceRequest {
+public class RoomMaintenanceRequest {
 
-    public FacilityMaintenanceRequest(int id, int maintenanceRequestId, int facilityId) {
+    public RoomMaintenanceRequest(int id, int maintenanceRequestId, int roomId) {
         this.id = id;
         this.maintenanceRequestId = maintenanceRequestId;
-        this.facilityId = facilityId;
+        this.roomId = roomId;
     }
 
     public int getId() {
@@ -16,11 +16,11 @@ public class FacilityMaintenanceRequest {
         return maintenanceRequestId;
     }
 
-    public int getFacilityId() {
-        return facilityId;
+    public int getRoomId() {
+        return roomId;
     }
 
     private int id;
     private int maintenanceRequestId;
-    private int facilityId;
+    private int roomId;
 }
