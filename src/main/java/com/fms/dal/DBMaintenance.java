@@ -1,8 +1,6 @@
 package com.fms.dal;
 
-import com.fms.model.Facility;
-import com.fms.model.MaintenanceRequest;
-import com.fms.model.MaintenanceType;
+import com.fms.model.*;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -33,7 +31,7 @@ public class DBMaintenance {
     }
 
 
-    public boolean makeFacilityMaintRequest
+    public FacilityMaintenanceRequest makeFacilityMaintRequest
             (int facilityId, MaintenanceRequest maintenanceRequest)
             throws SQLException {
 
@@ -60,7 +58,7 @@ public class DBMaintenance {
             int facilityMaintenanceRequestId = resultSet.getInt((1));
             System.out.println("Insert of facility maint req id -> " + facilityMaintenanceRequestId);
 
-            return true;
+            return new FacilityMaintenanceRequest(facilityMaintenanceRequestId, maintenanceRequest, facilityId);
 
         } catch (SQLException e) {
             System.out.println("caught exception: " + e.toString());

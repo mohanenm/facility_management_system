@@ -1,6 +1,7 @@
 package com.fms.model;
 
 import com.google.gson.*;
+import com.sun.tools.javac.Main;
 
 import java.io.IOException;
 
@@ -52,6 +53,12 @@ public class MaintenanceRequest {
                 jsonObject.get("description").getAsString(),
                 jsonObject.get("isVacateRequired").getAsBoolean(),
                 jsonObject.get("isRoutine").getAsBoolean());
+    }
+
+    public static MaintenanceRequest maintenanceRequestWithId(
+            int id, MaintenanceRequest maintenanceRequest) {
+        maintenanceRequest.id = id;
+        return maintenanceRequest;
     }
 
     @Override
