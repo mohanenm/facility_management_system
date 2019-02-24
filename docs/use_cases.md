@@ -8,6 +8,25 @@ Corresponds to _addNewFacility_
 
 User requests new facility providing a name only. Details for facility are provided by _Add Facility Detail_
 
+Returns:
+
+```java
+AddFacilityResult {
+    String errorMessage;
+    Facility facility;
+}
+```
+
+Example error:
+
+```json
+{
+  errorMessage: "The named facility already exists",
+  facility: null
+}
+```
+
+
 
 ### Add Facility Detail
 
@@ -95,7 +114,26 @@ Returns true if the facility was removed, false if the id was not present.
 
 Corresponds to _getFacilityInformation_
 
-Given _facility_id_, Returns *complete* _FacilityDetail_.
+Given _facility_id_, Returns:
+
+```java
+GetFacilityDetailResult {
+    String errorMessage;
+    Facility facility;
+}
+```
+
+Example error:
+
+```json
+{
+  errorMessage: "The facility does not exist",
+  facility: null
+}
+```
+
+
+_FacilityDetail_.
 
 ### Request Available Capacity
 

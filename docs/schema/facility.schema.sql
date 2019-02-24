@@ -11,6 +11,7 @@ drop table if exists room;
 drop table if exists building;
 drop table if exists facility;
 
+
 create table facility (
 	id SERIAL PRIMARY KEY,
 	name varchar(128) not null UNIQUE,
@@ -19,7 +20,7 @@ create table facility (
 
 create table building(
 	id SERIAL PRIMARY KEY,
-	facility_id INTEGER REFERENCES facility(id),
+	facility_id INTEGER REFERENCES facility(id) ON DELETE CASCADE NOT NULL,
 	name varchar(32) NOT NULL,
 	street_address varchar(128),
 	city varchar(32),
@@ -27,15 +28,15 @@ create table building(
 	zip integer
 );
 
-create table room(
+create table room (
 	id SERIAL PRIMARY KEY,
-	building_id INTEGER REFERENCES building(id) NOT NULL,
+	building_id INTEGER REFERENCES building(id) ON DELETE CASCADE NOT NULL,
 	room_number INTEGER NOT NULL
 );
 
 create table facility_inspection(
 	id SERIAL PRIMARY KEY,
-	facility_id INTEGER REFERENCES facility(id) NOT NULL,
+	facility_id INTEGER REFERENCES facility(id) ON DELETE CASCADE NOT NULL,
 	completed TIMESTAMP NOT NULL,
 	passed BOOLEAN NOT NULL
 );
@@ -105,7 +106,7 @@ insert into building(facility_id, name, street_address, city, state, zip) values
 (2,'b2', '555 West Washington Lane', 'Hershey', 'PA', 55555),
 (1,'b1', '1035 Ashley Way', 'Sacramento', 'CA', 77777),
 (1,'b4', '8340 Dingleberry Bvd', 'Sacramento', 'CA', 77777),
-(3,'b5', '1234 Hummingbird Ln', 'Abequerque', 'NM', 88888);
+(3,'b5', '1234 Hummingbird Dr', 'Abequerque', 'NM', 88888);
 insert into room (building_id, room_number) values
 (1, 101),
 (1, 102),
@@ -128,5 +129,4 @@ insert into facility_inspection (facility_id, completed, passed) values
 (2, '2019-01-30 06:00:00', false);
 
 
-
-
+commit;

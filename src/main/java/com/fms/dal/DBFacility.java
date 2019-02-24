@@ -2,12 +2,15 @@ package com.fms.dal;
 
 import com.fms.model.Facility;
 
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 
 public class DBFacility {
+
+
     public static ArrayList<Facility> readAllFacilities() {
         ArrayList<Facility> result = new ArrayList<>();
         try {
@@ -31,5 +34,40 @@ public class DBFacility {
             System.out.println("caught exception: " + e.toString());
         }
         return result;
+    }
+
+
+    public static Facility createFacility(String name, String description) throws java.sql.SQLException {
+        PreparedStatement preparedStatement = null;
+        try {
+            preparedStatement = DBConnection
+                    .getConnection()
+                    .prepareStatement("INSERT into facility (name, description) values (?,?) RETURNING id");
+
+
+            preparedStatement.setString(1, name);
+            preparedStatement.setString(2, description);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            resultSet.next();
+
+            return new Facility(resultSet.getInt(1), name, description);
+        } catch (SQLException e) {
+            System.out.println("caught exception: " + e.toString());
+            throw e;
+        }
+    }
+
+    public static boolean deleteFacility(int facilityId) {
+
+        try {
+            PreparedStatement preparedStatement = DBConnection
+                    .getConnection()
+                    .prepareStatement("delete from facility where id = ?");
+            preparedStatement.setInt(1, facilityId);
+            preparedStatement.executeUpdate();
+            return true;
+        } catch (SQLException e) {
+            return false;
+        }
     }
 }

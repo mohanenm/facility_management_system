@@ -1,5 +1,6 @@
 package com.fms.client.facility;
 
+import com.fms.model.AddFacilityResult;
 import org.junit.Test;
 
 import com.fms.model.Facility;
@@ -19,15 +20,21 @@ public class FacilityServiceTest {
         System.out.print("All Facilities in list: " + facilityArrayList.toString());
     }
 
+    //Single test to create, read, and update our facility
     @Test
-    public void addNewFacility() {
+    public void CRUDFacility() {
+        AddFacilityResult result = facilityService
+                .addNewFacility("Test Facility", "Healthcare Facility");
 
-        Facility facility = facilityService.addNewFacility("F1", "Healthcare Facility");
+        int insertedFacilityId = result.getFacility().getId();
+        System.out.println(result.toString());
 
-        System.out.println("Added :" + facility.toString());
+        assert(insertedFacilityId > 0);
+        assert (true == facilityService.removeFacility(insertedFacilityId));
 
-        assert(facility.getId() > 0);
-        assertEquals("F1", facility.getName());
-        assertEquals("Healthcare Facility", facility.getDescription());
+
+        System.out.println("CHECK AGAIN");
+        listFacilities();
+
     }
 }

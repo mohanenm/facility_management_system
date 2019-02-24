@@ -8,48 +8,20 @@ import java.sql.SQLException;
 
 public class DBConnection {
 
-    public static Connection getConnection() {
 
-        System.out.println("DBHelper: -------- PostgreSQL " + "JDBC Connection  ------------");
+    private static Connection connection;
 
-        try {
+    public static Connection getConnection() throws java.sql.SQLException {
 
-            Class.forName("org.postgresql.Driver");
-
-        } catch (ClassNotFoundException e) {
-
-            System.out.println("DBHelper: Check Where  your PostgreSQL JDBC Driver exist and " + "Include in your library path!");
-            e.printStackTrace();
-            return null;
-
-        }
-
-        System.out.println("DBHelper: PostgreSQL JDBC Driver Registered!");
-
-        Connection connection = null;
-
-        try {
-
-            connection = DriverManager.getConnection("jdbc:postgresql://127.0.0.1:5432/facility", "postgres", "postgres");
+        if(connection == null) {
+            connection = DriverManager.getConnection("jdbc:postgresql://127.0.0.1:5432/facility",
+                    "postgres", "postgres");
             Statement st = connection.createStatement();
             ResultSet rs = st.executeQuery("SELECT VERSION()");
 
             if (rs.next()) {
-                System.out.println("DBHelper: The Database Version is " + rs.getString(1));
+                System.out.println("Connection created: The Database Version is -> " + rs.getString(1));
             }
-
-        } catch (SQLException e) {
-
-            System.out.println("DBHelper: Connection Failed! Check output console");
-            e.printStackTrace();
-            return null;
-
-        }
-
-        if (connection != null) {
-            System.out.println("DBHelper: You have a database connection!");
-        } else {
-            System.out.println("DBHelper: Failed to make connection!");
         }
 
         return connection;

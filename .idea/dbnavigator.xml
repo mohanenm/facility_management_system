@@ -25,8 +25,8 @@
     <show-object-properties value="true" />
     <loaded-nodes>
       <connection connection-id="0b42631a-774e-4d7c-8cf1-f6f4a3a76644">
-        <schema name="pg_catalog" object-types="function" />
-        <schema name="public" object-types="sequence, table, function, view" />
+        <schema name="pg_catalog" object-types="view, function, table" />
+        <schema name="public" object-types="constraint, view, function, sequence, table, index, column, dataset trigger" />
       </connection>
     </loaded-nodes>
   </component>
@@ -47,8 +47,14 @@ select * from room;</console>
   <component name="DBNavigator.Project.DatabaseSessionManager">
     <connection id="0b42631a-774e-4d7c-8cf1-f6f4a3a76644" />
   </component>
+  <component name="DBNavigator.Project.DatasetFilterManager">
+    <filter-list connection-id="0b42631a-774e-4d7c-8cf1-f6f4a3a76644" dataset="public.facility" active-filter-id="" />
+  </component>
   <component name="DBNavigator.Project.EditorStateManager">
     <last-used-providers />
+  </component>
+  <component name="DBNavigator.Project.FileConnectionMappingManager">
+    <mapping file-url="file://$PROJECT_DIR$/docs/schema/facility.schema.sql" connection-id="0b42631a-774e-4d7c-8cf1-f6f4a3a76644" session-id="MAIN" current-schema="public" />
   </component>
   <component name="DBNavigator.Project.MethodExecutionManager">
     <method-browser />
@@ -66,7 +72,9 @@ select * from room;</console>
     <filters />
   </component>
   <component name="DBNavigator.Project.ScriptExecutionManager" clear-outputs="true">
-    <recently-used-interfaces />
+    <recently-used-interfaces>
+      <mapping database-type="POSTGRES" interface-id="DEFAULT" />
+    </recently-used-interfaces>
   </component>
   <component name="DBNavigator.Project.Settings">
     <connections>
