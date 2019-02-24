@@ -18,4 +18,13 @@ public class MaintenanceServiceTest {
 
         System.out.println("Fac maint request -> " + facilityMaintenanceRequest.toString());
     }
+
+    @Test
+    public void facilityMaintenanceRequestResult() {
+        FacilityMaintenanceRequestResult facilityMaintenanceRequest =
+                maintenanceService.makeFacilityMaintRequest
+                        (1, TestData.sampleMaintenanceRequest());
+
+        System.out.println("Fac maint request -> " + facilityMaintenanceRequest.toString());
+    }
 }

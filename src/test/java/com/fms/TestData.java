@@ -75,4 +75,9 @@ public class TestData {
                 LocalDateTime.of(2019, Month.JANUARY, 13, 20, 8),
                 LocalDateTime.of(2019, Month.JANUARY, 13, 21, 8));
     }
+
+    public static FacilityMaintenanceRequestResult sampleFacilityMaintenanceRequestResult() {
+        return new FacilityMaintenanceRequestResult(sampleFacilityMaintenanceRequest(),
+                "The Facility Maintenance Request you have submitted does not correctly reference an existing facility ");
+    }
 }
