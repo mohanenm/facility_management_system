@@ -62,32 +62,26 @@ public class Building {
                 switch(key)
                 {
                     case "id": {
-                        System.out.println("Got id");
                         id = reader.nextInt();
                         break;
                     }
                     case "name": {
-                        System.out.println("Got name ");
                         name = reader.nextString();
                         break;
                     }
                     case "streetAddress": {
-                        System.out.println("Got streetAddress");
                         streetAddress = reader.nextString();
                         break;
                     }
                     case "city": {
-                        System.out.println("Got city");
                         city = reader.nextString();
                         break;
                     }
                     case "state": {
-                        System.out.println("Got state");
                         state = reader.nextString();
                         break;
                     }
                     case "zip": {
-                        System.out.println("Got zip");
                         zip = reader.nextInt();
                         break;
                     }
@@ -95,8 +89,6 @@ public class Building {
                         System.out.println("no match");
                 }
             }
-
-            //reader.skipValue();
         }
 
         return new Building(id, name, streetAddress, city, state, zip);

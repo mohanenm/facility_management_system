@@ -14,10 +14,18 @@ plugins {
     id 'application'
 }
 
+configurations {
+    jdbc
+}
+
 repositories {
     // Use jcenter for resolving your dependencies.
     // You can declare any Maven/Ivy/file repository here.
     jcenter()
+
+    flatDir {
+        dirs 'third_party'
+    }
 }
 
 dependencies {
@@ -25,6 +33,8 @@ dependencies {
     implementation 'com.google.guava:guava:27.0.1-jre'
 
     implementation 'com.google.code.gson:gson:2.8.5'
+
+    compile name: 'postgresql-42.2.5'
 
     // Use JUnit test framework
     testImplementation 'junit:junit:4.12'
