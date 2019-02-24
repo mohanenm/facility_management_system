@@ -5,7 +5,7 @@ public class Utility {
         if (o == null) {
             return "null";
         } else {
-            return o.toString().replace('"', '\'');
+            return "\"" + o.toString().replace('"', '\'') + '"';
         }
     }
 }
