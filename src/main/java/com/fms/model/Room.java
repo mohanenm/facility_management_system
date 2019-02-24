@@ -35,8 +35,6 @@ public class Room {
     }
 
     public static Room fromJson(String room) throws IOException {
-
-        System.out.println("Room -> " + room);
         JsonReader reader = new JsonReader(new StringReader(room));
         reader.beginObject();
 

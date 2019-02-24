@@ -1,23 +1,25 @@
 package com.fms.model;
 import com.fms.Utility;
-import com.google.gson.Gson;
+import com.google.gson.*;
 
 import java.io.IOException;
 import java.io.StringReader;
+import java.util.ArrayList;
 
-import com.google.gson.GsonBuilder;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonToken;
 
 public class Building {
-    public Building(int id, String name, String streetAddress, String city, String state, int zip) {
-        this.id  = id;
+    public Building(int id, String name, String streetAddress, String city, String state, int zip, ArrayList<Room> rooms) {
+        this.id = id;
         this.name = name;
         this.streetAddress = streetAddress;
         this.city = city;
         this.state = state;
         this.zip = zip;
+        this.rooms = rooms;
     }
+
 
     public String getName() {
         return name;
@@ -44,54 +46,26 @@ public class Building {
     }
 
     public static Building fromJson(String building) throws IOException {
+        JsonParser parser = new JsonParser();
+        JsonElement jsonTree = parser.parse(building);
+        JsonObject jsonObject = jsonTree.getAsJsonObject();
 
-        System.out.println("Building -> " + building);
-        JsonReader reader = new JsonReader(new StringReader(building));
-        reader.beginObject();
+        ArrayList<Room> rooms = new ArrayList<>();
 
-        int id = 0;
-        String name = null, streetAddress = null, city = null, state = null;
-        int zip = 0;
+        final JsonArray rooms1 = jsonObject.get("rooms").getAsJsonArray();
 
-        while(reader.hasNext()) {
-            JsonToken token = reader.peek();
-            if (token.equals(JsonToken.NAME)) {
-                String key = reader.nextName();
-                //reader.skipValue();
-
-                switch(key)
-                {
-                    case "id": {
-                        id = reader.nextInt();
-                        break;
-                    }
-                    case "name": {
-                        name = reader.nextString();
-                        break;
-                    }
-                    case "streetAddress": {
-                        streetAddress = reader.nextString();
-                        break;
-                    }
-                    case "city": {
-                        city = reader.nextString();
-                        break;
-                    }
-                    case "state": {
-                        state = reader.nextString();
-                        break;
-                    }
-                    case "zip": {
-                        zip = reader.nextInt();
-                        break;
-                    }
-                    default:
-                        System.out.println("no match");
-                }
-            }
+        for(JsonElement room : rooms1) {
+            String roomJson = room.getAsJsonObject().toString();
+            rooms.add(Room.fromJson(roomJson));
         }
 
-        return new Building(id, name, streetAddress, city, state, zip);
+        return new Building(jsonObject.get("id").getAsInt(),
+                jsonObject.get("name").getAsString(),
+                jsonObject.get("streetAddress").getAsString(),
+                jsonObject.get("city").getAsString(),
+                jsonObject.get("state").getAsString(),
+                jsonObject.get("zip").getAsInt(),
+                rooms);
     }
 
     public String toString() {
@@ -122,4 +96,5 @@ public class Building {
     private String city;
     private String state;
     private int zip;
+    private ArrayList<Room> rooms;
 }
