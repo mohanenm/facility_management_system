@@ -16,17 +16,28 @@ public class JsonMarshallingTest {
 
     }
 
-    @Test
-    public void FacilityDetailMarshalling() throws IOException {
+    FacilityDetail sampleFacilityDetail() {
         ArrayList<Building> buildings = new ArrayList<>();
         buildings.add(sampleBuilding("B1"));
         buildings.add(sampleBuilding("B2"));
-        FacilityDetail facilityDetail = new FacilityDetail(buildings);
+        return new FacilityDetail(buildings);
+    }
 
+    @Test
+    public void FacilityMarshalling() throws IOException {
+        Facility facility = new Facility(1, "F1", "Psychological Testing");
+        facility.setFacilityDetail(sampleFacilityDetail());
+        Facility again = Facility.fromJson(facility.toString());
+        boolean areEqual = again.equals(facility);
+        assert (areEqual);
+    }
+
+    @Test
+    public void FacilityDetailMarshalling() throws IOException {
+        FacilityDetail facilityDetail = sampleFacilityDetail();
         FacilityDetail again = FacilityDetail.fromJson(facilityDetail.toString());
         boolean areEqual = again.equals(facilityDetail);
         assert (areEqual);
-        System.out.println("FD ->" + again.toString());
     }
 
     @Test
