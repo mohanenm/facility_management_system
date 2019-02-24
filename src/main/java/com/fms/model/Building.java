@@ -1,14 +1,9 @@
 package com.fms.model;
-import com.fms.Utility;
-import com.google.gson.*;
 
+import com.google.gson.*;
 import java.io.IOException;
-import java.io.StringReader;
 import java.util.ArrayList;
 
-import com.google.gson.annotations.SerializedName;
-import com.google.gson.stream.JsonReader;
-import com.google.gson.stream.JsonToken;
 
 public class Building {
 

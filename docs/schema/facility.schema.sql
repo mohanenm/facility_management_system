@@ -31,7 +31,8 @@ create table building(
 create table room (
 	id SERIAL PRIMARY KEY,
 	building_id INTEGER REFERENCES building(id) ON DELETE CASCADE NOT NULL,
-	room_number INTEGER NOT NULL
+	room_number INTEGER NOT NULL,
+	capacity INTEGER default 10
 );
 
 create table facility_inspection (
@@ -118,6 +119,9 @@ insert into room (building_id, room_number) values
 (3, 101),
 (3, 201),
 (3, 301);
+insert into room(building_id, room_number, capacity) values
+(3, 201, 15),
+(3, 207, 20);
 insert into room_reservation(room_id, start, finish) values
 (1,'2019-01-30 07:00:00', '2019-01-30 08:00:00'),
 (1,'2019-01-30 10:00:00', '2019-01-30 11:00:00'),
@@ -127,6 +131,8 @@ insert into room_reservation(room_id, start, finish) values
 insert into facility_inspection (facility_id, completed, passed) values
 (1, '2019-01-30 06:00:00', true),
 (2, '2019-01-30 06:00:00', false);
+
+
 
 
 commit;

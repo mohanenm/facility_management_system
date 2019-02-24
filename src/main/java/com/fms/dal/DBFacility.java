@@ -130,11 +130,12 @@ public class DBFacility {
         try {
             preparedStatement = DBConnection
                     .getConnection()
-                    .prepareStatement("INSERT into room (building_id, room_number) values (?,?) RETURNING id");
+                    .prepareStatement("INSERT into room (building_id, room_number, capacity) values (?,?,?) RETURNING id");
 
 
             preparedStatement.setInt(1, room.getBuildingId());
             preparedStatement.setInt(2, room.getRoomNumber());
+            preparedStatement.setInt(3, room.getCapacity());
             ResultSet resultSet = preparedStatement.executeQuery();
             resultSet.next();
 
@@ -163,7 +164,8 @@ public class DBFacility {
                         "    b.state as state,\n" +
                         "    b.zip as zip,\n" +
                         "    r.id as room_id,\n" +
-                        "    r.room_number as room_number\n" +
+                        "    r.room_number as room_number,\n" +
+                        "    r.capacity as capacity\n" +
                         "from\n" +
                         "    facility as f \n" +
                         "    left join building as b on (b.facility_id = f.id)\n" +
@@ -186,25 +188,30 @@ public class DBFacility {
             }
 
             Integer buildingId = resultSet.getInt("building_id");
+            boolean hasBuilding = !resultSet.wasNull();
             Integer roomId = resultSet.getInt("room_id");
+            boolean hasRoom = !resultSet.wasNull();
 
             if(building == null || building.getId() != buildingId) {
-                // Create new buildings
-                building = new Building(resultSet.getInt("building_id"),
-                        resultSet.getString("building_name"),
-                        resultSet.getString("street_address"),
-                        resultSet.getString("city"),
-                        resultSet.getString("state"),
-                        resultSet.getInt("zip"),
-                        new ArrayList<>());
+                if (hasBuilding) {
+                    building = new Building(buildingId,
+                            resultSet.getString("building_name"),
+                            resultSet.getString("street_address"),
+                            resultSet.getString("city"),
+                            resultSet.getString("state"),
+                            resultSet.getInt("zip"),
+                            new ArrayList<>());
 
-                buildings.add(building);
+                    buildings.add(building);
+                }
+            }
 
-                if (room == null || room.getId() != roomId) {
-                    // Create new room
-                    room = new Room(resultSet.getInt("room_id"),
+            if (room == null || room.getId() != roomId) {
+                if(hasRoom) {
+                    room = new Room(roomId,
                             resultSet.getInt("building_id"),
-                            resultSet.getInt("room_number"));
+                            resultSet.getInt("room_number"),
+                            resultSet.getInt("capacity"));
                     building.getRooms().add(room);
                 }
             }

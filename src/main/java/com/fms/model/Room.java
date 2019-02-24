@@ -10,16 +10,18 @@ import java.io.StringReader;
 
 public class Room {
 
-    public Room(int id, int buildingId, int roomNumber) {
+    public Room(int id, int buildingId, int roomNumber, int capacity) {
         this.id = id;
         this.buildingId = buildingId;
         this.roomNumber = roomNumber;
+        this.capacity = capacity;
     }
 
-    public Room(int buildingId, int roomNumber) {
+    public Room(int buildingId, int roomNumber, int capacity) {
         this.id = -1;
         this.buildingId = buildingId;
         this.roomNumber = roomNumber;
+        this.capacity = capacity;
     }
 
     public static Room roomWithId(int id, Room room) {
@@ -39,6 +41,11 @@ public class Room {
         return roomNumber;
     }
 
+
+    public int getCapacity() {
+        return capacity;
+    }
+
     public String toString() {
         GsonBuilder builder = new GsonBuilder().setPrettyPrinting();
         Gson gson = builder.create();
@@ -52,6 +59,7 @@ public class Room {
         int id = 0;
         int buildingId = 0;
         int roomNumber = 0;
+        int capacity = 0;
 
         while(reader.hasNext()) {
             JsonToken token = reader.peek();
@@ -72,13 +80,17 @@ public class Room {
                         roomNumber = reader.nextInt();
                         break;
                     }
+                    case "capacity": {
+                        capacity = reader.nextInt();
+                        break;
+                    }
                     default:
                         System.out.println("no match");
                 }
             }
         }
 
-        return new Room(id, buildingId, roomNumber);
+        return new Room(id, buildingId, roomNumber, capacity);
     }
 
     @Override
@@ -90,10 +102,12 @@ public class Room {
 
         return id == room.id &&
                 buildingId == room.buildingId &&
-                roomNumber == room.roomNumber;
+                roomNumber == room.roomNumber &&
+                capacity == room.capacity;
     }
 
     private int id;
     private int buildingId;
     private int roomNumber;
+    private int capacity;
 }
