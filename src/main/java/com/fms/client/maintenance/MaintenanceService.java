@@ -1,6 +1,8 @@
 package com.fms.client.maintenance;
 
 import com.fms.dal.DBMaintenance;
+import com.fms.model.FacilityMaintenanceRequest;
+import com.fms.model.FacilityMaintenanceRequestResult;
 import com.fms.model.MaintenanceRequest;
 import com.google.common.collect.Range;
 
@@ -19,13 +21,14 @@ public class MaintenanceService {
         }
     }
 
-    public boolean makeFacilityMaintRequest
+    public FacilityMaintenanceRequestResult makeFacilityMaintRequest
             (int facilityId, MaintenanceRequest maintenanceRequest) {
         try {
-            return dbMaintenance.makeFacilityMaintRequest(facilityId, maintenanceRequest);
+            return new FacilityMaintenanceRequestResult
+                    (dbMaintenance.makeFacilityMaintRequest(facilityId, maintenanceRequest), null);
         } catch(SQLException e) {
-            // TODO: return error
-            return false;
+            return new FacilityMaintenanceRequestResult
+                    (null,"Could not complete facility request -> " + e.toString());
         }
     }
 }
