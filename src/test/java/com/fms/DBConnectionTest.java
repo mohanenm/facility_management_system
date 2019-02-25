@@ -10,7 +10,7 @@ import com.fms.dal.DBConnection;
 
 public class DBConnectionTest {
     @Test
-    public void testAppHasAGreeting() throws java.sql.SQLException {
+    public void dbConnectionTest() throws java.sql.SQLException {
         Connection connection = DBConnection.getConnection();
 
         System.out.println("Connection is: " + connection.toString());
