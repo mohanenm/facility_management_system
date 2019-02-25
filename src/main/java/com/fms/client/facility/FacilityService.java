@@ -2,24 +2,25 @@ package com.fms.client.facility;
 
 import com.fms.dal.DBFacility;
 import com.fms.model.*;
-
-import javax.sql.rowset.serial.SerialException;
-import java.sql.SQLException;
-import java.util.*;
-
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.HashSet;
+
 public class FacilityService {
 
+    DBFacility dbFacility = new DBFacility();
+
     public ArrayList<Facility> listFacilities() {
-        return DBFacility.readAllFacilities();
+        return dbFacility.readAllFacilities();
     }
 
     public AddFacilityResult addNewFacility(String name, String description) {
         try {
-            return new AddFacilityResult(null, DBFacility.createFacility(name, description));
+            return new AddFacilityResult(null, dbFacility.createFacility(name, description));
         } catch (SQLException e) {
 
             System.out.println("Caught excp: " + e.toString());
@@ -31,7 +32,7 @@ public class FacilityService {
 
 
     public boolean removeFacility(int facilityId) {
-        return DBFacility.deleteFacility(facilityId);
+        return dbFacility.deleteFacility(facilityId);
     }
 
     ///  Possible errors
@@ -41,7 +42,7 @@ public class FacilityService {
     public AddFacilityDetailResult addFacilityDetail(int facilityId, FacilityDetail facilityDetail) {
         if (validBuildingNames(facilityDetail)) {
             try {
-               DBFacility.addFacilityDetail(facilityId, facilityDetail);
+                dbFacility.addFacilityDetail(facilityId, facilityDetail);
                return new AddFacilityDetailResult(null);
             } catch (SQLException e) {
                 return new AddFacilityDetailResult("Unable to add facility detail to database: " +
@@ -82,9 +83,9 @@ public class FacilityService {
         return true;
     }
 
-    public static GetFacilityDetailResult getFacilityInformation(int facilityId) throws SQLException{
+    public GetFacilityDetailResult getFacilityInformation(int facilityId) throws SQLException{
         try {
-            return DBFacility.getFacilityInformation(facilityId);
+            return dbFacility.getFacilityInformation(facilityId);
         } catch (SQLException e) {
             return new GetFacilityDetailResult("Unable to get facility information: " +
                     e.toString(), null);
