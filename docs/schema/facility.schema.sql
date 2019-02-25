@@ -129,14 +129,46 @@ insert into room (building_id, room_number) values
 (3, 101),
 (3, 201),
 (3, 301);
+
+insert into maintenance_request
+(maintenance_type_id, description, is_vacate_required, is_routine)
+values (1, 'Fix it', true, true);
+
+insert into room_maintenance_request
+(maintenance_request_id, room_id)
+values (1, 1);
+
+
 insert into room(building_id, room_number, capacity) values
 (3, 201, 15),
 (3, 207, 20);
+
 insert into room_reservation(room_id, start, finish) values
 (1,'2019-01-30 07:00:00', '2019-01-30 08:00:00'),
 (1,'2019-01-30 10:00:00', '2019-01-30 11:00:00'),
 (1,'2019-01-30 9:00:00', '2019-01-30 09:59:00'),
 (1,'2019-01-30 8:30:00', '2019-01-30 9:30:00');
+
+
+
+--- insert facility request
+insert into facility_maintenance_request
+(maintenance_request_id, facility_id)
+values (1, 1);
+
+insert into facility_maintenance_schedule(facility_maintenence_request_id, start, finish) values
+(1,'2019-01-30 07:00:00', '2019-01-30 08:00:00'),
+(1,'2019-01-30 10:00:00', '2019-01-30 11:00:00'),
+(1,'2019-01-30 9:00:00', '2019-01-30 09:59:00'),
+(1,'2019-01-30 8:30:00', '2019-01-30 9:30:00');
+
+
+insert into room_maintenance_schedule (room_maintenance_request_id, start, finish)
+ values (1, '2019-02-24 01:00:00', '2019-02-24 02:00:00'),
+ (1, '2019-02-24 05:00:00', '2019-02-24 06:00:00'),
+ (1, '2019-02-25 01:00:00', '2019-04-25 02:00:00'),
+ (1, '2019-02-25 04:00:00', '2019-02-25 06:00:00');
+
 
 insert into facility_inspection (facility_id, completed, passed) values
 (1, '2019-01-30 06:00:00', true),

@@ -4,21 +4,16 @@ import com.google.gson.*;
 
 import java.io.IOException;
 
-public class RoomMaintenanceRequest {
+public class RoomRequest {
 
-    public RoomMaintenanceRequest(int id, int maintenanceRequestId, int roomId) {
+    public RoomRequest(int id, int roomId) {
         this.id = id;
-        this.maintenanceRequestId = maintenanceRequestId;
         this.roomId = roomId;
 
     }
 
     public int getId() {
         return id;
-    }
-
-    public int getMaintenanceRequestId() {
-        return maintenanceRequestId;
     }
 
     public int getRoomId() {
@@ -33,28 +28,25 @@ public class RoomMaintenanceRequest {
     }
 
 
-    public static RoomMaintenanceRequest fromJson(String roomMaintenanceRequest) throws IOException {
+    public static RoomRequest fromJson(String roomRequest) throws IOException {
         JsonParser parser = new JsonParser();
-        JsonElement jsonTree = parser.parse(roomMaintenanceRequest);
+        JsonElement jsonTree = parser.parse(roomRequest);
         JsonObject jsonObject = jsonTree.getAsJsonObject();
 
-        return new RoomMaintenanceRequest(jsonObject.get("id").getAsInt(),
-                jsonObject.get("maintenanceRequestId").getAsInt(),
+        return new RoomRequest(jsonObject.get("id").getAsInt(),
                 jsonObject.get("roomId").getAsInt());
     }
 
     @Override
     public boolean equals(Object o) {
-        final RoomMaintenanceRequest m = (RoomMaintenanceRequest) o;
+        final RoomRequest m = (RoomRequest) o;
         if (m == this) {
             return true;
         }
         return id == m.id &&
-                maintenanceRequestId == m.maintenanceRequestId &&
                 roomId == m.roomId;
     }
 
     private int id;
-    private int maintenanceRequestId;
     private int roomId;
 }

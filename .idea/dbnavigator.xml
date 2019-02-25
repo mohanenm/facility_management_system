@@ -25,15 +25,15 @@
     <show-object-properties value="true" />
     <loaded-nodes>
       <connection connection-id="0b42631a-774e-4d7c-8cf1-f6f4a3a76644">
-        <schema name="pg_catalog" object-types="table, view" />
-        <schema name="public" object-types="column, table, view" />
+        <schema name="pg_catalog" object-types="view, table" />
+        <schema name="public" object-types="column, view, constraint, function, dataset trigger, index, sequence, table" />
       </connection>
     </loaded-nodes>
   </component>
   <component name="DBNavigator.Project.DatabaseConsoleManager">
     <connection id="0b42631a-774e-4d7c-8cf1-f6f4a3a76644">
       <console name="facility" type="STANDARD" schema="public" session="Main" />
-      <console name="facility queries" type="STANDARD" schema="public" session="Main" />
+      <console name="facility queries" type="STANDARD" schema="public" session="Main"><![CDATA[SELECT id, room_id, start, finish, maintenance_request_id FROM room_reservation]]></console>
     </connection>
   </component>
   <component name="DBNavigator.Project.DatabaseFileManager">
@@ -67,9 +67,7 @@
     <filters />
   </component>
   <component name="DBNavigator.Project.ScriptExecutionManager" clear-outputs="true">
-    <recently-used-interfaces>
-      <mapping database-type="POSTGRES" interface-id="DEFAULT" />
-    </recently-used-interfaces>
+    <recently-used-interfaces />
   </component>
   <component name="DBNavigator.Project.Settings">
     <connections>

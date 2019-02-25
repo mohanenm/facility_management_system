@@ -14,7 +14,7 @@ public class DBConnection {
     public static Connection getConnection() throws java.sql.SQLException {
 
         if(connection == null) {
-            connection = DriverManager.getConnection("jdbc:postgresql://127.0.0.1:5432/facility",
+            connection = DriverManager.getConnection("jdbc:postgresql://127.0.0.1:5432/postgres",
                     "postgres", "postgres");
             Statement st = connection.createStatement();
             ResultSet rs = st.executeQuery("SELECT VERSION()");
