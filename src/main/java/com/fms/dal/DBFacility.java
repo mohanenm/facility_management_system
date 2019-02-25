@@ -10,14 +10,20 @@ import java.util.ArrayList;
 
 public class DBFacility {
 
+    private PreparedStatement preparedStatement;
+    private ResultSet resultSet;
+    private ResultSet facilityResultSet;
 
-    public static ArrayList<Facility> readAllFacilities() {
+
+    // private PreparedStatement insertFacilityMaintenanceRequest;
+
+    public ArrayList<Facility> readAllFacilities() {
         ArrayList<Facility> result = new ArrayList<>();
         try {
 
             Statement st = DBConnection.getConnection().createStatement();
             String query = "SELECT id, name, description  FROM facility";
-            ResultSet facilityResultSet = st.executeQuery(query);
+            facilityResultSet = st.executeQuery(query);
 
 
             while (facilityResultSet.next()) {
@@ -37,8 +43,8 @@ public class DBFacility {
     }
 
 
-    public static Facility createFacility(String name, String description) throws SQLException {
-        PreparedStatement preparedStatement = null;
+    public Facility createFacility(String name, String description) throws SQLException {
+        preparedStatement = null;
         try {
             preparedStatement = DBConnection
                     .getConnection()
@@ -47,7 +53,7 @@ public class DBFacility {
 
             preparedStatement.setString(1, name);
             preparedStatement.setString(2, description);
-            ResultSet resultSet = preparedStatement.executeQuery();
+            resultSet = preparedStatement.executeQuery();
             resultSet.next();
 
             return new Facility(resultSet.getInt(1), name, description);
@@ -57,10 +63,10 @@ public class DBFacility {
         }
     }
 
-    public static boolean deleteFacility(int facilityId) {
+    public boolean deleteFacility(int facilityId) {
 
         try {
-            PreparedStatement preparedStatement = DBConnection
+            preparedStatement = DBConnection
                     .getConnection()
                     .prepareStatement("delete from facility where id = ?");
             preparedStatement.setInt(1, facilityId);
@@ -72,12 +78,12 @@ public class DBFacility {
     }
 
 
-    public static void addFacilityDetail(int facilityId, FacilityDetail facilityDetail) throws SQLException {
-        PreparedStatement preparedStatement = DBConnection
+    public void addFacilityDetail(int facilityId, FacilityDetail facilityDetail) throws SQLException {
+        preparedStatement = DBConnection
                 .getConnection()
                 .prepareStatement("select id from facility where id = ?");
         preparedStatement.setInt(1, facilityId);
-        ResultSet resultSet = preparedStatement.executeQuery();
+        resultSet = preparedStatement.executeQuery();
         resultSet.next();
 
         for(Building building: facilityDetail.getBuildings()) {
@@ -85,8 +91,8 @@ public class DBFacility {
         }
     }
 
-    private static Building createBuilding(int facilityId, Building building) throws SQLException {
-        PreparedStatement preparedStatement = null;
+    private Building createBuilding(int facilityId, Building building) throws SQLException {
+        preparedStatement = null;
         try {
             preparedStatement = DBConnection
                     .getConnection()
@@ -99,7 +105,7 @@ public class DBFacility {
             preparedStatement.setString(4, building.getCity());
             preparedStatement.setString(5, building.getState());
             preparedStatement.setInt(6, building.getZip());
-            ResultSet resultSet = preparedStatement.executeQuery();
+            resultSet = preparedStatement.executeQuery();
             resultSet.next();
 
             int buildingId = resultSet.getInt(1);
@@ -125,8 +131,8 @@ public class DBFacility {
      * @return room with id
      * @throws SQLException
      */
-    private static Room createRoom(Room room) throws SQLException {
-        PreparedStatement preparedStatement = null;
+    private Room createRoom(Room room) throws SQLException {
+        preparedStatement = null;
         try {
             preparedStatement = DBConnection
                     .getConnection()
@@ -136,7 +142,7 @@ public class DBFacility {
             preparedStatement.setInt(1, room.getBuildingId());
             preparedStatement.setInt(2, room.getRoomNumber());
             preparedStatement.setInt(3, room.getCapacity());
-            ResultSet resultSet = preparedStatement.executeQuery();
+            resultSet = preparedStatement.executeQuery();
             resultSet.next();
 
             int roomId = resultSet.getInt(1);
@@ -149,8 +155,8 @@ public class DBFacility {
         }
     }
 
-    public static GetFacilityDetailResult getFacilityInformation(int facilityId) throws SQLException {
-        PreparedStatement preparedStatement = DBConnection
+    public GetFacilityDetailResult getFacilityInformation(int facilityId) throws SQLException {
+        preparedStatement = DBConnection
                 .getConnection()
                 .prepareStatement("" +
                         "select \n" +
@@ -172,7 +178,7 @@ public class DBFacility {
                         "    left join room as r on (r.building_id = b.id)" +
                         "where f.id = ?");
         preparedStatement.setInt(1, facilityId);
-        ResultSet resultSet = preparedStatement.executeQuery();
+        resultSet = preparedStatement.executeQuery();
 
         ArrayList<Building> buildings = new ArrayList<>();
         Building building = null;
