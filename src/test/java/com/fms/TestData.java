@@ -80,4 +80,9 @@ public class TestData {
         return new FacilityMaintenanceRequestResult(sampleFacilityMaintenanceRequest(),
                 "The Facility Maintenance Request you have submitted does not correctly reference an existing facility ");
     }
+
+    public static RoomMaintenanceRequestResult sampleRoomMaintenanceRequestResult() {
+        return new RoomMaintenanceRequestResult(sampleRoomMaintenanceRequest(),
+                "The Room Maintenance Request does not correctly reference an existing room ");
+    }
 }

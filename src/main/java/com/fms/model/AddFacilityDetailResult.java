@@ -2,7 +2,6 @@ package com.fms.model;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-//import jdk.jshell.execution.Util;
 
 public class AddFacilityDetailResult {
     public AddFacilityDetailResult(String errorMessage) {

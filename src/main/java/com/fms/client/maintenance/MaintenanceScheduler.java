@@ -1,4 +1,4 @@
-package com.fms.maintenance;
-
+package com.fms.client.maintenance;
 public class MaintenanceScheduler {
+
 }

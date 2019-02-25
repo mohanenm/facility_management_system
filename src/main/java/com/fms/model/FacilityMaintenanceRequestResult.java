@@ -1,7 +1,8 @@
 package com.fms.model;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
+import com.google.gson.*;
+
+import java.io.IOException;
 
 public class FacilityMaintenanceRequestResult {
 
@@ -16,6 +17,22 @@ public class FacilityMaintenanceRequestResult {
         GsonBuilder builder = new GsonBuilder().setPrettyPrinting();
         Gson gson = builder.create();
         return gson.toJson(this);
+    }
+
+    public static FacilityMaintenanceRequestResult fromJson
+            (String facilityMaintenanceRequestResult) throws IOException {
+        JsonParser parser = new JsonParser();
+        JsonElement jsonTree = parser.parse(facilityMaintenanceRequestResult);
+        JsonObject jsonObject = jsonTree.getAsJsonObject();
+
+        JsonElement facilityMaintenanceRequestJE = jsonObject.get("facilityMaintenanceRequest");
+
+        FacilityMaintenanceRequest facilityMaintenanceRequest =
+                FacilityMaintenanceRequest.fromJson(
+                        facilityMaintenanceRequestJE.getAsJsonObject().toString());
+
+        return new FacilityMaintenanceRequestResult(facilityMaintenanceRequest,
+                jsonObject.get("errorMessage").getAsString());
     }
 
 

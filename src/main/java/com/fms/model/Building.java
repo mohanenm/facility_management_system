@@ -8,7 +8,7 @@ import java.util.ArrayList;
 public class Building {
 
     /// Client constructor - no id specified
-    public Building(String name, String streetAddress, String city, String state, int zip, ArrayList<Room> rooms) {
+    public Building() {
         this.id = -1;
         this.name = name;
         this.streetAddress = streetAddress;

@@ -43,7 +43,7 @@ public class FacilityService {
         if (validBuildingNames(facilityDetail)) {
             try {
                 dbFacility.addFacilityDetail(facilityId, facilityDetail);
-               return new AddFacilityDetailResult(null);
+                return new AddFacilityDetailResult(null);
             } catch (SQLException e) {
                 return new AddFacilityDetailResult("Unable to add facility detail to database: " +
                         e.toString());

@@ -66,7 +66,7 @@ public class DBFacility {
     public boolean deleteFacility(int facilityId) {
 
         try {
-             preparedStatement = DBConnection
+            preparedStatement = DBConnection
                     .getConnection()
                     .prepareStatement("delete from facility where id = ?");
             preparedStatement.setInt(1, facilityId);
@@ -132,7 +132,7 @@ public class DBFacility {
      * @throws SQLException
      */
     private Room createRoom(Room room) throws SQLException {
-       preparedStatement = null;
+        preparedStatement = null;
         try {
             preparedStatement = DBConnection
                     .getConnection()
