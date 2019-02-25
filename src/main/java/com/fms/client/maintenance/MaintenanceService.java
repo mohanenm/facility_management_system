@@ -7,6 +7,7 @@ import com.fms.model.MaintenanceRequest;
 import com.google.common.collect.Range;
 
 import java.sql.SQLException;
+import java.time.LocalDateTime;
 
 
 public class MaintenanceService {
@@ -22,7 +23,7 @@ public class MaintenanceService {
     }
 
     public FacilityMaintenanceRequestResult makeFacilityMaintRequest
-            (int facilityId, MaintenanceRequest maintenanceRequest) {
+            (int facilityId, MaintenanceRequest maintenanceRequest) throws SQLException{
         try {
             return new FacilityMaintenanceRequestResult
                     (dbMaintenance.makeFacilityMaintRequest(facilityId, maintenanceRequest), null);
@@ -31,4 +32,22 @@ public class MaintenanceService {
                     (null,"Could not complete facility request -> " + e.toString());
         }
     }
+
+    public boolean scheduleRoomMaintenance
+            (int roomRequestId,
+             Range<LocalDateTime> maintenancePeriod) {
+        return dbMaintenance.scheduleRoomMaintenance(roomRequestId, maintenancePeriod);
+    }
+
+    public boolean scheduleFacilityMaintenance
+            (int facilityRequestId,
+             Range<LocalDateTime> maintenancePeriod) {
+        try {
+            return dbMaintenance.scheduleFacilityMaintenance(facilityRequestId, maintenancePeriod);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
 }
