@@ -3,16 +3,17 @@
  */
 package com.fms;
 
-import org.junit.Test;
 import static org.junit.Assert.*;
-import java.sql.Connection;
+
 import com.fms.dal.DBConnection;
+import java.sql.Connection;
+import org.junit.Test;
 
 public class DBConnectionTest {
-    @Test
-    public void dbConnectionTest() throws java.sql.SQLException {
-        Connection connection = DBConnection.getConnection();
+  @Test
+  public void dbConnectionTest() throws java.sql.SQLException {
+    Connection connection = DBConnection.getConnection();
 
-        System.out.println("Connection is: " + connection.toString());
-    }
+    System.out.println("Connection is: " + connection.toString());
+  }
 }

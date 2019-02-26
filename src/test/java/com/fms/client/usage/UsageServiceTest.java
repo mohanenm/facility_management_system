@@ -1,32 +1,32 @@
-package com.fms.client.maintenance;
+package com.fms.client.usage;
 
 import com.fms.TestData;
-import com.fms.model.FacilityMaintenanceRequestResult;
+import com.fms.model.RoomRequestResult;
 import com.google.common.collect.Range;
 import java.sql.SQLException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import org.junit.Test;
 
-public class MaintenanceServiceTest {
+public class UsageServiceTest {
 
-  static MaintenanceService maintenanceService = new MaintenanceService();
+  static usageService usageService = new usageService();
 
   @Test
-  public void facilityMaintenanceRequest() throws SQLException {
-    FacilityMaintenanceRequestResult facilityMaintenanceRequest =
-        maintenanceService.makeFacilityMaintRequest(1, TestData.sampleMaintenanceRequest());
+  public void roomRequest() throws SQLException {
+    RoomRequestResult roomRequestResult =
+        usageService.roomRequestResult(1, TestData.sampleRoomReservation());
 
-    System.out.println("Fac maint request -> " + facilityMaintenanceRequest.toString());
+    System.out.println("room request -> " + roomRequestResult.toString());
   }
 
   @Test
-  public void scheduleFacilityMaintenance() throws SQLException {
+  public void RoomSchedule() throws SQLException {
 
     DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd hh:mm");
 
     boolean hasConflict =
-        maintenanceService.scheduleFacilityMaintenance(
+        usageService.scheduleRoomReservation(
             1,
             Range.closed(
                 LocalDateTime.of(2019, 1, 30, 7, 30), LocalDateTime.of(2019, 1, 30, 7, 50)));
@@ -35,7 +35,7 @@ public class MaintenanceServiceTest {
     assert (hasConflict);
 
     boolean noConflict =
-        maintenanceService.scheduleFacilityMaintenance(
+        usageService.scheduleRoomReservation(
             1,
             Range.closed(
                 LocalDateTime.of(2019, 1, 30, 8, 1), LocalDateTime.of(2019, 1, 30, 8, 29)));

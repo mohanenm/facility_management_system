@@ -1,4 +1,3 @@
 package com.fms.client.maintenance;
 
-public class CostCalculator {
-}
+public class CostCalculator {}
