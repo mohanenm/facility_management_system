@@ -16,14 +16,19 @@ public class DBUsage {
 
   private PreparedStatement checkRoomAvailability;
 
+  private PreparedStatement insertFacilityInspection;
+
+  private PreparedStatement listInspections;
+
   public DBUsage() throws SQLException {
     insertRoomRequest =
         DBConnection.getConnection()
             .prepareStatement(
                 "INSERT into room_reservation " + "(room_id values (?) " + "RETURNING id");
 
-    queryRoomRequest = DBConnection.getConnection().prepareStatement("SELECT ");
-
+    //Not necessarily a need to query a room request, if the request is successful it
+    //becomes a reservation which can be queried with checkRoomAvailability, if not
+    //it is thrown out
     queryRoomRequest =
         DBConnection.getConnection()
             .prepareStatement(
@@ -51,6 +56,14 @@ public class DBUsage {
                     + "        (? < rr.start) and \n"
                     + "        (? > rr.finish)\n"
                     + "    )");
+
+    listInspections =
+            DBConnection.getConnection().prepareStatement("select\n" +
+                    "*\n" +
+                    "from \n" +
+                    "facility_inspection as fi\n" +
+                    "where (? < fi.completed) and \n" +
+                    "(? > fi.completed)");
   }
 
   public RoomRequest makeRoomRequest(RoomReservation roomRequest) throws SQLException {
@@ -109,4 +122,24 @@ public class DBUsage {
     /// If so attempt insert of maintenancePeriod
 
   }
+  //ToDO: add test for this method.
+  public boolean queryUseDuringInterval(int roomId, Range<LocalDateTime> queryPeriod)
+    throws SQLException {
+    Timestamp start = Timestamp.valueOf(queryPeriod.lowerEndpoint());
+    Timestamp finish = Timestamp.valueOf(queryPeriod.upperEndpoint());
+
+    checkRoomAvailability.setTimestamp(1, start);
+    checkRoomAvailability.setTimestamp(2, finish);
+    checkRoomAvailability.setTimestamp(3, start);
+    checkRoomAvailability.setTimestamp(4, finish);
+    ResultSet resultSet = checkRoomAvailability.executeQuery();
+
+    // If our query returns any records, it is in use during the interval.
+    // If isInUse is false, no records, not in use.
+    boolean isInUse = resultSet.next() != false;
+
+    return isInUse;
+  }
+
+
 }

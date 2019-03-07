@@ -4,14 +4,15 @@ import com.fms.dal.DBUsage;
 import com.fms.model.RoomRequestResult;
 import com.fms.model.RoomReservation;
 import com.google.common.collect.Range;
+
 import java.sql.SQLException;
 import java.time.LocalDateTime;
 
-public class usageService {
+public class UsageService {
 
   DBUsage dbUsage;
 
-  usageService() {
+  UsageService() {
     try {
       dbUsage = new DBUsage();
     } catch (SQLException e) {
@@ -36,4 +37,19 @@ public class usageService {
     }
     return false;
   }
+
+  //Should this be a part of scheduleRoomReservation or left as a separate but mostly identical method
+  //possible refactor: call isInUseDuringInterval within scheduleRoomReservation method instead of duplicate logic
+  public boolean isInUseDuringInterval(int roomId, Range<LocalDateTime> queryPeriod) {
+    try {
+      return dbUsage.queryUseDuringInterval(roomId, queryPeriod);
+    } catch (SQLException e) {
+      e.printStackTrace();
+    }
+    return false;
+  }
+
+//  public ArrayList<FacilityInspection> listInspections() {
+//
+//  }
 }

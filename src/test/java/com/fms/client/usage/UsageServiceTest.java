@@ -3,10 +3,11 @@ package com.fms.client.usage;
 import com.fms.TestData;
 import com.fms.model.RoomRequestResult;
 import com.google.common.collect.Range;
+import org.junit.Test;
+
 import java.sql.SQLException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import org.junit.Test;
 
 public class UsageServiceTest {
 
@@ -52,5 +53,10 @@ public class UsageServiceTest {
   //
   //        System.out.println("Fac maint request -> " + facilityMaintenanceRequest.toString());
   //    }
+
+  @Test
+  public void addInspectionToList() throws SQLException {
+
+  }
 
 }
