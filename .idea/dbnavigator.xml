@@ -37,8 +37,10 @@
 from 
 facility_inspection as fi
 where ('2019-01-10' < fi.completed) and 
-('2019-02-01' > fi.completed)]]></console>
-      <console name="facility queries" type="STANDARD" schema="public" session="Main">SELECT id, room_id, start, finish, maintenance_request_id FROM room_reservation</console>
+('2019-02-01' > fi.completed)
+
+insert]]></console>
+      <console name="facility queries" type="STANDARD" schema="public" session="Main"><![CDATA[SELECT id, room_id, start, finish, maintenance_request_id FROM room_reservation]]></console>
     </connection>
   </component>
   <component name="DBNavigator.Project.DatabaseFileManager">

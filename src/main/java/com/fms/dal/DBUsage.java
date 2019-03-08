@@ -1,12 +1,16 @@
 package com.fms.dal;
 
-import com.fms.model.*;
+import com.fms.model.FacilityInspection;
+import com.fms.model.RoomRequest;
+import com.fms.model.RoomReservation;
 import com.google.common.collect.Range;
+
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 
 public class DBUsage {
 
@@ -141,5 +145,17 @@ public class DBUsage {
     return isInUse;
   }
 
+  public ArrayList<FacilityInspection> readAllInspections(int facilityId, Range<LocalDateTime> inspectionsPeriod)
+    throws SQLException {
+    ArrayList<FacilityInspection> inspectionsList = new ArrayList<>();
+    Timestamp start = Timestamp.valueOf(inspectionsPeriod.lowerEndpoint());
+    Timestamp finish = Timestamp.valueOf(inspectionsPeriod.upperEndpoint());
 
+    listInspections.setTimestamp(1, start);
+    listInspections.setTimestamp(2, finish);
+    ResultSet resultSet = listInspections.executeQuery();
+
+    System.out.println("Inspections List -> " + resultSet);
+    return inspectionsList;
+  }
 }

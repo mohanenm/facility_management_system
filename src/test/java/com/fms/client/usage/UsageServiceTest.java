@@ -1,6 +1,7 @@
 package com.fms.client.usage;
 
 import com.fms.TestData;
+import com.fms.model.FacilityInspection;
 import com.fms.model.RoomRequestResult;
 import com.google.common.collect.Range;
 import org.junit.Test;
@@ -8,10 +9,11 @@ import org.junit.Test;
 import java.sql.SQLException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 
 public class UsageServiceTest {
 
-  static usageService usageService = new usageService();
+  static UsageService usageService = new UsageService();
 
   @Test
   public void roomRequest() throws SQLException {
@@ -54,9 +56,13 @@ public class UsageServiceTest {
   //        System.out.println("Fac maint request -> " + facilityMaintenanceRequest.toString());
   //    }
 
-  @Test
+  @Test //currently just testing listing inspections, will add insert functionality once passes
   public void addInspectionToList() throws SQLException {
-
+    ArrayList<FacilityInspection> listOfInspections = usageService.listInspections(1,
+            Range.closed(
+                    LocalDateTime.of(2018, 1, 1, 1, 1, 0, 0),
+                    LocalDateTime.of(2019, 10, 1, 1, 1, 0, 0)));
+    System.out.println("Inspections of facility within given range -> " + listOfInspections.toString());
   }
 
 }

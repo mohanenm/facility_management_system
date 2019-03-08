@@ -1,12 +1,14 @@
 package com.fms.client.usage;
 
 import com.fms.dal.DBUsage;
+import com.fms.model.FacilityInspection;
 import com.fms.model.RoomRequestResult;
 import com.fms.model.RoomReservation;
 import com.google.common.collect.Range;
 
 import java.sql.SQLException;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 
 public class UsageService {
 
@@ -49,7 +51,12 @@ public class UsageService {
     return false;
   }
 
-//  public ArrayList<FacilityInspection> listInspections() {
-//
-//  }
+  public ArrayList<FacilityInspection> listInspections(int facilityId, Range<LocalDateTime> inspectionsPeriod) {
+    try {
+      return dbUsage.readAllInspections(facilityId, inspectionsPeriod);
+    } catch (SQLException e) {
+      e.printStackTrace();
+    }
+    return null;
+  }
 }
