@@ -1,13 +1,16 @@
 package com.fms.client.facility;
 
+import com.fms.client.common.FacilityErrorCode;
+import com.fms.client.common.FacilityServiceException;
 import com.fms.dal.DBFacility;
 import com.fms.model.*;
-import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.HashSet;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.HashSet;
 
 public class FacilityService {
 
@@ -37,18 +40,18 @@ public class FacilityService {
   ///  - Buildings with same name
   ///  - If facility_id is a bad id not mapping to existing facility
   ///  - Any issues with insert into building, room,
-  public AddFacilityDetailResult addFacilityDetail(int facilityId, FacilityDetail facilityDetail) {
+  public void addFacilityDetail(int facilityId, FacilityDetail facilityDetail) throws FacilityServiceException {
     if (validBuildingNames(facilityDetail)) {
       try {
         dbFacility.addFacilityDetail(facilityId, facilityDetail);
-        return new AddFacilityDetailResult(null);
       } catch (SQLException e) {
-        return new AddFacilityDetailResult(
-            "Unable to add facility detail to database: " + e.toString());
+        throw new FacilityServiceException(FacilityErrorCode.INSERT_FACILITY_DETAIL_FAILED,
+                "Unable to add facility detail for facility: " + facilityId +
+                "\nException: " + e);
       }
-
     } else {
-      return new AddFacilityDetailResult("Duplicate or missing building names within facility!");
+      throw new FacilityServiceException(FacilityErrorCode.BUILDING_ALREADY_EXISTS,
+              "Building already exists");
     }
   }
 
@@ -66,12 +69,12 @@ public class FacilityService {
       Logger logger = LogManager.getLogger();
       String buildingName = building.getName();
       if (buildingName == null || buildingName.isEmpty()) {
-        logger.log(Level.DEBUG, "Found empty building name");
+        logger.log(Level.ERROR, "Found empty building name");
         return false;
       }
 
       if (buildingNames.contains(buildingName)) {
-        logger.log(Level.DEBUG, "Found duplicate building name: " + buildingName);
+        logger.log(Level.ERROR, "Found duplicate building name: " + buildingName);
         return false;
       }
 

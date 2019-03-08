@@ -1,10 +1,14 @@
 package com.fms.client.facility;
 
 import com.fms.TestData;
+import com.fms.client.common.FacilityServiceException;
 import com.fms.model.*;
+import org.junit.Rule;
+import org.junit.Test;
+import org.junit.rules.ExpectedException;
+
 import java.sql.SQLException;
 import java.util.ArrayList;
-import org.junit.Test;
 
 public class FacilityServiceTest {
 
@@ -18,7 +22,9 @@ public class FacilityServiceTest {
 
   // Single test to create, read, and update our facility
   @Test
-  public void CRUDFacility() {
+  public void CRUDFacility() throws FacilityServiceException
+
+  {
     AddFacilityResult result =
         facilityService.addNewFacility("Test Facility", "Healthcare Facility");
 
@@ -27,13 +33,7 @@ public class FacilityServiceTest {
 
     System.out.println(result.toString());
 
-    AddFacilityDetailResult facilityDetailResult =
-        facilityService.addFacilityDetail(insertedFacilityId, TestData.sampleFacilityDetail());
-
-    System.out.println("Inserted -> " + facilityDetailResult);
-
-    assert (facilityDetailResult.getErrorMessage() == null
-        || facilityDetailResult.getErrorMessage().isEmpty());
+    facilityService.addFacilityDetail(insertedFacilityId, TestData.sampleFacilityDetail());
 
     assert (true == facilityService.removeFacility(insertedFacilityId));
 
@@ -41,7 +41,41 @@ public class FacilityServiceTest {
     listFacilities();
   }
 
+  @Rule
+  public ExpectedException facilityException = ExpectedException.none();
+
   @Test
+  /// Ensure that insert of facility detail with duplicate buildings
+  /// is caught.
+  public void DuplicateBuildingTest() throws FacilityServiceException {
+
+    // Tell the test infrastructure we are going to throw this - its cool
+    facilityException.expect(FacilityServiceException.class);
+
+    // Create a new facility to play with
+    AddFacilityResult result =
+            facilityService.addNewFacility("Dup Building Test Facility", "Healthcare Facility");
+
+    int insertedFacilityId = result.getFacility().getId();
+
+    // To make test idempotent, clean up the facilty we created in catch clause.
+    // Then rethrow the exception since we told test infrastructure to expect it
+    try {
+      facilityService.addFacilityDetail(insertedFacilityId,
+              TestData.sampleFacilityDetailDuplicateBuildings());
+    } catch(FacilityServiceException fse) {
+      assert (true == facilityService.removeFacility(insertedFacilityId));
+      throw fse;
+    }
+
+    // Better not get here
+    assert(false);
+  }
+
+  @Test
+  /// Ensure that our validation logic catches the case where a
+  /// facility has duplicate named buildings. We catch it so
+  /// the db does not have to.
   public void buildingDuplicatesFails() {
     FacilityDetail sample = TestData.sampleFacilityDetail();
     ArrayList<Building> buildings = sample.getBuildings();

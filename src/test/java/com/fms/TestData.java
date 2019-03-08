@@ -16,8 +16,15 @@ public class TestData {
 
   public static FacilityDetail sampleFacilityDetail() {
     ArrayList<Building> buildings = new ArrayList<>();
-    buildings.add(sampleBuilding("B1"));
+    buildings.add(sampleBuilding("Big1"));
     buildings.add(sampleBuilding("B2"));
+    return new FacilityDetail(buildings);
+  }
+
+  public static FacilityDetail sampleFacilityDetailDuplicateBuildings() {
+    ArrayList<Building> buildings = new ArrayList<>();
+    buildings.add(sampleBuilding("B"));
+    buildings.add(sampleBuilding("B"));
     return new FacilityDetail(buildings);
   }
 
