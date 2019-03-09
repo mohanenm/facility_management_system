@@ -14,7 +14,7 @@ public class UsageService {
 
   DBUsage dbUsage;
 
-  UsageService() {
+  public UsageService() {
     try {
       dbUsage = new DBUsage();
     } catch (SQLException e) {

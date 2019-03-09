@@ -1,7 +1,9 @@
 package com.fms;
 
 import com.fms.model.*;
-import com.fms.req_reply_api.*;
+import com.fms.req_reply_api.FacilityMaintenanceRequestResult;
+import com.fms.req_reply_api.RoomMaintenanceRequestResult;
+import com.google.common.collect.Range;
 
 import java.time.LocalDateTime;
 import java.time.Month;
@@ -34,8 +36,8 @@ public class TestData {
     return new Facility(3, "F1", "sample facility for test", sampleFacilityDetail());
   }
 
-  public static FacilityMaintenanceWebRequest sampleFacilityMaintenanceRequest() {
-    return new FacilityMaintenanceWebRequest(1, sampleMaintenanceRequest(), 1);
+  public static FacilityMaintenanceRequest sampleFacilityMaintenanceRequest() {
+    return new FacilityMaintenanceRequest(1, sampleMaintenanceRequest());
   }
 
   public static FacilityInspection sampleFacilityInspection() {
@@ -54,6 +56,18 @@ public class TestData {
     return new MaintenanceRequest(1, 3, "The sink is broken, plz fix.", false, false);
   }
 
+  public static Range<LocalDateTime> sampleRange() {
+    LocalDateTime lower = LocalDateTime.of(1984, Month.DECEMBER, 17, 15, 30);
+    LocalDateTime upper = LocalDateTime.of(2010, Month.SEPTEMBER, 17, 4, 10);
+    return Range.open(lower, upper);
+  }
+
+  public static Range<LocalDateTime> sampleRangeConflicting() {
+    LocalDateTime lower = LocalDateTime.of(1984, Month.DECEMBER, 17, 15, 30);
+    LocalDateTime upper = LocalDateTime.of(2010, Month.SEPTEMBER, 17, 4, 10);
+    return Range.open(lower, upper);
+  }
+
   public static FacilityMaintenanceSchedule sampleFacilityMaintenanceSchedule() {
     return new FacilityMaintenanceSchedule(
         1,
@@ -63,7 +77,7 @@ public class TestData {
   }
 
   public static RoomMaintenanceRequest sampleRoomMaintenanceRequest() {
-    return new RoomMaintenanceRequest(1, 1, 1);
+    return new RoomMaintenanceRequest(1, sampleMaintenanceRequest());
   }
 
   public static RoomReservation sampleRoomReservation() {

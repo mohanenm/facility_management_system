@@ -30,6 +30,17 @@ public class FacilityMaintenanceRequest {
     return gson.fromJson(facilityMaintenanceRequest, FacilityMaintenanceRequest.class);
   }
 
+  @Override
+  public boolean equals(Object o) {
+    final FacilityMaintenanceRequest i = (FacilityMaintenanceRequest) o;
+    if (i == this) {
+      return true;
+    }
+    return id == i.id
+            && maintenanceRequest.equals(i.maintenanceRequest);
+  }
+
+
   private int id;
   private MaintenanceRequest maintenanceRequest;
 

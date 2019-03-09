@@ -17,7 +17,11 @@ import java.util.HashSet;
 
 public class FacilityService {
 
-  DBFacility dbFacility = new DBFacility();
+  DBFacility dbFacility;
+
+  public FacilityService() throws SQLException {
+    dbFacility = new DBFacility();
+  }
 
   public ArrayList<Facility> listFacilities() {
     return dbFacility.readAllFacilities();
@@ -52,10 +56,10 @@ public class FacilityService {
   ///  - Buildings with same name
   ///  - If facility_id is a bad id not mapping to existing facility
   ///  - Any issues with insert into building, room,
-  public void addFacilityDetail(int facilityId, FacilityDetail facilityDetail) throws FMSException {
+  public Facility addFacilityDetail(int facilityId, FacilityDetail facilityDetail) throws FMSException {
     if (validBuildingNames(facilityDetail)) {
       try {
-        dbFacility.addFacilityDetail(facilityId, facilityDetail);
+        return dbFacility.addFacilityDetail(facilityId, facilityDetail);
       } catch (SQLException e) {
         throw new FMSException(FacilityErrorCode.INSERT_FACILITY_DETAIL_FAILED,
                 "Unable to add facility detail for facility: " + facilityId +

@@ -6,10 +6,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.Level;
 
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Timestamp;
+import java.sql.*;
 import java.time.LocalDateTime;
 
 public class DBMaintenance {
@@ -22,15 +19,25 @@ public class DBMaintenance {
 
   private PreparedStatement deleteFacilityMaintenanceRequest;
 
+  private PreparedStatement insertRoomMaintenanceRequest;
+
+  private PreparedStatement deleteRoomMaintenanceRequest;
+
   private PreparedStatement deleteFromFacilityMaintenanceSchedule;
 
+  private PreparedStatement deleteFromRoomMaintenanceSchedule;
+
   private PreparedStatement queryMaintenanceIdFromFacilityId;
+
+  private PreparedStatement queryMaintenanceIdFromRoomId;
 
   private PreparedStatement queryRoomMaintenanceRequest;
 
   private PreparedStatement checkRoomAvailability;
 
   private PreparedStatement queryFacilityMaintenanceRequest;
+
+  private PreparedStatement insertFacilityMaintenanceSchedule;
 
   public DBMaintenance() throws SQLException {
     insertMaintenanceRequest =
@@ -70,6 +77,25 @@ public class DBMaintenance {
                             + "where \n"
                             + "    facility_maintenence_request_id = ?");
 
+    insertRoomMaintenanceRequest =
+            DBConnection.getConnection().prepareStatement(
+                    "INSERT into room_maintenance_request \n"
+                    + " (maintenance_request_id, room_id)\n"
+                    + "  values (?,?) "
+                    + " RETURNING id");
+
+    deleteRoomMaintenanceRequest =
+            DBConnection.getConnection().prepareStatement(
+                    "delete from room_maintenance_request\n" +
+                            "where\n" +
+                            "    id = ?");
+
+    deleteFromRoomMaintenanceSchedule =
+            DBConnection.getConnection().prepareStatement(
+                    "delete from room_maintenance_schedule\n" +
+                            "where\n" +
+                            "    room_maintenance_request_id = 1;");
+
     //ToDo: queryRoomMaintenanceRequest = DBConnection.getConnection().prepareStatement("SELECT ");
 
     queryMaintenanceIdFromFacilityId = DBConnection.getConnection()
@@ -80,6 +106,14 @@ public class DBMaintenance {
                     "    facility_maintenance_request\n" +
                     "where\n" +
                     "    id = ?");
+
+    queryMaintenanceIdFromRoomId = DBConnection.getConnection()
+            .prepareStatement("select\n" +
+                    "    maintenance_request_id\n" +
+                    "from\n" +
+                    "    room_maintenance_request\n" +
+                    "where\n" +
+                    "    id = ?;");
 
 
     queryFacilityMaintenanceRequest =
@@ -114,6 +148,16 @@ public class DBMaintenance {
                     + "        (? < fms.start) and \n"
                     + "        (? > fms.finish)\n"
                     + "    )");
+
+    insertFacilityMaintenanceSchedule =
+            DBConnection.getConnection()
+            .prepareStatement(
+                    "insert into \n" +
+                            "    facility_maintenance_schedule \n" +
+                            "    ( facility_maintenence_request_id, \"start\", \"finish\")\n" +
+                            "values\n" +
+                            "    (?, ?, ?)\n" +
+                            "returning id");
   }
 
   // Returns the maintenance request with the associated database id for the request
@@ -173,25 +217,69 @@ public class DBMaintenance {
     }
   }
 
-  public boolean scheduleRoomMaintenance(
-      int roomRequestId, Range<LocalDateTime> maintenancePeriod) {
+  public RoomMaintenanceRequest makeRoomMaintRequest(
+          int roomId, MaintenanceRequest maintenanceRequest) throws SQLException {
 
-    /// Look up RoomMaintenanceRequest
+    try {
 
-    /// See if requested maintenancePeriod available for room
+      ///// Insert base maintenance request
+      insertMaintenanceRequest.setInt(1, maintenanceRequest.getMaintenanceTypeId());
+      insertMaintenanceRequest.setString(2, maintenanceRequest.getDescription());
+      insertMaintenanceRequest.setBoolean(3, maintenanceRequest.isVacateRequired());
+      insertMaintenanceRequest.setBoolean(4, maintenanceRequest.isRoutine());
 
-    /// If so attempt insert of maintenancePeriod
+      ResultSet resultSet = insertMaintenanceRequest.executeQuery();
+      resultSet.next();
 
-    return true;
+      int maintenanceRequestId = resultSet.getInt((1));
+      System.out.println("Insert of maint req id -> " + maintenanceRequestId);
+
+      ///// Insert room maintenance request
+      insertRoomMaintenanceRequest.setInt(1, maintenanceRequestId);
+      insertRoomMaintenanceRequest.setInt(2, roomId);
+      resultSet = insertRoomMaintenanceRequest.executeQuery();
+      resultSet.next();
+
+      int roomMaintenanceRequestId = resultSet.getInt((1));
+      System.out.println("Insert of room maint req id -> " + roomMaintenanceRequestId);
+
+      return new RoomMaintenanceRequest(roomMaintenanceRequestId, maintenanceRequest);
+
+    } catch (SQLException e) {
+      System.out.println("caught exception: " + e.toString());
+      throw e;
+    }
   }
 
-  public boolean scheduleFacilityMaintenance(
-      int facilityRequestId, Range<LocalDateTime> maintenancePeriod) throws SQLException {
+  public void removeRoomMaintRequest(
+          int roomMaintenanceRequestId) throws SQLException {
+    try {
 
-    /// Look up RoomMaintenanceRequest
+      deleteFromRoomMaintenanceSchedule.setInt(1, roomMaintenanceRequestId);
+      deleteFromRoomMaintenanceSchedule.executeUpdate();
+
+
+      queryMaintenanceIdFromRoomId.setInt(1, roomMaintenanceRequestId);
+      ResultSet resultSet = queryMaintenanceIdFromRoomId.executeQuery();
+      resultSet.next();
+
+      int maintenanceId = resultSet.getInt(1);
+
+      deleteRoomMaintenanceRequest.setInt (1, roomMaintenanceRequestId);
+      deleteMaintenanceRequest.setInt(1, maintenanceId);
+    } catch (SQLException e) {
+      Logger logger = LogManager.getLogger();
+      logger.log(Level.ERROR, "Caught exception: " + e);
+    }
+  }
+
+  public boolean scheduleRoomMaintenance(
+      int roomRequestId, Range<LocalDateTime> maintenancePeriod) throws SQLException {
 
     Timestamp start = Timestamp.valueOf(maintenancePeriod.lowerEndpoint());
     Timestamp finish = Timestamp.valueOf(maintenancePeriod.upperEndpoint());
+
+    /// Look up RoomMaintenanceRequest
 
     checkRoomAvailability.setTimestamp(1, start);
     checkRoomAvailability.setTimestamp(2, finish);
@@ -212,4 +300,54 @@ public class DBMaintenance {
     /// If so attempt insert of maintenancePeriod
 
   }
+
+  public boolean scheduleFacilityMaintenance (
+      int facilityRequestId, boolean vacateRequired, boolean isRoutine,
+      Range<LocalDateTime> maintenancePeriod) throws SQLException {
+
+    if(vacateRequired) {
+      return scheduleFacilityMaintenanceVacateRequired(facilityRequestId, isRoutine, maintenancePeriod);
+    } else {
+      scheduleFacilityMaintenanceVacateNotRequired(facilityRequestId, isRoutine, maintenancePeriod);
+      //this method will always succeed, we aren't checking for conflicts
+      return true;
+    }
+  }
+
+  private boolean scheduleFacilityMaintenanceVacateRequired
+          (int facilityRequestId, boolean isRoutine,
+           Range<LocalDateTime> maintenancePeriod) throws SQLException {
+
+    Connection conn = DBConnection.getConnection();
+
+//    try {
+//      // Begins the complex transaction
+//
+//      // First see if conflict
+//
+//
+//    } catch(SQLException e) {
+//      // TODO Log exception
+//      conn.rollback();
+//    }
+
+    Timestamp start = Timestamp.valueOf(maintenancePeriod.lowerEndpoint());
+    Timestamp finish = Timestamp.valueOf(maintenancePeriod.upperEndpoint());
+    return true;
+  }
+
+  private void scheduleFacilityMaintenanceVacateNotRequired
+          (int facilityRequestId, boolean isRoutine,
+           Range<LocalDateTime> maintenancePeriod) throws SQLException {
+    Timestamp start = Timestamp.valueOf(maintenancePeriod.lowerEndpoint());
+    Timestamp finish = Timestamp.valueOf(maintenancePeriod.upperEndpoint());
+
+    insertFacilityMaintenanceSchedule.setInt(1, facilityRequestId);
+    insertFacilityMaintenanceSchedule.setTimestamp(2, start);
+    insertFacilityMaintenanceSchedule.setTimestamp(3, finish);
+    insertFacilityMaintenanceSchedule.executeQuery();
+  }
+
+
+
 }

@@ -1,27 +1,21 @@
 package com.fms.model;
 
-import com.google.gson.*;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+
 import java.io.IOException;
 
 public class RoomMaintenanceRequest {
 
-  public RoomMaintenanceRequest(int id, int maintenanceRequestId, int roomId) {
+  public RoomMaintenanceRequest(int id, MaintenanceRequest maintenanceRequest) {
     this.id = id;
-    this.maintenanceRequestId = maintenanceRequestId;
-    this.roomId = roomId;
+    this.maintenanceRequest = maintenanceRequest;
   }
 
   public int getId() {
     return id;
   }
 
-  public int getMaintenanceRequestId() {
-    return maintenanceRequestId;
-  }
-
-  public int getRoomId() {
-    return roomId;
-  }
 
   public String toString() {
     GsonBuilder builder = new GsonBuilder().setPrettyPrinting();
@@ -29,27 +23,23 @@ public class RoomMaintenanceRequest {
     return gson.toJson(this);
   }
 
-  public static RoomMaintenanceRequest fromJson(String roomMaintenanceRequest) throws IOException {
-    JsonParser parser = new JsonParser();
-    JsonElement jsonTree = parser.parse(roomMaintenanceRequest);
-    JsonObject jsonObject = jsonTree.getAsJsonObject();
+  public MaintenanceRequest getMaintenanceRequest() { return maintenanceRequest; }
 
-    return new RoomMaintenanceRequest(
-        jsonObject.get("id").getAsInt(),
-        jsonObject.get("maintenanceRequestId").getAsInt(),
-        jsonObject.get("roomId").getAsInt());
+  public static RoomMaintenanceRequest fromJson(String roomMaintenanceRequest) throws IOException {
+    Gson gson = new GsonBuilder().serializeNulls().create();
+    return gson.fromJson(roomMaintenanceRequest, RoomMaintenanceRequest.class);
   }
 
   @Override
   public boolean equals(Object o) {
-    final RoomMaintenanceRequest m = (RoomMaintenanceRequest) o;
-    if (m == this) {
+    final RoomMaintenanceRequest i = (RoomMaintenanceRequest) o;
+    if (i == this) {
       return true;
     }
-    return id == m.id && maintenanceRequestId == m.maintenanceRequestId && roomId == m.roomId;
+    return id == i.id
+            && maintenanceRequest.equals(i.maintenanceRequest);
   }
 
   private int id;
-  private int maintenanceRequestId;
-  private int roomId;
+  private MaintenanceRequest maintenanceRequest;
 }

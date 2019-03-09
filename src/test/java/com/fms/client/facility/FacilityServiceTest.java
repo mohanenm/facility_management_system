@@ -13,7 +13,11 @@ import java.util.ArrayList;
 
 public class FacilityServiceTest {
 
-  static FacilityService facilityService = new FacilityService();
+  FacilityService facilityService;
+
+  public FacilityServiceTest() throws SQLException {
+    facilityService = new FacilityService();
+  }
 
   @Test
   public void listFacilities() {
