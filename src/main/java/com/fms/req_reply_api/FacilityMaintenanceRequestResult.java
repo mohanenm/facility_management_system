@@ -1,12 +1,13 @@
-package com.fms.model;
+package com.fms.req_reply_api;
 
 import com.google.gson.*;
+
 import java.io.IOException;
 
 public class FacilityMaintenanceRequestResult {
 
   public FacilityMaintenanceRequestResult(
-      FacilityMaintenanceRequest facilityMaintenanceRequest, String errorMessage) {
+          FacilityMaintenanceWebRequest facilityMaintenanceRequest, String errorMessage) {
     this.facilityMaintenanceRequest = facilityMaintenanceRequest;
     this.errorMessage = errorMessage;
   }
@@ -25,8 +26,8 @@ public class FacilityMaintenanceRequestResult {
 
     JsonElement facilityMaintenanceRequestJE = jsonObject.get("facilityMaintenanceRequest");
 
-    FacilityMaintenanceRequest facilityMaintenanceRequest =
-        FacilityMaintenanceRequest.fromJson(
+    FacilityMaintenanceWebRequest facilityMaintenanceRequest =
+        FacilityMaintenanceWebRequest.fromJson(
             facilityMaintenanceRequestJE.getAsJsonObject().toString());
 
     return new FacilityMaintenanceRequestResult(
@@ -46,6 +47,6 @@ public class FacilityMaintenanceRequestResult {
             || errorMessage.equals(g.errorMessage));
   }
 
-  FacilityMaintenanceRequest facilityMaintenanceRequest;
+  FacilityMaintenanceWebRequest facilityMaintenanceRequest;
   String errorMessage;
 }

@@ -1,9 +1,12 @@
 package com.fms.client.maintenance;
 
+import com.fms.client.common.FMSException;
+import com.fms.client.common.FacilityErrorCode;
 import com.fms.dal.DBMaintenance;
-import com.fms.model.FacilityMaintenanceRequestResult;
+import com.fms.model.FacilityMaintenanceRequest;
 import com.fms.model.MaintenanceRequest;
 import com.google.common.collect.Range;
+
 import java.sql.SQLException;
 import java.time.LocalDateTime;
 
@@ -19,14 +22,23 @@ public class MaintenanceService {
     }
   }
 
-  public FacilityMaintenanceRequestResult makeFacilityMaintRequest(
-      int facilityId, MaintenanceRequest maintenanceRequest) throws SQLException {
+  public FacilityMaintenanceRequest makeFacilityMaintRequest(
+      int facilityId, MaintenanceRequest maintenanceRequest) throws FMSException {
     try {
-      return new FacilityMaintenanceRequestResult(
-          dbMaintenance.makeFacilityMaintRequest(facilityId, maintenanceRequest), null);
+      return
+          dbMaintenance.makeFacilityMaintRequest(facilityId, maintenanceRequest);
     } catch (SQLException e) {
-      return new FacilityMaintenanceRequestResult(
-          null, "Could not complete facility request -> " + e.toString());
+      throw new FMSException (FacilityErrorCode.INVALID_MAINTENANCE_REQUEST,
+              "Could not make this Maintenance Request.");
+    }
+  }
+
+  public void removeFacilityMaintRequest(int facilityMaintenanceRequestId) throws FMSException{
+    try {
+      dbMaintenance.removeFacilityMaintRequest(facilityMaintenanceRequestId);
+    } catch (SQLException e) {
+      throw new FMSException(FacilityErrorCode.UNABLE_TO_DELETE_REQUEST,
+              "Could not remove this Maintenance Request");
     }
   }
 

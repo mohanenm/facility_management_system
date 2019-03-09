@@ -1,4 +1,4 @@
-package com.fms.model;
+package com.fms.req_reply_api;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;

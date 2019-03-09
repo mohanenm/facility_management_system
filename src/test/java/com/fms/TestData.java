@@ -1,6 +1,8 @@
 package com.fms;
 
 import com.fms.model.*;
+import com.fms.req_reply_api.*;
+
 import java.time.LocalDateTime;
 import java.time.Month;
 import java.util.ArrayList;
@@ -32,6 +34,10 @@ public class TestData {
     return new Facility(3, "F1", "sample facility for test", sampleFacilityDetail());
   }
 
+  public static FacilityMaintenanceWebRequest sampleFacilityMaintenanceRequest() {
+    return new FacilityMaintenanceWebRequest(1, sampleMaintenanceRequest(), 1);
+  }
+
   public static FacilityInspection sampleFacilityInspection() {
     return new FacilityInspection(1, 2, LocalDateTime.of(1990, Month.JANUARY, 8, 12, 30), false);
   }
@@ -46,10 +52,6 @@ public class TestData {
 
   public static MaintenanceRequest sampleMaintenanceRequest() {
     return new MaintenanceRequest(1, 3, "The sink is broken, plz fix.", false, false);
-  }
-
-  public static FacilityMaintenanceRequest sampleFacilityMaintenanceRequest() {
-    return new FacilityMaintenanceRequest(1, sampleMaintenanceRequest(), 1);
   }
 
   public static FacilityMaintenanceSchedule sampleFacilityMaintenanceSchedule() {

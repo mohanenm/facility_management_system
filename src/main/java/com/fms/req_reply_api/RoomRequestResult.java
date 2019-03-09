@@ -1,5 +1,6 @@
-package com.fms.model;
+package com.fms.req_reply_api;
 
+import com.fms.model.RoomRequest;
 import com.google.gson.*;
 import java.io.IOException;
 

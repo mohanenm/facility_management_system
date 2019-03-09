@@ -2,7 +2,7 @@ package com.fms.client.usage;
 
 import com.fms.dal.DBUsage;
 import com.fms.model.FacilityInspection;
-import com.fms.model.RoomRequestResult;
+import com.fms.req_reply_api.RoomRequestResult;
 import com.fms.model.RoomReservation;
 import com.google.common.collect.Range;
 

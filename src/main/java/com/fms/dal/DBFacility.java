@@ -1,6 +1,8 @@
 package com.fms.dal;
 
 import com.fms.model.*;
+import com.fms.req_reply_api.GetFacilityDetailResult;
+
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -59,17 +61,11 @@ public class DBFacility {
     }
   }
 
-  public boolean deleteFacility(int facilityId) {
-
-    try {
-      preparedStatement =
-          DBConnection.getConnection().prepareStatement("delete from facility where id = ?");
-      preparedStatement.setInt(1, facilityId);
-      preparedStatement.executeUpdate();
-      return true;
-    } catch (SQLException e) {
-      return false;
-    }
+  public void deleteFacility(int facilityId) throws SQLException {
+    preparedStatement =
+        DBConnection.getConnection().prepareStatement("delete from facility where id = ?");
+    preparedStatement.setInt(1, facilityId);
+    preparedStatement.executeUpdate();
   }
 
   public void addFacilityDetail(int facilityId, FacilityDetail facilityDetail) throws SQLException {

@@ -2,7 +2,7 @@ package com.fms.client.usage;
 
 import com.fms.TestData;
 import com.fms.model.FacilityInspection;
-import com.fms.model.RoomRequestResult;
+import com.fms.req_reply_api.RoomRequestResult;
 import com.google.common.collect.Range;
 import org.junit.Test;
 

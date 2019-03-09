@@ -23,23 +23,42 @@
     <autoscroll-to-editor value="false" />
     <autoscroll-from-editor value="true" />
     <show-object-properties value="true" />
-    <loaded-nodes>
-      <connection connection-id="0b42631a-774e-4d7c-8cf1-f6f4a3a76644">
-        <schema name="pg_catalog" object-types="view, table, function" />
-        <schema name="public" object-types="column, view, table, function" />
-      </connection>
-    </loaded-nodes>
+    <loaded-nodes />
   </component>
   <component name="DBNavigator.Project.DatabaseConsoleManager">
     <connection id="0b42631a-774e-4d7c-8cf1-f6f4a3a76644">
       <console name="facility" type="STANDARD" schema="public" session="Main"><![CDATA[select
-*
+    *
 from 
-facility_inspection as fi
-where ('2019-01-10' < fi.completed) and 
-('2019-02-01' > fi.completed)
+    facility_inspection as fi
+where 
+    ('2019-01-10' < fi.completed) and 
+    ('2019-02-01' > fi.completed)
 
-insert]]></console>
+delete from maintenance_request
+where 
+    id = 1;
+
+delete from facility_maintenance_request
+where 
+    id = 1;
+
+delete from facility_maintenance_schedule
+where 
+    facility_maintenence_request_id = 1;
+
+select * from maintenance_request;
+
+select * from facility_maintenance_request;
+
+select * from facility_maintenance_schedule;
+
+select
+    maintenance_request_id
+from
+    facility_maintenance_request
+where
+    id = 3;]]></console>
       <console name="facility queries" type="STANDARD" schema="public" session="Main"><![CDATA[SELECT id, room_id, start, finish, maintenance_request_id FROM room_reservation]]></console>
     </connection>
   </component>

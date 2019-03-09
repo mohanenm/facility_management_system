@@ -1,9 +1,12 @@
 package com.fms.client.facility;
 
+import com.fms.client.common.FMSException;
 import com.fms.client.common.FacilityErrorCode;
-import com.fms.client.common.FacilityServiceException;
 import com.fms.dal.DBFacility;
-import com.fms.model.*;
+import com.fms.model.Building;
+import com.fms.model.Facility;
+import com.fms.model.FacilityDetail;
+import com.fms.req_reply_api.GetFacilityDetailResult;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -20,37 +23,46 @@ public class FacilityService {
     return dbFacility.readAllFacilities();
   }
 
-  public AddFacilityResult addNewFacility(String name, String description) {
+  public Facility addNewFacility(String name, String description) throws FMSException {
     try {
-      return new AddFacilityResult(null, dbFacility.createFacility(name, description));
+      return dbFacility.createFacility(name, description);
     } catch (SQLException e) {
 
       System.out.println("Caught excp: " + e.toString());
-
-      return new AddFacilityResult(
-          "Failed to insert new facility: " + name + " ->" + e.toString(), null);
+      // TODO: if(e.getErrorCode() == /** yadayda **/)
+      // Here we assume the error is that the insert failed because that name is
+      // already in DB and our constraint was triggered. But maybe its a different error.
+      // We could possibly interrogate the errorcode to see what the real db problem is
+      // and not *ASS*ume its the constraint
+      throw new FMSException(FacilityErrorCode.NAMED_FACILITY_ALREADY_EXISTS,
+              "Facility Names Must Be Unique");
     }
   }
 
-  public boolean removeFacility(int facilityId) {
-    return dbFacility.deleteFacility(facilityId);
+  public void removeFacility(int facilityId) throws FMSException {
+    try {
+      dbFacility.deleteFacility(facilityId);
+    } catch (SQLException e) {
+      throw new FMSException(FacilityErrorCode.UNABLE_TO_DELETE_REQUEST,
+              "Unable to delete facility: " + facilityId + "Exception: " + e);
+    }
   }
 
   ///  Possible errors
   ///  - Buildings with same name
   ///  - If facility_id is a bad id not mapping to existing facility
   ///  - Any issues with insert into building, room,
-  public void addFacilityDetail(int facilityId, FacilityDetail facilityDetail) throws FacilityServiceException {
+  public void addFacilityDetail(int facilityId, FacilityDetail facilityDetail) throws FMSException {
     if (validBuildingNames(facilityDetail)) {
       try {
         dbFacility.addFacilityDetail(facilityId, facilityDetail);
       } catch (SQLException e) {
-        throw new FacilityServiceException(FacilityErrorCode.INSERT_FACILITY_DETAIL_FAILED,
+        throw new FMSException(FacilityErrorCode.INSERT_FACILITY_DETAIL_FAILED,
                 "Unable to add facility detail for facility: " + facilityId +
                 "\nException: " + e);
       }
     } else {
-      throw new FacilityServiceException(FacilityErrorCode.BUILDING_ALREADY_EXISTS,
+      throw new FMSException(FacilityErrorCode.BUILDING_ALREADY_EXISTS,
               "Building already exists");
     }
   }
@@ -64,9 +76,9 @@ public class FacilityService {
    */
   public static boolean validBuildingNames(FacilityDetail facilityDetail) {
     HashSet<String> buildingNames = new HashSet<>();
+    Logger logger = LogManager.getLogger();
 
     for (Building building : facilityDetail.getBuildings()) {
-      Logger logger = LogManager.getLogger();
       String buildingName = building.getName();
       if (buildingName == null || buildingName.isEmpty()) {
         logger.log(Level.ERROR, "Found empty building name");

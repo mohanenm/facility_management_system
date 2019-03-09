@@ -2,6 +2,10 @@ package com.fms.dal;
 
 import com.fms.model.*;
 import com.google.common.collect.Range;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.Level;
+
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -12,7 +16,15 @@ public class DBMaintenance {
 
   private PreparedStatement insertMaintenanceRequest;
 
+  private PreparedStatement deleteMaintenanceRequest;
+
   private PreparedStatement insertFacilityMaintenanceRequest;
+
+  private PreparedStatement deleteFacilityMaintenanceRequest;
+
+  private PreparedStatement deleteFromFacilityMaintenanceSchedule;
+
+  private PreparedStatement queryMaintenanceIdFromFacilityId;
 
   private PreparedStatement queryRoomMaintenanceRequest;
 
@@ -29,6 +41,15 @@ public class DBMaintenance {
                     + "is_routine) values (?,?,?,?) "
                     + "RETURNING id");
 
+    deleteMaintenanceRequest =
+            DBConnection.getConnection()
+                    .prepareStatement(""
+                            + "delete from maintenance_request\n"
+                            + "where \n"
+                            + "    id = ?");
+
+
+
     insertFacilityMaintenanceRequest =
         DBConnection.getConnection()
             .prepareStatement(
@@ -37,7 +58,29 @@ public class DBMaintenance {
                     + " values (?,?) "
                     + "RETURNING id");
 
-    queryRoomMaintenanceRequest = DBConnection.getConnection().prepareStatement("SELECT ");
+    deleteFacilityMaintenanceRequest =
+            DBConnection.getConnection().prepareStatement(
+                    "delete from facility_maintenance_request\n"
+                            + "where \n"
+                            + "    id = ?");
+
+    deleteFromFacilityMaintenanceSchedule =
+            DBConnection.getConnection().prepareStatement(
+                    "delete from facility_maintenance_schedule\n"
+                            + "where \n"
+                            + "    facility_maintenence_request_id = ?");
+
+    //ToDo: queryRoomMaintenanceRequest = DBConnection.getConnection().prepareStatement("SELECT ");
+
+    queryMaintenanceIdFromFacilityId = DBConnection.getConnection()
+            .prepareStatement(
+            "select\n" +
+                    "    maintenance_request_id\n" +
+                    "from\n" +
+                    "    facility_maintenance_request\n" +
+                    "where\n" +
+                    "    id = ?");
+
 
     queryFacilityMaintenanceRequest =
         DBConnection.getConnection()
@@ -73,6 +116,7 @@ public class DBMaintenance {
                     + "    )");
   }
 
+  // Returns the maintenance request with the associated database id for the request
   public FacilityMaintenanceRequest makeFacilityMaintRequest(
       int facilityId, MaintenanceRequest maintenanceRequest) throws SQLException {
 
@@ -99,12 +143,33 @@ public class DBMaintenance {
       int facilityMaintenanceRequestId = resultSet.getInt((1));
       System.out.println("Insert of facility maint req id -> " + facilityMaintenanceRequestId);
 
-      return new FacilityMaintenanceRequest(
-          facilityMaintenanceRequestId, maintenanceRequest, facilityId);
+      return new FacilityMaintenanceRequest(facilityMaintenanceRequestId, maintenanceRequest);
 
     } catch (SQLException e) {
       System.out.println("caught exception: " + e.toString());
       throw e;
+    }
+  }
+
+  public void removeFacilityMaintRequest(
+          int facilityMaintenanceRequestId) throws SQLException {
+    try {
+
+      deleteFromFacilityMaintenanceSchedule.setInt(1, facilityMaintenanceRequestId);
+      deleteFromFacilityMaintenanceSchedule.executeUpdate();
+
+
+      queryMaintenanceIdFromFacilityId.setInt(1, facilityMaintenanceRequestId);
+      ResultSet resultSet = queryMaintenanceIdFromFacilityId.executeQuery();
+      resultSet.next();
+
+      int maintenanceId = resultSet.getInt(1);
+
+      deleteFacilityMaintenanceRequest.setInt (1, facilityMaintenanceRequestId);
+      deleteMaintenanceRequest.setInt(1, maintenanceId);
+    } catch (SQLException e) {
+      Logger logger = LogManager.getLogger();
+      logger.log(Level.ERROR, "Caught exception: " + e);
     }
   }
 

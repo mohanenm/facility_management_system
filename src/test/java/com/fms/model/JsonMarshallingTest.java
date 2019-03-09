@@ -1,8 +1,10 @@
 package com.fms.model;
 
 import com.fms.TestData;
-import java.io.IOException;
+import com.fms.req_reply_api.*;//temporary solution
 import org.junit.Test;
+
+import java.io.IOException;
 
 public class JsonMarshallingTest {
 
@@ -88,10 +90,10 @@ public class JsonMarshallingTest {
 
   @Test
   public void FacilityMaintenanceRequestMarshalling() throws IOException {
-    FacilityMaintenanceRequest facilityMaintenanceRequest =
+    FacilityMaintenanceWebRequest facilityMaintenanceRequest =
         TestData.sampleFacilityMaintenanceRequest();
-    FacilityMaintenanceRequest again =
-        FacilityMaintenanceRequest.fromJson(facilityMaintenanceRequest.toString());
+    FacilityMaintenanceWebRequest again =
+        FacilityMaintenanceWebRequest.fromJson(facilityMaintenanceRequest.toString());
     boolean areEqual = again.equals(facilityMaintenanceRequest);
     System.out.println("Facility Maintenance Request -> " + facilityMaintenanceRequest);
     assert (areEqual);

@@ -1,23 +1,42 @@
 package com.fms.client.maintenance;
 
 import com.fms.TestData;
-import com.fms.model.FacilityMaintenanceRequestResult;
+import com.fms.client.common.FMSException;
+import com.fms.model.FacilityMaintenanceRequest;
+import com.fms.model.MaintenanceRequest;
 import com.google.common.collect.Range;
+import org.junit.Rule;
+import org.junit.Test;
+import org.junit.rules.ExpectedException;
+
 import java.sql.SQLException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import org.junit.Test;
 
 public class MaintenanceServiceTest {
 
   static MaintenanceService maintenanceService = new MaintenanceService();
 
-  @Test
-  public void facilityMaintenanceRequest() throws SQLException {
-    FacilityMaintenanceRequestResult facilityMaintenanceRequest =
-        maintenanceService.makeFacilityMaintRequest(1, TestData.sampleMaintenanceRequest());
+  @Rule
+  public ExpectedException maintenanceException = ExpectedException.none();
 
-    System.out.println("Fac maint request -> " + facilityMaintenanceRequest.toString());
+  @Test
+  public void CRUDFacilityMaintenanceRequest() throws FMSException {
+
+    MaintenanceRequest maintenanceRequest = TestData.sampleMaintenanceRequest();
+
+    FacilityMaintenanceRequest facilityMaintenanceRequest =
+            maintenanceService.makeFacilityMaintRequest(1, maintenanceRequest);
+
+    int fmrId = facilityMaintenanceRequest.getId();
+
+    assert(fmrId > 0);
+
+    assert(facilityMaintenanceRequest.getMaintenanceRequest() == maintenanceRequest);
+
+    maintenanceService.removeFacilityMaintRequest(fmrId);
+
+    //System.out.println("Fac maint request -> " + facilityMaintenanceRequest.toString());
   }
 
   @Test
