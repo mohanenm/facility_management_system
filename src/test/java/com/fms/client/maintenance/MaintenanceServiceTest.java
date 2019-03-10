@@ -4,6 +4,7 @@ import com.fms.TestData;
 import com.fms.client.common.FMSException;
 import com.fms.client.facility.FacilityService;
 import com.fms.client.usage.UsageService;
+import com.fms.dal.RoomSchedulingConflictException;
 import com.fms.model.*;
 import com.google.common.collect.Range;
 import org.junit.Rule;
@@ -33,10 +34,11 @@ public class MaintenanceServiceTest {
   @Test
   public void CRUDFacilityMaintenanceRequest() throws FMSException {
 
+    Facility facility = prepFacilityInDb();
     MaintenanceRequest maintenanceRequest = TestData.sampleMaintenanceRequest();
 
     FacilityMaintenanceRequest facilityMaintenanceRequest =
-            maintenanceService.makeFacilityMaintRequest(1, maintenanceRequest);
+            maintenanceService.makeFacilityMaintRequest(facility.getId(), maintenanceRequest);
 
     int fmrId = facilityMaintenanceRequest.getId();
 
@@ -44,16 +46,20 @@ public class MaintenanceServiceTest {
 
     assert(facilityMaintenanceRequest.getMaintenanceRequest() == maintenanceRequest);
 
-    maintenanceService.removeFacilityMaintRequest(fmrId);
+    facilityService.removeFacility(facility.getId());
   }
 
   @Test
   public void CRUDRoomMaintenanceRequest() throws FMSException {
 
+    Facility facility = prepFacilityInDb();
+    Building building = facility.getFacilityDetail().getBuildings().get(0);
+    Room room = building.getRooms().get(0);
+
     MaintenanceRequest maintenanceRequest = TestData.sampleMaintenanceRequest();
 
     RoomMaintenanceRequest roomMaintenanceRequest =
-            maintenanceService.makeRoomMaintRequest(1, maintenanceRequest);
+            maintenanceService.makeRoomMaintRequest(room.getId(), maintenanceRequest);
 
     int rmrId = roomMaintenanceRequest.getId();
 
@@ -61,7 +67,7 @@ public class MaintenanceServiceTest {
 
     assert(roomMaintenanceRequest.getMaintenanceRequest() == maintenanceRequest);
 
-    maintenanceService.removeRoomMaintRequest(rmrId);
+    facilityService.removeFacility(facility.getId());
   }
 
   @Test
@@ -88,7 +94,8 @@ public class MaintenanceServiceTest {
   }
 
   @Test
-  public void scheduleConflictingFacilityMaintenance() throws FMSException {
+  public void scheduleConflictingFacilityMaintenance() throws SQLException,
+          FMSException, RoomSchedulingConflictException {
 
     Facility facility = prepFacilityInDb();
     Building building = facility.getFacilityDetail().getBuildings().get(0);
@@ -96,7 +103,8 @@ public class MaintenanceServiceTest {
     Range<LocalDateTime> sampleRange = sampleRange();
 
     // Reserve our new room for some sample time range
-    assert(true == usageService.scheduleRoomReservation(room.getId(), sampleRange));
+    RoomReservation roomReservation = usageService.scheduleRoomReservation(room.getId(), sampleRange);
+    assert(roomReservation.getId() > 0);
 
     // Now with our room scheduled, create the conflict by scheduling maintenance
     // for the same time

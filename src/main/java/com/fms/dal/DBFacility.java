@@ -31,6 +31,7 @@ public class DBFacility {
                             "INSERT into facility (name, description) values (?,?) RETURNING id");
     deleteFacility =
             DBConnection.getConnection().prepareStatement("delete from facility where id = ?");
+
     selectFacility =
             DBConnection.getConnection().prepareStatement("select name, description from facility where id = ?");
     insertBuilding =
@@ -140,14 +141,15 @@ public class DBFacility {
       resultSet.next();
 
       int buildingId = resultSet.getInt(1);
-
+      ArrayList<Room> rooms = new ArrayList<>();
       for (Room room : building.getRooms()) {
-        createRoom(room);
+        rooms.add(createRoom(buildingId, room));
       }
 
-      // TODO: DB cleanup
+      return new Building(buildingId, building.getName(),
+              building.getStreetAddress(), building.getCity(),
+              building.getState(), building.getZip(), rooms);
 
-      return Building.buildingWithId(buildingId, building);
     } catch (SQLException e) {
       System.out.println("caught exception: " + e.toString());
       throw e;
@@ -161,19 +163,17 @@ public class DBFacility {
    * @return room with id
    * @throws SQLException
    */
-  private Room createRoom(Room room) throws SQLException {
+  private Room createRoom(int buildingId, Room room) throws SQLException {
     try {
 
-      insertRoom.setInt(1, room.getBuildingId());
+      insertRoom.setInt(1, buildingId);
       insertRoom.setInt(2, room.getRoomNumber());
       insertRoom.setInt(3, room.getCapacity());
       resultSet = insertRoom.executeQuery();
       resultSet.next();
 
       int roomId = resultSet.getInt(1);
-
-      // TODO: DB cleanup
-      return Room.roomWithId(roomId, room);
+      return new Room(roomId, room.getBuildingId(), room.getRoomNumber(), room.getCapacity());
     } catch (SQLException e) {
       System.out.println("caught exception: " + e.toString());
       throw e;

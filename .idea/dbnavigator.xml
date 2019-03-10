@@ -25,23 +25,40 @@
     <show-object-properties value="true" />
     <loaded-nodes>
       <connection connection-id="0b42631a-774e-4d7c-8cf1-f6f4a3a76644">
-        <schema name="public" object-types="view, table, function, sequence" />
+        <schema name="pg_catalog" object-types="table, function, view" />
+        <schema name="public" object-types="table, function, view, column" />
       </connection>
     </loaded-nodes>
   </component>
   <component name="DBNavigator.Project.DatabaseConsoleManager">
     <connection id="0b42631a-774e-4d7c-8cf1-f6f4a3a76644">
-      <console name="facility" type="STANDARD" schema="public" session="Main">select
+      <console name="facility" type="STANDARD" schema="public" session="Main"><![CDATA[select
     *
 from facility_maintenance_schedule
 
 insert into 
     facility_maintenance_schedule 
-    ( facility_maintenence_request_id, &quot;start&quot;, &quot;finish&quot;)
+    ( facility_maintenence_request_id, "start", "finish")
 values
     (3, '2020-01-01 12:00', '2020-01-02 12:00')
-returning id</console>
-      <console name="facility queries" type="STANDARD" schema="public" session="Main">SELECT id, room_id, start, finish, maintenance_request_id FROM room_reservation</console>
+returning id;
+
+
+insert into room_reservation
+(room_id, start, finish, maintenance_request_id) 
+values (1, '2020-01-01 12:00', '2020-01-02 12:00', null);
+
+delete from room
+where id in (
+    select 
+        R.id
+    from room R
+        inner join building B on (B.id = R.building_id)
+        inner join facility F on (F.id = B.facility_id)
+    where
+        facility_id = 1
+);]]></console>
+      <console name="facility queries" type="STANDARD" schema="public" session="Main"><![CDATA[SELECT id, room_id, start, finish, maintenance_request_id FROM room_reservation]]></console>
     </connection>
   </component>
   <component name="DBNavigator.Project.DatabaseFileManager">

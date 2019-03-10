@@ -7,12 +7,25 @@ import java.time.LocalDateTime;
 public class RoomReservation {
 
   public RoomReservation(
-      int id, int roomId, LocalDateTime start, LocalDateTime finish, int maintenanceRequestId) {
+      int id, int roomId, LocalDateTime start, LocalDateTime finish, Integer maintenanceRequestId) {
     this.id = id;
     this.roomId = roomId;
     this.start = start;
     this.finish = finish;
     this.maintenanceRequestId = maintenanceRequestId;
+  }
+
+  public RoomReservation(int roomId, LocalDateTime start, LocalDateTime finish, Integer maintenanceRequestId) {
+    this.roomId = roomId;
+    this.start = start;
+    this.finish = finish;
+    this.maintenanceRequestId = maintenanceRequestId;
+  }
+
+  // TODO: Is this necessary
+  public static RoomReservation withId(int id, RoomReservation roomReservation) {
+    return new RoomReservation(id, roomReservation.roomId, roomReservation.start,
+            roomReservation.finish, roomReservation.maintenanceRequestId);
   }
 
   public int getId() {
@@ -31,7 +44,7 @@ public class RoomReservation {
     return finish;
   }
 
-  public int getMaintenanceRequestId() {
+  public Integer getMaintenanceRequestId() {
     return maintenanceRequestId;
   }
 
@@ -93,12 +106,12 @@ public class RoomReservation {
         && roomId == i.roomId
         && start.equals(i.start)
         && finish.equals(i.finish)
-        && maintenanceRequestId == i.maintenanceRequestId;
+        && maintenanceRequestId.equals(i.maintenanceRequestId);
   }
 
   private int id;
   private int roomId;
   private LocalDateTime start;
   private LocalDateTime finish;
-  private int maintenanceRequestId;
+  private Integer maintenanceRequestId;
 }

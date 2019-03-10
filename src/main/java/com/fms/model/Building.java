@@ -42,14 +42,6 @@ public class Building {
     this.rooms = rooms;
   }
 
-  // In terms of encapsulation, this is a backdoor to setting id.
-  // Giving it a specific name that is not `setId` makes clear what is happening.
-  // This is to be used only by DB related code.
-  public static Building buildingWithId(int id, Building building) {
-    building.id = id;
-    return building;
-  }
-
   public String getName() {
     return name;
   }

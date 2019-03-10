@@ -17,6 +17,8 @@ import java.util.HashSet;
 
 public class FacilityService {
 
+  Logger logger = LogManager.getLogger();
+
   DBFacility dbFacility;
 
   public FacilityService() throws SQLException {
@@ -66,8 +68,11 @@ public class FacilityService {
                 "\nException: " + e);
       }
     } else {
-      throw new FMSException(FacilityErrorCode.BUILDING_ALREADY_EXISTS,
+      FMSException fmsException = new  FMSException(FacilityErrorCode.BUILDING_ALREADY_EXISTS,
               "Building already exists");
+      logger.log(Level.ERROR, fmsException.toString());
+
+      throw fmsException;
     }
   }
 

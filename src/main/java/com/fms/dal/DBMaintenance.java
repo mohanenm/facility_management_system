@@ -35,6 +35,8 @@ public class DBMaintenance {
 
   private PreparedStatement checkRoomAvailability;
 
+  private PreparedStatement roomReservationConflict;
+
   private PreparedStatement queryFacilityMaintenanceRequest;
 
   private PreparedStatement insertFacilityMaintenanceSchedule;
@@ -148,6 +150,22 @@ public class DBMaintenance {
                     + "        (? < fms.start) and \n"
                     + "        (? > fms.finish)\n"
                     + "    )");
+
+      roomReservationConflict =
+              DBConnection.getConnection()
+                      .prepareStatement(
+                              ""
+                                      + "select\n"
+                                      + "    *\n"
+                                      + "from \n"
+                                      + "    room_reservation as rr\n"
+                                      + "    where \n"
+                                      + "    (? between rr.start and rr.finish) or\n"
+                                      + "    (? between rr.start and rr.finish) or\n"
+                                      + "    (\n"
+                                      + "        (? < rr.start) and \n"
+                                      + "        (? > rr.finish)\n"
+                                      + "    )");
 
     insertFacilityMaintenanceSchedule =
             DBConnection.getConnection()
@@ -320,16 +338,32 @@ public class DBMaintenance {
 
     Connection conn = DBConnection.getConnection();
 
-//    try {
-//      // Begins the complex transaction
-//
-//      // First see if conflict
-//
-//
-//    } catch(SQLException e) {
-//      // TODO Log exception
-//      conn.rollback();
-//    }
+    try {
+      // Begins the complex transaction
+
+      // First see if conflict
+        Timestamp start = Timestamp.valueOf(maintenancePeriod.lowerEndpoint());
+        Timestamp finish = Timestamp.valueOf(maintenancePeriod.upperEndpoint());
+
+        roomReservationConflict.setTimestamp(1, start);
+        roomReservationConflict.setTimestamp(2, finish);
+        roomReservationConflict.setTimestamp(3, start);
+        roomReservationConflict.setTimestamp(4, finish);
+
+        ResultSet resultSet = roomReservationConflict.executeQuery();
+
+        if(resultSet.next()) {
+            return false;
+        } else {
+            // TODO:
+        }
+
+        conn.commit();
+
+    } catch(SQLException e) {
+      // TODO Log exception
+      conn.rollback();
+    }
 
     Timestamp start = Timestamp.valueOf(maintenancePeriod.lowerEndpoint());
     Timestamp finish = Timestamp.valueOf(maintenancePeriod.upperEndpoint());

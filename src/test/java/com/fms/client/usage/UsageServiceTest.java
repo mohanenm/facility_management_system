@@ -1,8 +1,10 @@
 package com.fms.client.usage;
 
 import com.fms.TestData;
-import com.fms.model.FacilityInspection;
-import com.fms.req_reply_api.RoomRequestResult;
+import com.fms.client.common.FMSException;
+import com.fms.client.facility.FacilityService;
+import com.fms.dal.RoomSchedulingConflictException;
+import com.fms.model.*;
 import com.google.common.collect.Range;
 import org.junit.Test;
 
@@ -11,39 +13,48 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
+import static com.fms.TestData.sampleRange;
+
 public class UsageServiceTest {
 
-  static UsageService usageService = new UsageService();
+  UsageService usageService;
+  FacilityService facilityService;
+
+  public UsageServiceTest() throws SQLException {
+    usageService = new UsageService();
+    facilityService = new FacilityService();
+  }
 
   @Test
   public void roomRequest() throws SQLException {
+    /* TODO
     RoomRequestResult roomRequestResult =
         usageService.roomRequestResult(1, TestData.sampleRoomReservation());
 
     System.out.println("room request -> " + roomRequestResult.toString());
+    */
+  }
+
+  public Facility prepFacilityInDb() throws FMSException {
+    Facility facility =
+            facilityService.addNewFacility("Test Facility", "Healthcare Facility");
+    return facilityService.addFacilityDetail(facility.getId(), TestData.sampleFacilityDetail());
   }
 
   @Test
-  public void RoomSchedule() throws SQLException {
+  public void scheduleRoom() throws SQLException, RoomSchedulingConflictException, FMSException {
 
     DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd hh:mm");
 
-    boolean hasConflict =
-        usageService.scheduleRoomReservation(
-            1,
-            Range.closed(
-                LocalDateTime.of(2019, 1, 30, 7, 30), LocalDateTime.of(2019, 1, 30, 7, 50)));
+    Facility facility = prepFacilityInDb();
+    Building building = facility.getFacilityDetail().getBuildings().get(0);
+    Room room = building.getRooms().get(0);
+    Range<LocalDateTime> sampleRange = sampleRange();
 
-    /// Based on data inserted by schema + seed script
-    assert (hasConflict);
+    // Reserve our new room for some sample time range
+    RoomReservation roomReservation = usageService.scheduleRoomReservation(room.getId(), sampleRange);
+    facilityService.removeFacility(facility.getId());
 
-    boolean noConflict =
-        usageService.scheduleRoomReservation(
-            1,
-            Range.closed(
-                LocalDateTime.of(2019, 1, 30, 8, 1), LocalDateTime.of(2019, 1, 30, 8, 29)));
-
-    assert (noConflict == false);
   }
 
   // TODO

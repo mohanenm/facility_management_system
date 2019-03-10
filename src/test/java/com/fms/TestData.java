@@ -13,8 +13,8 @@ public class TestData {
 
   public static Building sampleBuilding(String name) {
     ArrayList<Room> rooms = new ArrayList<>();
-    rooms.add(new Room(1, 2, 303, 15));
-    rooms.add(new Room(2, 2, 304, 20));
+    rooms.add(new Room(-1, 303, 15));
+    rooms.add(new Room(-1, 304, 20));
     return new Building(name, "4 Marshall Ln", "Albequerque", "NM", 66540, rooms);
   }
 
