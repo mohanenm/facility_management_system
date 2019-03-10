@@ -144,5 +144,10 @@ public class TestData {
     return maintenanceService.makeFacilityMaintRequest(facility.getId(), TestData.sampleMaintenanceRequest());
   }
 
-  public MaintenanceHourlyRate prepMaintenanceHourlyRate(Facility facility) throws FMSException {return null;}
+  public int prepMaintenanceHourlyRate(Facility facility) throws FMSException {
+    Building building = facility.getFacilityDetail().getBuildings().get(0);
+    return maintenanceService.insertMaintenanceHourlyRate(facility.getId(),
+            TestData.sampleMaintenanceRequest().getMaintenanceTypeId(),
+            TestData.sampleMaintenanceHourlyRate().getRate());
+  }
 }

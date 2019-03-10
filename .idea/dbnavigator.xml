@@ -109,28 +109,161 @@ where
 select 
    -- R.id as room_id,
    -- *
-   F.id, MT.id, 
+--   R.id room_id,
+--   F.id facility_id, 
+--   MR.id as mr_id,
+--   RMR.id as rmr_id,
+--   MT.description mt_descr, 
+   --MR.description,
    
-   *
-   --SUM(EXTRACT(EPOCH FROM (RMS.finish - RMS.start)))/3600
+   F.id facility_id,
+   MT.id maintenance_req_id,
+   COALESCE(MHR.hourly_rate, 15) hourly_rate,
+   SUM(EXTRACT(EPOCH FROM (RMS.finish - RMS.start)))/3600 total_hours,
+   COALESCE(MHR.hourly_rate, 15) * SUM(EXTRACT(EPOCH FROM (RMS.finish - RMS.start)))/3600 grand_total_cost
 from 
     room R 
     inner join building B on (R.building_id = B.id)
-    inner join facility F on (B.facility_id = F.id)
+    full join facility F on (B.facility_id = F.id)
     inner join room_maintenance_request RMR on (R.id = RMR.room_id)
-    inner join maintenance_type MT on (RMR.maintenance_request_id = MT.id)
+    full join maintenance_request MR on (MR.id = RMR.maintenance_request_id)
+    full join maintenance_type MT on (MR.maintenance_type_id = MT.id)
     inner join room_maintenance_schedule RMS on (RMS.room_maintenance_request_id = RMR.id)
+    full join maintenance_hourly_rate MHR on (F.id = MHR.facility_id and MT.id = MHR.maintenance_type_id)
 where 
     F.id = 2
---group by
---    F.id,
---    MT.id
+group by
+    F.id, 
+    MT.id,
+    MHR.hourly_rate
     ;
     
+    
+select 
+   F.id facility_id,
+   MT.id maintenance_req_id,
+   COALESCE(MHR.hourly_rate, 15) hourly_rate,
+   SUM(EXTRACT(EPOCH FROM (RMS.finish - RMS.start)))/3600 total_hours,
+   COALESCE(MHR.hourly_rate, 15) * SUM(EXTRACT(EPOCH FROM (RMS.finish - RMS.start)))/3600 grand_total_cost
+from 
+    room R 
+    inner join building B on (R.building_id = B.id)
+    full join facility F on (B.facility_id = F.id)
+    inner join room_maintenance_request RMR on (R.id = RMR.room_id)
+    full join maintenance_request MR on (MR.id = RMR.maintenance_request_id)
+    full join maintenance_type MT on (MR.maintenance_type_id = MT.id)
+    inner join room_maintenance_schedule RMS on (RMS.room_maintenance_request_id = RMR.id)
+    full join maintenance_hourly_rate MHR on (F.id = MHR.facility_id and MT.id = MHR.maintenance_type_id)
+where 
+    F.id = 2
+group by
+    F.id, 
+    MT.id,
+    MHR.hourly_rate;
+  
+-- '2018-01-01 05:00:00'
+-- '2020-01-01 05:00:00'
+
+select current_timestamp;
+select to_timestamp('2018-01-01 05:00:00', 'YYYY-MM-DD hh24:mi:ss');
+select least(to_timestamp('2020-01-01 05:00:00', 'YYYY-MM-DD hh24:mi:ss'), current_timestamp);
+
+select 
+   F.id facility_id,
+   MT.description,
+   COALESCE(MHR.hourly_rate, 15) hourly_rate,
+   
+   SUM(EXTRACT(EPOCH FROM (
+        least(to_timestamp('2020-01-01 05:00:00', 'YYYY-MM-DD hh24:mi:ss'), RMS.finish) - 
+        greatest(to_timestamp('2018-01-01 05:00:00', 'YYYY-MM-DD hh24:mi:ss'), RMS.start)
+        )))/3600 
+        
+        total_hours,
+        
+   COALESCE(MHR.hourly_rate, 15) * 
+       SUM(EXTRACT(EPOCH FROM (
+            least(to_timestamp('2020-01-01 05:00:00', 'YYYY-MM-DD hh24:mi:ss'), RMS.finish) - 
+            greatest(to_timestamp('2018-01-01 05:00:00', 'YYYY-MM-DD hh24:mi:ss'), RMS.start)
+            )))/3600 
+
+        partial_cost_of_type
+        
+from 
+    room R 
+    inner join building B on (R.building_id = B.id)
+    full join facility F on (B.facility_id = F.id)
+    inner join room_maintenance_request RMR on (R.id = RMR.room_id)
+    full join maintenance_request MR on (MR.id = RMR.maintenance_request_id)
+    full join maintenance_type MT on (MR.maintenance_type_id = MT.id)
+    inner join room_maintenance_schedule RMS on (RMS.room_maintenance_request_id = RMR.id)
+    full join maintenance_hourly_rate MHR on (F.id = MHR.facility_id and MT.id = MHR.maintenance_type_id)
+where 
+    F.id = 2 and
+    to_timestamp('2018-01-01 05:00:00', 'YYYY-MM-DD hh24:mi:ss') between RMS.start and RMS.finish or
+    to_timestamp('2020-01-01 05:00:00', 'YYYY-MM-DD hh24:mi:ss') between RMS.start and RMS.finish or
+    (to_timestamp('2018-01-01 05:00:00', 'YYYY-MM-DD hh24:mi:ss')  < RMS.start and 
+     to_timestamp('2020-01-01 05:00:00', 'YYYY-MM-DD hh24:mi:ss') > RMS.finish)
+group by
+    F.id, 
+    MT.id,
+    MHR.hourly_rate;  
+    
+    
+    
+ select 
+   F.id facility_id,
+   MT.id maintenance_req_id,
+   COALESCE(MHR.hourly_rate, 15) hourly_rate,
+   
+   SUM(EXTRACT(EPOCH FROM (
+        least(to_timestamp('2018-01-01 05:00:01', 'YYYY-MM-DD hh24:mi:ss'), RMS.finish) - 
+        greatest(to_timestamp('2018-01-01 05:00:00', 'YYYY-MM-DD hh24:mi:ss'), RMS.start)
+        )))/3600 
+        
+        total_hours,
+        
+   COALESCE(MHR.hourly_rate, 15) * 
+       SUM(EXTRACT(EPOCH FROM (
+            least(to_timestamp('2018-01-01 05:00:01', 'YYYY-MM-DD hh24:mi:ss'), RMS.finish) - 
+            greatest(to_timestamp('2018-01-01 05:00:00', 'YYYY-MM-DD hh24:mi:ss'), RMS.start)
+            )))/3600 
+
+        grand_total_cost
+from 
+    room R 
+    inner join building B on (R.building_id = B.id)
+    full join facility F on (B.facility_id = F.id)
+    inner join room_maintenance_request RMR on (R.id = RMR.room_id)
+    full join maintenance_request MR on (MR.id = RMR.maintenance_request_id)
+    full join maintenance_type MT on (MR.maintenance_type_id = MT.id)
+    inner join room_maintenance_schedule RMS on (RMS.room_maintenance_request_id = RMR.id)
+    full join maintenance_hourly_rate MHR on (F.id = MHR.facility_id and MT.id = MHR.maintenance_type_id)
+where 
+    F.id = 2 and
+    to_timestamp('2018-01-01 05:00:00', 'YYYY-MM-DD hh24:mi:ss') between RMS.start and RMS.finish or
+    to_timestamp('2018-01-01 05:00:01', 'YYYY-MM-DD hh24:mi:ss') between RMS.start and RMS.finish or
+    (to_timestamp('2018-01-01 05:00:00', 'YYYY-MM-DD hh24:mi:ss')  < RMS.start and 
+     to_timestamp('2018-01-01 05:00:01', 'YYYY-MM-DD hh24:mi:ss') > RMS.finish)
+group by
+    F.id, 
+    MT.id,
+    MHR.hourly_rate;  
+    
+ select * from maintenance_hourly_rate;
+    
+
 select * from maintenance_request;
 
+select 
+    R.id as room_id,
+    *
+from  
+    room R 
+    inner join building B on (R.building_id = B.id)
+    inner join facility F on (B.facility_id = F.id);
+
         
-select * from room_maintenance_request;
+select * from room_maintenance_request RMR join maintenance_request MR on (MR.id = RMR.maintenance_request_id);
 
 select 
     * 
@@ -142,7 +275,14 @@ from
     inner join maintenance_request MR on (RMR.maintenance_request_id = MR.id)
     inner join facility F on (B.facility_id = F.id)
 where 
-    F.id = 1;]]></console>
+    F.id = 1;
+    
+    
+    
+    
+delete from 
+    maintenance_hourly_rate
+where id = 2]]></console>
       <console name="facility queries" type="STANDARD" schema="public" session="Main"><![CDATA[SELECT id, room_id, start, finish, maintenance_request_id FROM room_reservation]]></console>
     </connection>
   </component>

@@ -13,6 +13,7 @@ import org.junit.rules.ExpectedException;
 
 import java.sql.SQLException;
 import java.time.LocalDateTime;
+import java.util.HashMap;
 
 import static com.fms.TestData.sampleRange;
 
@@ -22,12 +23,14 @@ public class MaintenanceServiceTest {
   FacilityService facilityService;
   UsageService usageService;
   TestData testData;
+  MaintenanceCostCalculator maintenanceCostCalculator;
 
   public MaintenanceServiceTest() throws SQLException {
     maintenanceService = new MaintenanceService();
     facilityService = new FacilityService();
     usageService = new UsageService();
     testData = new TestData();
+    maintenanceCostCalculator = new MaintenanceCostCalculator();
   }
 
   @Rule
@@ -196,7 +199,18 @@ public class MaintenanceServiceTest {
 
     @Test
     public void calcMaintenanceCost() throws SQLException, FMSException {
+        Facility facility = null;
 
+        try {
+            facility = testData.prepFacilityInDb();
+            int maintenanceHourlyRateId = testData.prepMaintenanceHourlyRate(facility);
+            HashMap<String, Double> costResults = maintenanceCostCalculator.calcMaintenanceCostForFacility(facility.getId(), TestData.sampleRange());
+            System.out.println("Grand total maintenance costs: " + costResults);
+        } finally {
+            if(facility != null) {
+                facilityService.removeFacility(facility.getId());
+            }
+        }
     }
 
 

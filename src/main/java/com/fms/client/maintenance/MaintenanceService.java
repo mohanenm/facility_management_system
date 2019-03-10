@@ -90,4 +90,24 @@ public class MaintenanceService {
     }
   }
 
+  public int insertMaintenanceHourlyRate (int facilityId, int maintenanceTypeId, double hourlyRate) throws FMSException {
+    try {
+      return dbMaintenance.setMaintenanceHourlyRate(facilityId, maintenanceTypeId, hourlyRate);
+    } catch (SQLException e) {
+      logger.log(Level.ERROR, "Hourly rate insertion failed, excp: " + e);
+      throw new FMSException(FacilityErrorCode.UNABLE_TO_INSERT_HOURLY_RATE,
+              "Failed to insert hourly rate on room, excp ->: " + e.toString());
+    }
+  }
+
+  public void removeMaintenanceHourlyRate (int maintenanceHourlyRateId) throws FMSException {
+    try {
+      dbMaintenance.removeFacilityMaintRequest(maintenanceHourlyRateId);
+    } catch (SQLException e) {
+      logger.log(Level.ERROR, "Removal of maintenance hourly rate failed, excp: " + e);
+      throw new FMSException(FacilityErrorCode.UNABLE_TO_DELETE_REQUEST,
+              "Unable to remove Maintenance Hourly Rate");
+    }
+  }
+
 }

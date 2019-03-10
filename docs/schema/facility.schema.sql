@@ -88,8 +88,7 @@ create table facility_maintenance_schedule (
 
 create table room_maintenance_request (
 	id SERIAL PRIMARY KEY,
-	-- TODO: THis is wrong - s/b reference maintenance_request table
-	maintenance_request_id INTEGER REFERENCES maintenance_type(id) ON DELETE CASCADE NOT NULL,
+	maintenance_request_id INTEGER REFERENCES maintenance_request(id) ON DELETE CASCADE NOT NULL,
 	room_id INTEGER REFERENCES room(id) ON DELETE CASCADE NOT NULL
 );
 

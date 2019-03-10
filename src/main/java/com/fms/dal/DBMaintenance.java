@@ -8,8 +8,11 @@ import org.apache.logging.log4j.Level;
 
 import java.sql.*;
 import java.time.LocalDateTime;
+import java.util.HashMap;
 
 public class DBMaintenance {
+
+  Logger logger = LogManager.getLogger();
 
   private PreparedStatement insertMaintenanceRequest;
 
@@ -44,6 +47,10 @@ public class DBMaintenance {
   private PreparedStatement insertRoomMaintenanceSchedule;
 
   private PreparedStatement insertMaintenanceHourlyRate;
+
+  private PreparedStatement deleteMaintenanceHourlyRate;
+
+  private PreparedStatement calcMaintenanceCostForFacility;
 
   public DBMaintenance() throws SQLException {
     insertMaintenanceRequest =
@@ -151,8 +158,8 @@ public class DBMaintenance {
                     + "    (? between fms.start and fms.finish) or\n"
                     + "    (? between fms.start and fms.finish) or\n"
                     + "    (\n"
-                    + "        (? < fms.start) and \n"
-                    + "        (? > fms.finish)\n"
+                    + "        (? <= fms.start) and \n"
+                    + "        (? >= fms.finish)\n"
                     + "    )");
 
       roomReservationConflict =
@@ -167,8 +174,8 @@ public class DBMaintenance {
                                       + "    (? between rr.start and rr.finish) or\n"
                                       + "    (? between rr.start and rr.finish) or\n"
                                       + "    (\n"
-                                      + "        (? < rr.start) and \n"
-                                      + "        (? > rr.finish)\n"
+                                      + "        (? <= rr.start) and \n"
+                                      + "        (? >= rr.finish)\n"
                                       + "    )");
 
     insertFacilityMaintenanceSchedule =
@@ -199,8 +206,77 @@ public class DBMaintenance {
                             "values(?, ?, ?)\n" +
                             "returning id");
 
-  }
+    deleteMaintenanceHourlyRate =
+            DBConnection.getConnection().prepareStatement(
+                    "delete from \n" +
+                            "    maintenance_hourly_rate\n" +
+                            "where id = ?");
 
+
+    //This *extremely* nasty join is responsible for calculating the maintenance cost across an entire facility
+    //within a specified time range
+
+    calcMaintenanceCostForFacility =
+            DBConnection.getConnection().prepareStatement(
+                    "select \n" +
+                            "   F.id facility_id,\n" +
+                            "   MT.description,\n" +
+
+                            // Hourly rate is whatever is in the record, or 15 if NULL
+
+                            "   COALESCE(MHR.hourly_rate, 15) hourly_rate,\n" +
+                            "   \n" +
+
+
+                            "   SUM(EXTRACT(EPOCH FROM (\n" +
+                            // parm_finish
+                            "        least(?, RMS.finish) - \n" +
+                            // parm_start
+                            "        greatest(?, RMS.start)\n" +
+                            "        )))/3600 \n" +
+                            "        \n" +
+                            "        total_hours,\n" +
+                            "        \n" +
+
+                            //  Total costs is hourly rate *
+                            //  sum(min(parm_finish, finish) - max(parm_start, start)) of all records
+                            //  grouped by maintenance request type
+
+                            "   COALESCE(MHR.hourly_rate, 15) * \n" +
+                            "       SUM(EXTRACT(EPOCH FROM (\n" +
+                            // parm_finish
+                            "            least(?, RMS.finish) - \n" +
+                            // parm_start
+                            "            greatest(?, RMS.start)\n" +
+                            "            )))/3600 \n" +
+                            "\n" +
+                            "        partial_cost_of_type\n" +
+                            "from \n" +
+                            "    room R \n" +
+                            "    inner join building B on (R.building_id = B.id)\n" +
+                            "    full join facility F on (B.facility_id = F.id)\n" +
+                            "    inner join room_maintenance_request RMR on (R.id = RMR.room_id)\n" +
+                            "    full join maintenance_request MR on (MR.id = RMR.maintenance_request_id)\n" +
+                            "    full join maintenance_type MT on (MR.maintenance_type_id = MT.id)\n" +
+                            "    inner join room_maintenance_schedule RMS on (RMS.room_maintenance_request_id = RMR.id)\n" +
+                            "    full join maintenance_hourly_rate MHR on (F.id = MHR.facility_id and MT.id = MHR.maintenance_type_id)\n" +
+                            "where \n" +
+                            // parm_facility_id
+                            "    F.id = ? and\n" +
+                            // parm_start
+                            "    ? between RMS.start and RMS.finish or\n" +
+                            // parm_finish
+                            "    ? between RMS.start and RMS.finish or\n" +
+                            // parm_start
+                            "    ? <= RMS.start and \n" +
+                            // parm_finish
+                            "    ? >= RMS.finish)\n" +
+                            "group by\n" +
+                            "    F.id, \n" +
+                            "    MT.id,\n" +
+                            "    MHR.hourly_rate");
+
+  }
 
   // Returns the maintenance request with the associated database id for the request
   public FacilityMaintenanceRequest makeFacilityMaintRequest(
@@ -254,7 +330,6 @@ public class DBMaintenance {
       deleteFacilityMaintenanceRequest.setInt (1, facilityMaintenanceRequestId);
       deleteMaintenanceRequest.setInt(1, maintenanceId);
     } catch (SQLException e) {
-      Logger logger = LogManager.getLogger();
       logger.log(Level.ERROR, "Caught exception: " + e);
     }
   }
@@ -424,6 +499,44 @@ public class DBMaintenance {
       System.out.println("caught exception: " + e.toString());
       throw e;
     }
+  }
+
+  public void removeMaintenanceHourlyRate
+          (int maintenanceHourlyRateId) throws SQLException {
+      try {
+          deleteMaintenanceHourlyRate.setInt(1, maintenanceHourlyRateId);
+      } catch (SQLException e) {
+          logger.log(Level.ERROR, "Unable to remove maintenance hourly rate" + e);
+      }
+  }
+
+  public HashMap<String, Double> calcMaintenanceCostForFacility
+          (int facilityId, Range<LocalDateTime> calculationPeriod) throws SQLException {
+
+    Timestamp start = Timestamp.valueOf(calculationPeriod.lowerEndpoint());
+    Timestamp finish = Timestamp.valueOf(calculationPeriod.upperEndpoint());
+
+    try {
+      calcMaintenanceCostForFacility.setTimestamp(1, finish);
+      calcMaintenanceCostForFacility.setTimestamp(2, start);
+      calcMaintenanceCostForFacility.setTimestamp(3, finish);
+      calcMaintenanceCostForFacility.setTimestamp(4, start);
+      calcMaintenanceCostForFacility.setInt(5, facilityId);
+      calcMaintenanceCostForFacility.setTimestamp(6, start);
+      calcMaintenanceCostForFacility.setTimestamp(7, finish);
+      calcMaintenanceCostForFacility.setTimestamp(8, start);
+      calcMaintenanceCostForFacility.setTimestamp(9, finish);
+      ResultSet resultSet = calcMaintenanceCostForFacility.executeQuery();
+      HashMap<String, Double> totals = new HashMap<>();
+      while(resultSet.next()) {
+        totals.put(resultSet.getString(2), resultSet.getDouble(5));
+      }
+      return totals;
+    } catch (SQLException e) {
+        logger.log(Level.ERROR, "Caught exception: " + e);
+        throw e;
+    }
+
   }
 
 
