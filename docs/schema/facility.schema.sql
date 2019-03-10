@@ -81,7 +81,7 @@ create table facility_maintenance_request (
 ---Refers to facility wide maintenance requests
 create table facility_maintenance_schedule (
 	id SERIAL PRIMARY KEY,
-	facility_maintenence_request_id INTEGER REFERENCES facility_maintenance_request(id) ON DELETE CASCADE NOT NULL,
+	facility_maintenance_request_id INTEGER REFERENCES facility_maintenance_request(id) ON DELETE CASCADE NOT NULL,
 	start TIMESTAMP NOT NULL,
 	finish TIMESTAMP NOT NULL
 );
@@ -156,7 +156,7 @@ create table room_maintenance_schedule (
 --(maintenance_request_id, facility_id)
 --values (1, 1);
 --
---insert into facility_maintenance_schedule(facility_maintenence_request_id, start, finish) values
+--insert into facility_maintenance_schedule(facility_maintenance_request_id, start, finish) values
 --(1,'2019-01-30 07:00:00', '2019-01-30 08:00:00'),
 --(1,'2019-01-30 10:00:00', '2019-01-30 11:00:00'),
 --(1,'2019-01-30 9:00:00', '2019-01-30 09:59:00'),

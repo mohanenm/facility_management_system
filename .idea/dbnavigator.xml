@@ -57,7 +57,13 @@ where id in (
         inner join facility F on (F.id = B.facility_id)
     where
         facility_id = 1
-);]]></console>
+);
+
+select * from facility_maintenance_request;
+select * from facility;
+select * from building;
+select * from room;
+select * from room_maintenance_request;]]></console>
       <console name="facility queries" type="STANDARD" schema="public" session="Main"><![CDATA[SELECT id, room_id, start, finish, maintenance_request_id FROM room_reservation]]></console>
     </connection>
   </component>

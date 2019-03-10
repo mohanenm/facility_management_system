@@ -33,27 +33,27 @@ public class TestData {
   }
 
   public static Facility sampleFacility() {
-    return new Facility(3, "F1", "sample facility for test", sampleFacilityDetail());
+    return new Facility(-1, "F1", "sample facility for test", sampleFacilityDetail());
   }
 
   public static FacilityMaintenanceRequest sampleFacilityMaintenanceRequest() {
-    return new FacilityMaintenanceRequest(1, sampleMaintenanceRequest());
+    return new FacilityMaintenanceRequest(-1, sampleMaintenanceRequest());
   }
 
   public static FacilityInspection sampleFacilityInspection() {
-    return new FacilityInspection(1, 2, LocalDateTime.of(1990, Month.JANUARY, 8, 12, 30), false);
+    return new FacilityInspection(-1, -1, LocalDateTime.of(1990, Month.JANUARY, 8, 12, 30), false);
   }
 
   public static MaintenanceType sampleMaintenanceType() {
-    return new MaintenanceType(1, "Sample maintenance type");
+    return new MaintenanceType(-1, "Sample maintenance type");
   }
 
   public static MaintenanceRate sampleMaintenanceRate() {
-    return new MaintenanceRate(1, 2, 2, 20.00);
+    return new MaintenanceRate(-1, -1, 1, 20.00);
   }
 
   public static MaintenanceRequest sampleMaintenanceRequest() {
-    return new MaintenanceRequest(1, 3, "The sink is broken, plz fix.", false, false);
+    return new MaintenanceRequest(-1, 1, "The sink is broken, plz fix.", false, false);
   }
 
   public static Range<LocalDateTime> sampleRange() {
@@ -70,29 +70,29 @@ public class TestData {
 
   public static FacilityMaintenanceSchedule sampleFacilityMaintenanceSchedule() {
     return new FacilityMaintenanceSchedule(
-        1,
-        1,
+        -1,
+        -1,
         LocalDateTime.of(1984, Month.DECEMBER, 17, 15, 30),
         LocalDateTime.of(2010, Month.SEPTEMBER, 17, 4, 10));
   }
 
   public static RoomMaintenanceRequest sampleRoomMaintenanceRequest() {
-    return new RoomMaintenanceRequest(1, sampleMaintenanceRequest());
+    return new RoomMaintenanceRequest(-1, sampleMaintenanceRequest());
   }
 
   public static RoomReservation sampleRoomReservation() {
     return new RoomReservation(
-        1,
-        2,
+        -1,
+        -1,
         LocalDateTime.of(1984, Month.DECEMBER, 17, 15, 30),
         LocalDateTime.of(2010, Month.SEPTEMBER, 17, 4, 10),
-        2);
+        -1);
   }
 
   public static RoomMaintenanceSchedule sampleRoomMaintenanceSchedule() {
     return new RoomMaintenanceSchedule(
-        1,
-        2,
+        -1,
+        -1,
         LocalDateTime.of(2019, Month.JANUARY, 13, 20, 8),
         LocalDateTime.of(2019, Month.JANUARY, 13, 21, 8));
   }

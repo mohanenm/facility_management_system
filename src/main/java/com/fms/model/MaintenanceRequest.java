@@ -18,6 +18,17 @@ public class MaintenanceRequest {
     this.isRoutine = isRoutine;
   }
 
+  public MaintenanceRequest(
+          int id,
+          MaintenanceRequest maintenanceRequest
+  ) {
+    this.id = id;
+    maintenanceTypeId = maintenanceRequest.maintenanceTypeId;
+    description = maintenanceRequest.description;
+    isVacateRequired = maintenanceRequest.isVacateRequired;
+    isRoutine = maintenanceRequest.isRoutine;
+  }
+
   public int getId() {
     return id;
   }

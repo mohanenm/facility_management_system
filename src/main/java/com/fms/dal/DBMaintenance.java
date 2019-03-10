@@ -41,6 +41,8 @@ public class DBMaintenance {
 
   private PreparedStatement insertFacilityMaintenanceSchedule;
 
+  private PreparedStatement insertRoomMaintenanceSchedule;
+
   public DBMaintenance() throws SQLException {
     insertMaintenanceRequest =
         DBConnection.getConnection()
@@ -77,7 +79,7 @@ public class DBMaintenance {
             DBConnection.getConnection().prepareStatement(
                     "delete from facility_maintenance_schedule\n"
                             + "where \n"
-                            + "    facility_maintenence_request_id = ?");
+                            + "    facility_maintenance_request_id = ?");
 
     insertRoomMaintenanceRequest =
             DBConnection.getConnection().prepareStatement(
@@ -96,7 +98,7 @@ public class DBMaintenance {
             DBConnection.getConnection().prepareStatement(
                     "delete from room_maintenance_schedule\n" +
                             "where\n" +
-                            "    room_maintenance_request_id = 1;");
+                            "    room_maintenance_request_id = ?");
 
     //ToDo: queryRoomMaintenanceRequest = DBConnection.getConnection().prepareStatement("SELECT ");
 
@@ -172,10 +174,21 @@ public class DBMaintenance {
             .prepareStatement(
                     "insert into \n" +
                             "    facility_maintenance_schedule \n" +
-                            "    ( facility_maintenence_request_id, \"start\", \"finish\")\n" +
+                            "    (facility_maintenance_request_id, start, finish)\n" +
                             "values\n" +
                             "    (?, ?, ?)\n" +
                             "returning id");
+
+    insertRoomMaintenanceSchedule =
+            DBConnection.getConnection()
+                    .prepareStatement(
+                            "insert into \n" +
+                                    "    room_maintenance_schedule \n" +
+                                    "    (room_maintenance_request_id, start, finish)\n" +
+                                    "values\n" +
+                                    "    (?, ?, ?)\n" +
+                                    "returning id");
+
   }
 
   // Returns the maintenance request with the associated database id for the request
@@ -261,6 +274,8 @@ public class DBMaintenance {
       int roomMaintenanceRequestId = resultSet.getInt((1));
       System.out.println("Insert of room maint req id -> " + roomMaintenanceRequestId);
 
+      maintenanceRequest = new MaintenanceRequest(maintenanceRequestId, maintenanceRequest);
+
       return new RoomMaintenanceRequest(roomMaintenanceRequestId, maintenanceRequest);
 
     } catch (SQLException e) {
@@ -291,8 +306,8 @@ public class DBMaintenance {
     }
   }
 
-  public boolean scheduleRoomMaintenance(
-      int roomRequestId, Range<LocalDateTime> maintenancePeriod) throws SQLException {
+  public int scheduleRoomMaintenance(
+          int roomMaintenanceRequestId, Range<LocalDateTime> maintenancePeriod) throws SQLException {
 
     Timestamp start = Timestamp.valueOf(maintenancePeriod.lowerEndpoint());
     Timestamp finish = Timestamp.valueOf(maintenancePeriod.upperEndpoint());
@@ -310,13 +325,16 @@ public class DBMaintenance {
     boolean hasConflict = resultSet.next() != false;
 
     System.out.println("Has conflict ->" + hasConflict);
-
-    return hasConflict;
-
     /// See if requested maintenancePeriod available for room
 
     /// If so attempt insert of maintenancePeriod
+    insertRoomMaintenanceSchedule.setInt(1, roomMaintenanceRequestId);
+    insertRoomMaintenanceSchedule.setTimestamp(2, start);
+    insertRoomMaintenanceSchedule.setTimestamp(3, finish);
+    resultSet = insertRoomMaintenanceSchedule.executeQuery();
+    resultSet.next();
 
+    return resultSet.getInt(1);
   }
 
   public boolean scheduleFacilityMaintenance (

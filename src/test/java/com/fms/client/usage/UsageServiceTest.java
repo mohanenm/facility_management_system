@@ -46,26 +46,21 @@ public class UsageServiceTest {
 
     DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd hh:mm");
 
-    Facility facility = prepFacilityInDb();
-    Building building = facility.getFacilityDetail().getBuildings().get(0);
-    Room room = building.getRooms().get(0);
-    Range<LocalDateTime> sampleRange = sampleRange();
+    Facility facility = null;
+    try {
+      facility = prepFacilityInDb();
+      Building building = facility.getFacilityDetail().getBuildings().get(0);
+      Room room = building.getRooms().get(0);
+      Range<LocalDateTime> sampleRange = sampleRange();
 
-    // Reserve our new room for some sample time range
-    RoomReservation roomReservation = usageService.scheduleRoomReservation(room.getId(), sampleRange);
-    facilityService.removeFacility(facility.getId());
-
+      // Reserve our new room for some sample time range
+      RoomReservation roomReservation = usageService.scheduleRoomReservation(room.getId(), sampleRange);
+    } finally {
+      if(facility != null) {
+        facilityService.removeFacility(facility.getId());
+      }
+    }
   }
-
-  // TODO
-  //    @Test
-  //    public void facilityMaintenanceRequestResult() {
-  //        FacilityMaintenanceRequestResult facilityMaintenanceRequest =
-  //                maintenanceService.makeFacilityMaintRequest
-  //                        (1, TestData.sampleMaintenanceRequest());
-  //
-  //        System.out.println("Fac maint request -> " + facilityMaintenanceRequest.toString());
-  //    }
 
   @Test //currently just testing listing inspections, will add insert functionality once passes
   public void addInspectionToList() throws SQLException {
@@ -74,6 +69,25 @@ public class UsageServiceTest {
                     LocalDateTime.of(2018, 1, 1, 1, 1, 0, 0),
                     LocalDateTime.of(2019, 10, 1, 1, 1, 0, 0)));
     System.out.println("Inspections of facility within given range -> " + listOfInspections.toString());
+  }
+
+  @Test
+  public void inUseDuringInterval() throws SQLException, FMSException {
+
+    Facility facility = null;
+    try {
+      facility = prepFacilityInDb();
+      Building building = facility.getFacilityDetail().getBuildings().get(0);
+      Room room = building.getRooms().get(0);
+
+      int rId = room.getId();
+      Range<LocalDateTime> range = TestData.sampleRange();
+      assert (usageService.isInUseDuringInterval(rId, range) == false);
+    } finally {
+      if(facility != null) {
+        facilityService.removeFacility(facility.getId());
+      }
+    }
   }
 
 }

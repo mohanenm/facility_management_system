@@ -155,10 +155,12 @@ public class DBUsage {
     Timestamp start = Timestamp.valueOf(queryPeriod.lowerEndpoint());
     Timestamp finish = Timestamp.valueOf(queryPeriod.upperEndpoint());
 
-    checkRoomAvailability.setTimestamp(1, start);
-    checkRoomAvailability.setTimestamp(2, finish);
-    checkRoomAvailability.setTimestamp(3, start);
-    checkRoomAvailability.setTimestamp(4, finish);
+    checkRoomAvailability.setInt(1, roomId);
+    checkRoomAvailability.setTimestamp(2, start);
+    checkRoomAvailability.setTimestamp(3, finish);
+    checkRoomAvailability.setTimestamp(4, start);
+    checkRoomAvailability.setTimestamp(5, finish);
+
     ResultSet resultSet = checkRoomAvailability.executeQuery();
 
     // If our query returns any records, it is in use during the interval.

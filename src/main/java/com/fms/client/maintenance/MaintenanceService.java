@@ -7,6 +7,9 @@ import com.fms.model.FacilityMaintenanceRequest;
 import com.fms.model.MaintenanceRequest;
 import com.fms.model.RoomMaintenanceRequest;
 import com.google.common.collect.Range;
+import org.apache.logging.log4j.Level;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.sql.SQLException;
 import java.time.LocalDateTime;
@@ -14,6 +17,8 @@ import java.time.LocalDateTime;
 public class MaintenanceService {
 
   DBMaintenance dbMaintenance;
+
+  Logger logger = LogManager.getLogger();
 
   MaintenanceService() {
     try {
@@ -63,13 +68,14 @@ public class MaintenanceService {
     }
   }
 
-  public boolean scheduleRoomMaintenance(
-      int roomRequestId, Range<LocalDateTime> maintenancePeriod) throws FMSException {
+  public int scheduleRoomMaintenance (
+          int roomMaintenanceRequestId, Range<LocalDateTime> maintenancePeriod) throws FMSException {
     try {
-      return dbMaintenance.scheduleRoomMaintenance(roomRequestId, maintenancePeriod);
+      return dbMaintenance.scheduleRoomMaintenance(roomMaintenanceRequestId, maintenancePeriod);
     } catch (SQLException e) {
-      //ToDO:
-      return false;
+      logger.log(Level.ERROR, "Schedule room maintenance failed, excp: " + e);
+      throw new FMSException(FacilityErrorCode.SCHEDULE_ROOM_MAINTENANCE_FAILED,
+              "Failed to schedule maintenance on room, excp ->: " + e.toString());
     }
   }
 
