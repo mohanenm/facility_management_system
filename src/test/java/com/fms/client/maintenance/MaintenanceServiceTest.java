@@ -21,11 +21,13 @@ public class MaintenanceServiceTest {
   MaintenanceService maintenanceService;
   FacilityService facilityService;
   UsageService usageService;
+  TestData testData;
 
   public MaintenanceServiceTest() throws SQLException {
     maintenanceService = new MaintenanceService();
     facilityService = new FacilityService();
     usageService = new UsageService();
+    testData = new TestData();
   }
 
   @Rule
@@ -36,7 +38,7 @@ public class MaintenanceServiceTest {
 
       Facility facility = null;
       try {
-          facility = prepFacilityInDb();
+          facility = testData.prepFacilityInDb();
           MaintenanceRequest maintenanceRequest = TestData.sampleMaintenanceRequest();
 
           FacilityMaintenanceRequest facilityMaintenanceRequest =
@@ -64,7 +66,7 @@ public class MaintenanceServiceTest {
 
       Facility facility = null;
         try {
-            facility = prepFacilityInDb();
+            facility = testData.prepFacilityInDb();
 
             Building building = facility.getFacilityDetail().getBuildings().get(0);
             Room room = building.getRooms().get(0);
@@ -94,7 +96,7 @@ public class MaintenanceServiceTest {
 
       Facility facility = null;
       try {
-          facility = prepFacilityInDb();
+          facility = testData.prepFacilityInDb();
           FacilityMaintenanceSchedule facilityMaintenanceSchedule = TestData.sampleFacilityMaintenanceSchedule();
           int fmsId = facilityMaintenanceSchedule.getId();
 
@@ -110,22 +112,6 @@ public class MaintenanceServiceTest {
 
   }
 
-  public Facility prepFacilityInDb() throws FMSException {
-    Facility facility =
-            facilityService.addNewFacility("Test Facility", "Healthcare Facility");
-    return facilityService.addFacilityDetail(facility.getId(), TestData.sampleFacilityDetail());
-  }
-
-  private RoomMaintenanceRequest prepRoomMaintenanceRequest(Facility facility) throws FMSException {
-      Building building = facility.getFacilityDetail().getBuildings().get(0);
-      Room room = building.getRooms().get(0);
-      return maintenanceService.makeRoomMaintRequest(room.getId(), TestData.sampleMaintenanceRequest());
-  }
-
-    private FacilityMaintenanceRequest prepFacilityMaintenanceRequest(Facility facility) throws FMSException {
-        return maintenanceService.makeFacilityMaintRequest(facility.getId(), TestData.sampleMaintenanceRequest());
-    }
-
   @Test
   public void scheduleConflictingFacilityMaintenance() throws SQLException,
           FMSException, RoomSchedulingConflictException {
@@ -133,7 +119,7 @@ public class MaintenanceServiceTest {
       Facility facility = null;
 
       try {
-          facility = prepFacilityInDb();
+          facility = testData.prepFacilityInDb();
           Building building = facility.getFacilityDetail().getBuildings().get(0);
           Room room = building.getRooms().get(0);
           Range<LocalDateTime> sampleRange = sampleRange();
@@ -154,13 +140,13 @@ public class MaintenanceServiceTest {
   }
 
   @Test
-  public void scheduleRoomMaintenance() throws FMSException {
+  public void scheduleRoomMaintenance() throws FMSException, SQLException {
 
       Facility facility = null;
 
       try {
-          facility = prepFacilityInDb();
-          RoomMaintenanceRequest roomMaintenanceRequest = prepRoomMaintenanceRequest(facility);
+          facility = testData.prepFacilityInDb();
+          RoomMaintenanceRequest roomMaintenanceRequest = testData.prepRoomMaintenanceRequest(facility);
           int rmsId = maintenanceService.scheduleRoomMaintenance(roomMaintenanceRequest.getId(), sampleRange());
           assert (rmsId > 0);
           System.out.println("Room maintenance schedule ID: " + rmsId);
@@ -182,7 +168,7 @@ public class MaintenanceServiceTest {
 
         Facility facility = null;
         try {
-          facility = prepFacilityInDb();
+          facility = testData.prepFacilityInDb();
           Building building = facility.getFacilityDetail().getBuildings().get(0);
           Room room = building.getRooms().get(0);
           Range<LocalDateTime> sampleRange = sampleRange();
@@ -206,6 +192,11 @@ public class MaintenanceServiceTest {
                 facilityService.removeFacility(facility.getId());
             }
       }
+    }
+
+    @Test
+    public void calcMaintenanceCost() throws SQLException, FMSException {
+
     }
 
 

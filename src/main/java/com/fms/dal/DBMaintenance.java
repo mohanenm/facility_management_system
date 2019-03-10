@@ -43,6 +43,8 @@ public class DBMaintenance {
 
   private PreparedStatement insertRoomMaintenanceSchedule;
 
+  private PreparedStatement insertMaintenanceHourlyRate;
+
   public DBMaintenance() throws SQLException {
     insertMaintenanceRequest =
         DBConnection.getConnection()
@@ -189,7 +191,16 @@ public class DBMaintenance {
                                     "    (?, ?, ?)\n" +
                                     "returning id");
 
+    insertMaintenanceHourlyRate =
+            DBConnection.getConnection().prepareStatement(
+                    "insert into \n" +
+                            "    maintenance_hourly_rate\n" +
+                            "    (facility_id, maintenance_type_id, hourly_rate)\n" +
+                            "values(?, ?, ?)\n" +
+                            "returning id");
+
   }
+
 
   // Returns the maintenance request with the associated database id for the request
   public FacilityMaintenanceRequest makeFacilityMaintRequest(
@@ -206,7 +217,7 @@ public class DBMaintenance {
       ResultSet resultSet = insertMaintenanceRequest.executeQuery();
       resultSet.next();
 
-      int maintenanceRequestId = resultSet.getInt((1));
+      int maintenanceRequestId = resultSet.getInt(1);
       System.out.println("Insert of maint req id -> " + maintenanceRequestId);
 
       ///// Insert facility maintenance request
@@ -398,6 +409,21 @@ public class DBMaintenance {
     insertFacilityMaintenanceSchedule.setTimestamp(2, start);
     insertFacilityMaintenanceSchedule.setTimestamp(3, finish);
     insertFacilityMaintenanceSchedule.executeQuery();
+  }
+
+  public int setMaintenanceHourlyRate
+          (int facilityId, int maintenanceTypeId, double hourlyRate) throws SQLException {
+    try {
+      insertMaintenanceHourlyRate.setInt(1, facilityId);
+      insertMaintenanceHourlyRate.setInt(2, maintenanceTypeId);
+      insertMaintenanceHourlyRate.setDouble(3, hourlyRate);
+      ResultSet resultSet = insertMaintenanceHourlyRate.executeQuery();
+      resultSet.next();
+      return resultSet.getInt(1);
+    } catch(SQLException e) {
+      System.out.println("caught exception: " + e.toString());
+      throw e;
+    }
   }
 
 

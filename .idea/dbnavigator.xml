@@ -25,8 +25,9 @@
     <show-object-properties value="true" />
     <loaded-nodes>
       <connection connection-id="0b42631a-774e-4d7c-8cf1-f6f4a3a76644">
-        <schema name="pg_catalog" object-types="table, function, view" />
-        <schema name="public" object-types="table, function, view, column" />
+        <schema name="information_schema" object-types="sequence, table, column, constraint, dataset trigger, view, index, function" />
+        <schema name="pg_catalog" object-types="table, view, function" />
+        <schema name="public" object-types="sequence, table, column, constraint, dataset trigger, view, index, function" />
       </connection>
     </loaded-nodes>
   </component>
@@ -63,7 +64,85 @@ select * from facility_maintenance_request;
 select * from facility;
 select * from building;
 select * from room;
-select * from room_maintenance_request;]]></console>
+select * from room_maintenance_request;
+
+select * from maintenance_hourly_rate;
+
+insert into 
+    maintenance_hourly_rate
+    (facility_id, hourly_rate, maintenance_type_id)
+values(1, 16.0, 2)
+returning id;
+
+select * from maintenance_hourly_rate
+
+insert into 
+    facility (description, name)
+values
+('testing facility', 'f1')
+returning id;
+
+select * from facility;
+
+select
+    R.id, R.id
+from
+    room R
+    inner join building on (R.building_id = building.id);
+
+select 
+   -- R.id as room_id,
+   -- *
+   RMS.*,
+   RMS.finish - RMS.start
+from 
+    room R 
+    inner join building B on (R.building_id = B.id)
+    inner join facility F on (B.facility_id = F.id)
+    inner join room_maintenance_request RMR on (R.id = RMR.room_id)
+    inner join room_maintenance_schedule RMS on (RMS.room_maintenance_request_id = RMR.id)
+where 
+    F.id = 2;
+    
+    
+    
+select 
+   -- R.id as room_id,
+   -- *
+   F.id, MT.id, 
+   
+   *
+   --SUM(EXTRACT(EPOCH FROM (RMS.finish - RMS.start)))/3600
+from 
+    room R 
+    inner join building B on (R.building_id = B.id)
+    inner join facility F on (B.facility_id = F.id)
+    inner join room_maintenance_request RMR on (R.id = RMR.room_id)
+    inner join maintenance_type MT on (RMR.maintenance_request_id = MT.id)
+    inner join room_maintenance_schedule RMS on (RMS.room_maintenance_request_id = RMR.id)
+where 
+    F.id = 2
+--group by
+--    F.id,
+--    MT.id
+    ;
+    
+select * from maintenance_request;
+
+        
+select * from room_maintenance_request;
+
+select 
+    * 
+from 
+    room_maintenance_schedule RMS
+    inner join room_maintenance_request RMR on (RMS.room_maintenance_request_id = RMR.id)
+    inner join room R on (RMR.room_id = R.id)
+    inner join building B on (R.building_id = B.id)
+    inner join maintenance_request MR on (RMR.maintenance_request_id = MR.id)
+    inner join facility F on (B.facility_id = F.id)
+where 
+    F.id = 1;]]></console>
       <console name="facility queries" type="STANDARD" schema="public" session="Main"><![CDATA[SELECT id, room_id, start, finish, maintenance_request_id FROM room_reservation]]></console>
     </connection>
   </component>
@@ -74,12 +153,14 @@ select * from room_maintenance_request;]]></console>
     <connection id="0b42631a-774e-4d7c-8cf1-f6f4a3a76644" />
   </component>
   <component name="DBNavigator.Project.DatasetFilterManager">
+    <filter-actions connection-id="0b42631a-774e-4d7c-8cf1-f6f4a3a76644" dataset="public.room_maintenance_request" active-filter-id="" />
     <filter-actions connection-id="0b42631a-774e-4d7c-8cf1-f6f4a3a76644" dataset="public.facility" active-filter-id="" />
   </component>
   <component name="DBNavigator.Project.EditorStateManager">
     <last-used-providers />
   </component>
   <component name="DBNavigator.Project.FileConnectionMappingManager">
+    <mapping file-url="file://$PROJECT_DIR$/docs/schema/facility.seed_data.sql" connection-id="0b42631a-774e-4d7c-8cf1-f6f4a3a76644" session-id="MAIN" current-schema="public" />
     <mapping file-url="file://$PROJECT_DIR$/docs/schema/facility.schema.sql" connection-id="0b42631a-774e-4d7c-8cf1-f6f4a3a76644" session-id="MAIN" current-schema="public" />
   </component>
   <component name="DBNavigator.Project.MethodExecutionManager">
@@ -117,9 +198,9 @@ select * from room_maintenance_request;]]></console>
           <port value="5432" />
           <database value="postgres" />
           <os-authentication value="false" />
-          <empty-password value="false" />
+          <empty-authentication value="false" />
           <user value="postgres" />
-          <password value="cG9zdGdyZXM=" />
+          <deprecated-pwd value="cG9zdGdyZXM=" />
         </database>
         <properties>
           <auto-commit value="false" />
@@ -129,7 +210,7 @@ select * from room_maintenance_request;]]></console>
           <proxy-host value="" />
           <proxy-port value="22" />
           <proxy-user value="" />
-          <proxy-password value="" />
+          <deprecated-proxy-pwd value="" />
           <auth-type value="PASSWORD" />
           <key-file value="" />
           <key-passphrase value="" />
@@ -151,7 +232,7 @@ select * from room_maintenance_request;]]></console>
           <environment-type value="default" />
           <idle-time-to-disconnect value="30" />
           <idle-time-to-disconnect-pool value="5" />
-          <password-expiry-time value="10" />
+          <credential-expiry-time value="10" />
           <max-connection-pool-size value="7" />
           <alternative-statement-delimiter value="" />
         </details>

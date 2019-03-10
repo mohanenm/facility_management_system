@@ -20,7 +20,7 @@ public class MaintenanceService {
 
   Logger logger = LogManager.getLogger();
 
-  MaintenanceService() {
+  public MaintenanceService() {
     try {
       dbMaintenance = new DBMaintenance();
     } catch (SQLException e) {
@@ -89,4 +89,5 @@ public class MaintenanceService {
       return false;
     }
   }
+
 }

@@ -1,15 +1,34 @@
 package com.fms;
 
+import com.fms.client.common.FMSException;
+import com.fms.client.facility.FacilityService;
+import com.fms.client.maintenance.MaintenanceService;
+import com.fms.client.usage.UsageService;
 import com.fms.model.*;
 import com.fms.req_reply_api.FacilityMaintenanceRequestResult;
 import com.fms.req_reply_api.RoomMaintenanceRequestResult;
 import com.google.common.collect.Range;
 
+import java.sql.SQLException;
 import java.time.LocalDateTime;
 import java.time.Month;
 import java.util.ArrayList;
 
 public class TestData {
+
+  MaintenanceService maintenanceService;
+  FacilityService facilityService;
+  UsageService usageService;
+
+  public TestData() throws SQLException {
+    try {
+      maintenanceService = new MaintenanceService();
+      facilityService = new FacilityService();
+      usageService = new UsageService();
+    } catch(SQLException e) {
+      System.out.println("SQL exception: " + e.toString());
+    }
+  }
 
   public static Building sampleBuilding(String name) {
     ArrayList<Room> rooms = new ArrayList<>();
@@ -48,8 +67,8 @@ public class TestData {
     return new MaintenanceType(-1, "Sample maintenance type");
   }
 
-  public static MaintenanceRate sampleMaintenanceRate() {
-    return new MaintenanceRate(-1, -1, 1, 20.00);
+  public static MaintenanceHourlyRate sampleMaintenanceHourlyRate() {
+    return new MaintenanceHourlyRate(-1, -1, 1, 20.00);
   }
 
   public static MaintenanceRequest sampleMaintenanceRequest() {
@@ -108,4 +127,22 @@ public class TestData {
         sampleRoomMaintenanceRequest(),
         "The Room Maintenance Request does not correctly reference an existing room ");
   }
+
+  public Facility prepFacilityInDb() throws FMSException {
+    Facility facility =
+            facilityService.addNewFacility("Test Facility", "Healthcare Facility");
+    return facilityService.addFacilityDetail(facility.getId(), TestData.sampleFacilityDetail());
+  }
+
+  public RoomMaintenanceRequest prepRoomMaintenanceRequest(Facility facility) throws FMSException {
+    Building building = facility.getFacilityDetail().getBuildings().get(0);
+    Room room = building.getRooms().get(0);
+    return maintenanceService.makeRoomMaintRequest(room.getId(), TestData.sampleMaintenanceRequest());
+  }
+
+  public FacilityMaintenanceRequest prepFacilityMaintenanceRequest(Facility facility) throws FMSException {
+    return maintenanceService.makeFacilityMaintRequest(facility.getId(), TestData.sampleMaintenanceRequest());
+  }
+
+  public MaintenanceHourlyRate prepMaintenanceHourlyRate(Facility facility) throws FMSException {return null;}
 }

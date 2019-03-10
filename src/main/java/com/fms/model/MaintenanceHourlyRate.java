@@ -3,13 +3,13 @@ package com.fms.model;
 import com.google.gson.*;
 import java.io.IOException;
 
-public class MaintenanceRate {
+public class MaintenanceHourlyRate {
 
-  public MaintenanceRate(int id, int facilityId, int maintenanceTypeId, double rate) {
+  public MaintenanceHourlyRate(int id, int facilityId, int maintenanceTypeId, double hourlyRate) {
     this.id = id;
     this.facilityId = facilityId;
     this.maintenanceTypeId = maintenanceTypeId;
-    this.rate = rate;
+    this.hourlyRate = hourlyRate;
   }
 
   public int getId() {
@@ -25,7 +25,7 @@ public class MaintenanceRate {
   }
 
   public double getRate() {
-    return rate;
+    return hourlyRate;
   }
 
   public String toString() {
@@ -34,32 +34,32 @@ public class MaintenanceRate {
     return gson.toJson(this);
   }
 
-  public static MaintenanceRate fromJson(String maintenanceRate) throws IOException {
+  public static MaintenanceHourlyRate fromJson(String maintenanceRate) throws IOException {
     JsonParser parser = new JsonParser();
     JsonElement jsonTree = parser.parse(maintenanceRate);
     JsonObject jsonObject = jsonTree.getAsJsonObject();
 
-    return new MaintenanceRate(
+    return new MaintenanceHourlyRate(
         jsonObject.get("id").getAsInt(),
         jsonObject.get("facilityId").getAsInt(),
         jsonObject.get("maintenanceTypeId").getAsInt(),
-        jsonObject.get("rate").getAsDouble());
+        jsonObject.get("hourlyRate").getAsDouble());
   }
 
   @Override
   public boolean equals(Object o) {
-    final MaintenanceRate r = (MaintenanceRate) o;
+    final MaintenanceHourlyRate r = (MaintenanceHourlyRate) o;
     if (r == this) {
       return true;
     }
     return id == r.id
         && facilityId == r.facilityId
         && maintenanceTypeId == r.maintenanceTypeId
-        && rate == r.rate;
+        && hourlyRate == r.hourlyRate;
   }
 
   private int id;
   private int facilityId;
   private int maintenanceTypeId;
-  private double rate;
+  private double hourlyRate;
 }

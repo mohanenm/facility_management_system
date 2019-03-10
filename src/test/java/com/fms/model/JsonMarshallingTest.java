@@ -71,11 +71,11 @@ public class JsonMarshallingTest {
   }
 
   @Test
-  public void MaintenanceRateMarshalling() throws IOException {
-    MaintenanceRate maintenanceRate = TestData.sampleMaintenanceRate();
-    MaintenanceRate again = MaintenanceRate.fromJson(maintenanceRate.toString());
-    boolean areEqual = again.equals(maintenanceRate);
-    System.out.println("Maintenance rate -> " + maintenanceRate);
+  public void MaintenanceHourlyRateMarshalling() throws IOException {
+    MaintenanceHourlyRate maintenanceHourlyRate = TestData.sampleMaintenanceHourlyRate();
+    MaintenanceHourlyRate again = MaintenanceHourlyRate.fromJson(maintenanceHourlyRate.toString());
+    boolean areEqual = again.equals(maintenanceHourlyRate);
+    System.out.println("Maintenance rate -> " + maintenanceHourlyRate);
     assert (areEqual);
   }
 
