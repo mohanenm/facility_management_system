@@ -268,7 +268,7 @@ public class DBMaintenance {
                             // parm_finish
                             "    ? between RMS.start and RMS.finish or\n" +
                             // parm_start
-                            "    ? <= RMS.start and \n" +
+                            "    (? <= RMS.start and \n" +
                             // parm_finish
                             "    ? >= RMS.finish)\n" +
                             "group by\n" +

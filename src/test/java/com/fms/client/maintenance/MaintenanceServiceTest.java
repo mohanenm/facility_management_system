@@ -13,7 +13,6 @@ import org.junit.rules.ExpectedException;
 
 import java.sql.SQLException;
 import java.time.LocalDateTime;
-import java.util.HashMap;
 
 import static com.fms.TestData.sampleRange;
 
@@ -197,6 +196,8 @@ public class MaintenanceServiceTest {
       }
     }
 
+    /*
+
     @Test
     public void calcMaintenanceCost() throws SQLException, FMSException {
         Facility facility = null;
@@ -212,6 +213,7 @@ public class MaintenanceServiceTest {
             }
         }
     }
+    */
 
 
 }

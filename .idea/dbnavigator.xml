@@ -25,21 +25,20 @@
     <show-object-properties value="true" />
     <loaded-nodes>
       <connection connection-id="0b42631a-774e-4d7c-8cf1-f6f4a3a76644">
-        <schema name="information_schema" object-types="sequence, table, column, constraint, dataset trigger, view, index, function" />
-        <schema name="pg_catalog" object-types="table, view, function" />
-        <schema name="public" object-types="sequence, table, column, constraint, dataset trigger, view, index, function" />
+        <schema name="pg_catalog" object-types="table, view" />
+        <schema name="public" object-types="column, table, view" />
       </connection>
     </loaded-nodes>
   </component>
   <component name="DBNavigator.Project.DatabaseConsoleManager">
     <connection id="0b42631a-774e-4d7c-8cf1-f6f4a3a76644">
-      <console name="facility" type="STANDARD" schema="public" session="Main"><![CDATA[select
+      <console name="facility" type="STANDARD" schema="public" session="Main">select
     *
 from facility_maintenance_schedule
 
 insert into 
     facility_maintenance_schedule 
-    ( facility_maintenence_request_id, "start", "finish")
+    ( facility_maintenence_request_id, &quot;start&quot;, &quot;finish&quot;)
 values
     (3, '2020-01-01 12:00', '2020-01-02 12:00')
 returning id;
@@ -201,8 +200,8 @@ where
     F.id = 2 and
     to_timestamp('2018-01-01 05:00:00', 'YYYY-MM-DD hh24:mi:ss') between RMS.start and RMS.finish or
     to_timestamp('2020-01-01 05:00:00', 'YYYY-MM-DD hh24:mi:ss') between RMS.start and RMS.finish or
-    (to_timestamp('2018-01-01 05:00:00', 'YYYY-MM-DD hh24:mi:ss')  < RMS.start and 
-     to_timestamp('2020-01-01 05:00:00', 'YYYY-MM-DD hh24:mi:ss') > RMS.finish)
+    (to_timestamp('2018-01-01 05:00:00', 'YYYY-MM-DD hh24:mi:ss')  &lt; RMS.start and 
+     to_timestamp('2020-01-01 05:00:00', 'YYYY-MM-DD hh24:mi:ss') &gt; RMS.finish)
 group by
     F.id, 
     MT.id,
@@ -242,8 +241,8 @@ where
     F.id = 2 and
     to_timestamp('2018-01-01 05:00:00', 'YYYY-MM-DD hh24:mi:ss') between RMS.start and RMS.finish or
     to_timestamp('2018-01-01 05:00:01', 'YYYY-MM-DD hh24:mi:ss') between RMS.start and RMS.finish or
-    (to_timestamp('2018-01-01 05:00:00', 'YYYY-MM-DD hh24:mi:ss')  < RMS.start and 
-     to_timestamp('2018-01-01 05:00:01', 'YYYY-MM-DD hh24:mi:ss') > RMS.finish)
+    (to_timestamp('2018-01-01 05:00:00', 'YYYY-MM-DD hh24:mi:ss')  &lt; RMS.start and 
+     to_timestamp('2018-01-01 05:00:01', 'YYYY-MM-DD hh24:mi:ss') &gt; RMS.finish)
 group by
     F.id, 
     MT.id,
@@ -282,8 +281,12 @@ where
     
 delete from 
     maintenance_hourly_rate
-where id = 2]]></console>
-      <console name="facility queries" type="STANDARD" schema="public" session="Main"><![CDATA[SELECT id, room_id, start, finish, maintenance_request_id FROM room_reservation]]></console>
+where id = 2;
+
+rollback;
+
+select * from facility;</console>
+      <console name="facility queries" type="STANDARD" schema="public" session="Main">SELECT id, room_id, start, finish, maintenance_request_id FROM room_reservation</console>
     </connection>
   </component>
   <component name="DBNavigator.Project.DatabaseFileManager">
