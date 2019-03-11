@@ -1,4 +1,4 @@
-package com.fms.service.common;
+package com.fms.domainLayer.common;
 
 public enum FacilityErrorCode {
     BUILDING_ALREADY_EXISTS,

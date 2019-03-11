@@ -1,4 +1,4 @@
-package com.fms.service.usage;
+package com.fms.domainLayer.usage;
 
 import com.fms.dal.DBUsage;
 import com.fms.dal.RoomSchedulingConflictException;

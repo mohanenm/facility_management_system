@@ -1,3 +1,3 @@
-package com.fms.service.usage;
+package com.fms.domainLayer.usage;
 
 public class FacilityScheduler {}

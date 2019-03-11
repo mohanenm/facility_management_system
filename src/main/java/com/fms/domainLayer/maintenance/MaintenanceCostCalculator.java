@@ -1,7 +1,7 @@
-package com.fms.service.maintenance;
+package com.fms.domainLayer.maintenance;
 
-import com.fms.service.common.FMSException;
-import com.fms.service.common.FacilityErrorCode;
+import com.fms.domainLayer.common.FMSException;
+import com.fms.domainLayer.common.FacilityErrorCode;
 import com.fms.dal.DBMaintenance;
 import com.google.common.collect.Range;
 import org.apache.logging.log4j.Level;

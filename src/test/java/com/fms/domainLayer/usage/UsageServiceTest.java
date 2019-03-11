@@ -1,8 +1,8 @@
-package com.fms.service.usage;
+package com.fms.domainLayer.usage;
 
 import com.fms.TestData;
-import com.fms.service.common.FMSException;
-import com.fms.service.facility.FacilityService;
+import com.fms.domainLayer.common.FMSException;
+import com.fms.domainLayer.facility.FacilityService;
 import com.fms.dal.RoomSchedulingConflictException;
 import com.fms.model.*;
 import com.google.common.collect.Range;
