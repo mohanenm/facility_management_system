@@ -1,7 +1,7 @@
-package com.fms.client.facility;
+package com.fms.service.facility;
 
 import com.fms.TestData;
-import com.fms.client.common.FMSException;
+import com.fms.service.common.FMSException;
 import com.fms.model.*;
 import com.fms.req_reply_api.GetFacilityDetailResult;
 import org.junit.Rule;

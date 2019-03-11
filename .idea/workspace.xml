@@ -2,13 +2,21 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="ad95d66d-f414-4d3d-9027-4313c6346107" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/dataSources.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/codeStyles/Project.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/codeStyles/Project.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/fms/service/inspection/Inspection.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/schema/facility.schema.sql" beforeDir="false" afterPath="$PROJECT_DIR$/docs/schema/facility.schema.sql" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/fms/dal/DBConnection.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/fms/dal/DBConnection.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/fms/client/common/FMSException.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/fms/service/common/FMSException.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/fms/client/common/FacilityErrorCode.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/fms/service/common/FacilityErrorCode.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/fms/client/facility/FacilityService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/fms/service/facility/FacilityService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/fms/client/maintenance/MaintenanceCostCalculator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/fms/service/maintenance/MaintenanceCostCalculator.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/fms/client/maintenance/MaintenanceScheduler.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/fms/client/maintenance/MaintenanceService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/fms/service/maintenance/MaintenanceService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/fms/client/usage/FacilityScheduler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/fms/service/usage/FacilityScheduler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/fms/client/usage/UsageCalculator.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/fms/client/usage/UsageService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/fms/service/usage/UsageService.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/test/java/com/fms/TestData.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/fms/TestData.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/com/fms/client/maintenance/MaintenanceServiceTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/fms/client/maintenance/MaintenanceServiceTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/fms/client/facility/FacilityServiceTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/fms/service/facility/FacilityServiceTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/fms/client/maintenance/MaintenanceServiceTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/fms/service/maintenance/MaintenanceServiceTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/fms/client/usage/UsageServiceTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/fms/service/usage/UsageServiceTest.java" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/.gradle/" />
     <ignored path="$PROJECT_DIR$/build/" />
@@ -133,45 +141,73 @@
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/docs/schema/facility.schema.sql">
+        <entry file="file://$PROJECT_DIR$/src/main/java/com/fms/service/facility/FacilityService.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="75">
-              <caret line="5" column="39" selection-end-line="109" />
+            <state relative-caret-position="225">
+              <caret line="28" selection-start-line="28" selection-end-line="28" />
+              <folding>
+                <element signature="e#804#805#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/test/java/com/fms/client/maintenance/MaintenanceServiceTest.java">
+        <entry file="file://$PROJECT_DIR$/src/main/java/com/fms/service/common/FacilityErrorCode.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="253">
-              <caret line="209" column="82" selection-start-line="209" selection-start-column="82" selection-end-line="209" selection-end-column="82" />
+            <state relative-caret-position="150">
+              <caret line="10" column="32" selection-start-line="10" selection-start-column="32" selection-end-line="10" selection-end-column="32" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/com/fms/service/usage/UsageService.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="570">
+              <caret line="46" column="48" lean-forward="true" selection-start-line="46" selection-start-column="48" selection-end-line="46" selection-end-column="48" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/com/fms/service/common/FMSException.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="390">
+              <caret line="30" selection-start-line="30" selection-end-line="30" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/com/fms/dal/DBMaintenance.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="-1446">
+              <caret line="252" column="62" selection-start-line="252" selection-start-column="62" selection-end-line="252" selection-end-column="62" />
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/com/fms/service/inspection/Inspection.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="30">
+              <caret line="2" column="23" selection-start-line="2" selection-start-column="23" selection-end-line="2" selection-end-column="23" />
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/test/java/com/fms/TestData.java">
+        <entry file="file://$PROJECT_DIR$/src/test/java/com/fms/service/maintenance/MaintenanceServiceTest.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="271">
-              <caret line="77" column="37" selection-start-line="77" selection-start-column="37" selection-end-line="77" selection-end-column="37" />
-              <folding>
-                <element signature="imports" expanded="true" />
-                <element signature="e#2217#2218#0" expanded="true" />
-                <element signature="e#2284#2285#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/com/fms/client/maintenance/MaintenanceService.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="168">
-              <caret line="70" column="12" selection-start-line="70" selection-start-column="12" selection-end-line="70" selection-end-column="12" />
+            <state relative-caret-position="495">
+              <caret line="203" column="87" selection-start-line="203" selection-start-column="87" selection-end-line="203" selection-end-column="87" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -180,58 +216,31 @@
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/test/java/com/fms/client/facility/FacilityServiceTest.java">
+        <entry file="file://$PROJECT_DIR$/src/main/java/com/fms/service/usage/FacilityScheduler.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="194">
-              <caret line="23" selection-start-line="23" selection-end-line="23" />
+            <state relative-caret-position="30">
+              <caret line="2" column="13" selection-start-line="2" selection-start-column="13" selection-end-line="2" selection-end-column="13" />
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/com/fms/dal/DBFacility.java">
+        <entry file="file://$PROJECT_DIR$/src/main/java/com/fms/Utility.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1121">
-              <caret line="75" selection-start-line="75" selection-end-line="75" />
+            <state relative-caret-position="30">
+              <caret line="2" column="13" selection-start-line="2" selection-start-column="13" selection-end-line="2" selection-end-column="13" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/com/fms/service/maintenance/MaintenanceCostCalculator.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="450">
+              <caret line="30" column="43" selection-start-line="30" selection-start-column="43" selection-end-line="30" selection-end-column="43" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="jar://$PROJECT_DIR$/third_party/postgresql-42.2.5.jar!/org/postgresql/jdbc/PgStatement.class">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="15">
-              <caret line="671" selection-start-line="671" selection-end-line="671" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="jar://$PROJECT_DIR$/third_party/postgresql-42.2.5.jar!/org/postgresql/jdbc/PgConnection.class">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="3060">
-              <caret line="290" selection-start-line="290" selection-end-line="290" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/com/fms/dal/DBConnection.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="195">
-              <caret line="16" column="56" selection-start-line="16" selection-start-column="56" selection-end-line="16" selection-end-column="56" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="jar:///Library/Java/JavaVirtualMachines/jdk-11.0.2.jdk/Contents/Home/lib/src.zip!/java.base/java/net/SocketInputStream.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="930">
-              <caret line="92" column="23" selection-start-line="92" selection-start-column="23" selection-end-line="92" selection-end-column="23" />
             </state>
           </provider>
         </entry>
@@ -288,7 +297,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/src/main/java/com/fms/model/RoomReservationSchedule.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/fms/model/RoomSchedule.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/fms/model/RoomRequestResult.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/fms/model/RoomRequest.java" />
@@ -339,6 +347,7 @@
         <option value="$PROJECT_DIR$/src/main/java/com/fms/client/maintenance/MaintenanceService.java" />
         <option value="$PROJECT_DIR$/src/test/java/com/fms/TestData.java" />
         <option value="$PROJECT_DIR$/src/test/java/com/fms/client/maintenance/MaintenanceServiceTest.java" />
+        <option value="$PROJECT_DIR$/src/test/java/com/fms/service/maintenance/MaintenanceServiceTest.java" />
       </list>
     </option>
   </component>
@@ -363,6 +372,7 @@
   <component name="ProjectView">
     <navigator proportions="" version="1">
       <showMembers ProjectPane="false" />
+      <autoscrollToSource ProjectPane="true" />
       <autoscrollFromSource ProjectPane="true" />
       <foldersAlwaysOnTop value="true" />
     </navigator>
@@ -427,7 +437,66 @@
               <item name="main" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
               <item name="java" type="462c0819:PsiDirectoryNode" />
               <item name="fms" type="462c0819:PsiDirectoryNode" />
-              <item name="model" type="462c0819:PsiDirectoryNode" />
+              <item name="req_reply_api" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="facility" type="b2602c69:ProjectViewProjectNode" />
+              <item name="facility_management_system" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+              <item name="fms" type="462c0819:PsiDirectoryNode" />
+              <item name="service" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="facility" type="b2602c69:ProjectViewProjectNode" />
+              <item name="facility_management_system" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+              <item name="fms" type="462c0819:PsiDirectoryNode" />
+              <item name="service" type="462c0819:PsiDirectoryNode" />
+              <item name="common" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="facility" type="b2602c69:ProjectViewProjectNode" />
+              <item name="facility_management_system" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+              <item name="fms" type="462c0819:PsiDirectoryNode" />
+              <item name="service" type="462c0819:PsiDirectoryNode" />
+              <item name="facility" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="facility" type="b2602c69:ProjectViewProjectNode" />
+              <item name="facility_management_system" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+              <item name="fms" type="462c0819:PsiDirectoryNode" />
+              <item name="service" type="462c0819:PsiDirectoryNode" />
+              <item name="inspection" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="facility" type="b2602c69:ProjectViewProjectNode" />
+              <item name="facility_management_system" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+              <item name="fms" type="462c0819:PsiDirectoryNode" />
+              <item name="service" type="462c0819:PsiDirectoryNode" />
+              <item name="maintenance" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="facility" type="b2602c69:ProjectViewProjectNode" />
+              <item name="facility_management_system" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+              <item name="fms" type="462c0819:PsiDirectoryNode" />
+              <item name="service" type="462c0819:PsiDirectoryNode" />
+              <item name="usage" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="facility" type="b2602c69:ProjectViewProjectNode" />
@@ -457,7 +526,7 @@
               <item name="test" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
               <item name="java" type="462c0819:PsiDirectoryNode" />
               <item name="fms" type="462c0819:PsiDirectoryNode" />
-              <item name="client" type="462c0819:PsiDirectoryNode" />
+              <item name="service" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="facility" type="b2602c69:ProjectViewProjectNode" />
@@ -466,7 +535,7 @@
               <item name="test" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
               <item name="java" type="462c0819:PsiDirectoryNode" />
               <item name="fms" type="462c0819:PsiDirectoryNode" />
-              <item name="client" type="462c0819:PsiDirectoryNode" />
+              <item name="service" type="462c0819:PsiDirectoryNode" />
               <item name="maintenance" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
@@ -476,17 +545,8 @@
               <item name="test" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
               <item name="java" type="462c0819:PsiDirectoryNode" />
               <item name="fms" type="462c0819:PsiDirectoryNode" />
-              <item name="client" type="462c0819:PsiDirectoryNode" />
+              <item name="service" type="462c0819:PsiDirectoryNode" />
               <item name="usage" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="facility" type="b2602c69:ProjectViewProjectNode" />
-              <item name="facility_management_system" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="test" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
-              <item name="java" type="462c0819:PsiDirectoryNode" />
-              <item name="fms" type="462c0819:PsiDirectoryNode" />
-              <item name="model" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="facility" type="b2602c69:ProjectViewProjectNode" />
@@ -565,13 +625,13 @@
     <property name="DatabaseDriversLRU" value="postgresql" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
-    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1552267385430" />
+    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1552268895351" />
     <property name="database.console.LAST_STATE" value="false" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="project.structure.last.edited" value="Project" />
     <property name="project.structure.proportion" value="0.15" />
     <property name="project.structure.side.proportion" value="0.0" />
-    <property name="settings.editor.selected.configurable" value="reference.settingsdialog.project.gradle" />
+    <property name="settings.editor.selected.configurable" value="preferences.editor" />
   </component>
   <component name="RecentsManager">
     <key name="CopyClassDialog.RECENTS_KEY">
@@ -590,7 +650,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="JUnit.MaintenanceServiceTest.calcMaintenanceCost">
+  <component name="RunManager" selected="JUnit.All in facility.test">
     <configuration name="All in facility.test" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="facility.test" />
       <option name="PACKAGE_NAME" value="" />
@@ -603,12 +663,12 @@
       <module name="facility.test" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="com.fms.client.facility.*" />
+          <option name="PATTERN" value="com.fms.service.facility.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
-      <option name="PACKAGE_NAME" value="com.fms.client.facility" />
-      <option name="MAIN_CLASS_NAME" value="com.fms.client.facility.FacilityServiceTest" />
+      <option name="PACKAGE_NAME" value="com.fms.service.facility" />
+      <option name="MAIN_CLASS_NAME" value="com.fms.service.facility.FacilityServiceTest" />
       <option name="METHOD_NAME" value="CRUDFacility" />
       <option name="TEST_OBJECT" value="method" />
       <method v="2">
@@ -619,12 +679,12 @@
       <module name="facility.test" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="com.fms.client.facility.*" />
+          <option name="PATTERN" value="com.fms.service.facility.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
-      <option name="PACKAGE_NAME" value="com.fms.client.facility" />
-      <option name="MAIN_CLASS_NAME" value="com.fms.client.facility.FacilityServiceTest" />
+      <option name="PACKAGE_NAME" value="com.fms.service.facility" />
+      <option name="MAIN_CLASS_NAME" value="com.fms.service.facility.FacilityServiceTest" />
       <option name="METHOD_NAME" value="buildingDuplicatesFails" />
       <option name="TEST_OBJECT" value="method" />
       <method v="2">
@@ -635,12 +695,12 @@
       <module name="facility.test" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="com.fms.client.facility.*" />
+          <option name="PATTERN" value="com.fms.service.facility.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
-      <option name="PACKAGE_NAME" value="com.fms.client.facility" />
-      <option name="MAIN_CLASS_NAME" value="com.fms.client.facility.FacilityServiceTest" />
+      <option name="PACKAGE_NAME" value="com.fms.service.facility" />
+      <option name="MAIN_CLASS_NAME" value="com.fms.service.facility.FacilityServiceTest" />
       <option name="METHOD_NAME" value="listFacilities" />
       <option name="TEST_OBJECT" value="method" />
       <method v="2">
@@ -651,12 +711,12 @@
       <module name="facility.test" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="com.fms.client.maintenance.*" />
+          <option name="PATTERN" value="com.fms.service.maintenance.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
-      <option name="PACKAGE_NAME" value="com.fms.client.maintenance" />
-      <option name="MAIN_CLASS_NAME" value="com.fms.client.maintenance.MaintenanceServiceTest" />
+      <option name="PACKAGE_NAME" value="com.fms.service.maintenance" />
+      <option name="MAIN_CLASS_NAME" value="com.fms.service.maintenance.MaintenanceServiceTest" />
       <option name="METHOD_NAME" value="calcMaintenanceCost" />
       <option name="TEST_OBJECT" value="method" />
       <method v="2">
@@ -672,8 +732,8 @@
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="JUnit.MaintenanceServiceTest.calcMaintenanceCost" />
         <item itemvalue="JUnit.All in facility.test" />
+        <item itemvalue="JUnit.MaintenanceServiceTest.calcMaintenanceCost" />
         <item itemvalue="JUnit.FacilityServiceTest.listFacilities" />
         <item itemvalue="JUnit.FacilityServiceTest.buildingDuplicatesFails" />
         <item itemvalue="JUnit.FacilityServiceTest.CRUDFacility" />
@@ -690,7 +750,7 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1549933805104</updated>
-      <workItem from="1552265513517" duration="1823000" />
+      <workItem from="1552265513517" duration="3280000" />
     </task>
     <task id="LOCAL-00001" summary="added some implementation for facility inspections">
       <created>1551998843502</created>
@@ -776,13 +836,17 @@
       <option name="project" value="LOCAL" />
       <updated>1552264501207</updated>
     </task>
-    <option name="localTasksCounter" value="13" />
+    <task id="LOCAL-00013" summary="!!CHANGED CONNECTION STRING TO 'Facility' from 'Postgres'!!&#10;&#10;added working calcMaintenanceCost test and methods at all layers">
+      <created>1552267580972</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1552267580973</updated>
+    </task>
+    <option name="localTasksCounter" value="14" />
     <servers />
   </component>
   <component name="TestHistory">
-    <history-entry file="All_in_facility_test - 2019.03.10 at 19h 31m 06s.xml">
-      <configuration name="All in facility.test" configurationId="JUnit" />
-    </history-entry>
     <history-entry file="FacilityServiceTest_buildingDuplicatesFails - 2019.03.10 at 19h 31m 15s.xml">
       <configuration name="FacilityServiceTest.buildingDuplicatesFails" configurationId="JUnit" />
     </history-entry>
@@ -810,9 +874,12 @@
     <history-entry file="MaintenanceServiceTest_calcMaintenanceCost - 2019.03.10 at 20h 20m 41s.xml">
       <configuration name="MaintenanceServiceTest.calcMaintenanceCost" configurationId="JUnit" />
     </history-entry>
+    <history-entry file="All_in_facility_test - 2019.03.10 at 20h 38m 33s.xml">
+      <configuration name="All in facility.test" configurationId="JUnit" />
+    </history-entry>
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="1823000" />
+    <option name="totallyTimeSpent" value="3280000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -825,8 +892,9 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="0" width="1680" height="1050" extended-state="0" />
+    <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.6122807" visible="true" weight="0.2802198" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.6122807" visible="true" weight="0.2802198" />
       <window_info id="Structure" order="1" sideWeight="0.3877193" side_tool="true" weight="0.27702704" />
       <window_info id="Image Layers" order="2" />
       <window_info id="Designer" order="3" />
@@ -842,14 +910,14 @@
       <window_info anchor="bottom" id="Docker" show_stripe_button="false" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" sideWeight="0.498779" weight="0.32778355" />
-      <window_info active="true" anchor="bottom" id="Run" order="2" sideWeight="0.85596025" visible="true" weight="0.40612245" />
+      <window_info anchor="bottom" id="Run" order="2" sideWeight="0.85596025" weight="0.40612245" />
       <window_info anchor="bottom" id="Debug" order="3" sideWeight="0.6283113" weight="0.39854318" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" sideWeight="0.4993895" weight="0.32778355" />
       <window_info anchor="bottom" id="Terminal" order="7" sideWeight="0.56366235" weight="0.32258064" />
       <window_info anchor="bottom" id="Event Log" order="8" sideWeight="0.43633762" side_tool="true" weight="0.23373494" />
-      <window_info anchor="bottom" id="Version Control" order="9" sideWeight="0.49851853" weight="0.516129" />
+      <window_info anchor="bottom" id="Version Control" order="9" sideWeight="0.49851853" visible="true" weight="0.09897959" />
       <window_info anchor="bottom" id="Build" order="10" weight="0.24349636" />
       <window_info anchor="bottom" id="Messages" order="11" sideWeight="0.498779" weight="0.3257024" />
       <window_info anchor="bottom" id="Inspection Results" order="12" visible="true" weight="0.32959184" />
@@ -932,7 +1000,8 @@
     <MESSAGE value="added exception for scheduling room maintenance test, refactored&#10;maintenance and usage classes" />
     <MESSAGE value="added test structures for maintenance, worked with &#10;maintenance hourly rate (renamed from maintenanceRate for clarity)&#10;added insert hourly rate to db layer, working on join for calculating &#10;total maintenance cost for facility given time range" />
     <MESSAGE value="reworked data structures, tests are currently hanging on local" />
-    <option name="LAST_COMMIT_MESSAGE" value="reworked data structures, tests are currently hanging on local" />
+    <MESSAGE value="!!CHANGED CONNECTION STRING TO 'Facility' from 'Postgres'!!&#10;&#10;added working calcMaintenanceCost test and methods at all layers" />
+    <option name="LAST_COMMIT_MESSAGE" value="!!CHANGED CONNECTION STRING TO 'Facility' from 'Postgres'!!&#10;&#10;added working calcMaintenanceCost test and methods at all layers" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -950,13 +1019,13 @@
           <option name="timeStamp" value="6" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/test/java/com/fms/client/facility/FacilityServiceTest.java</url>
+          <url>file://$PROJECT_DIR$/src/test/java/com/fms/service/facility/FacilityServiceTest.java</url>
           <line>32</line>
           <properties />
           <option name="timeStamp" value="16" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/test/java/com/fms/client/facility/FacilityServiceTest.java</url>
+          <url>file://$PROJECT_DIR$/src/test/java/com/fms/service/facility/FacilityServiceTest.java</url>
           <line>23</line>
           <properties />
           <option name="timeStamp" value="17" />
@@ -969,34 +1038,6 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/junit/junit/4.12/a6c32b40bf3d76eca54e3c601e5d1470c86fcdfa/junit-4.12-sources.jar!/org/junit/runners/BlockJUnit4ClassRunner.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="170">
-          <caret line="157" column="40" selection-start-line="157" selection-start-column="40" selection-end-line="157" selection-end-column="40" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar:///Library/Java/JavaVirtualMachines/jdk-11.0.2.jdk/Contents/Home/lib/src.zip!/java.sql/java/sql/ResultSet.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="272">
-          <caret line="300" column="8" selection-start-line="300" selection-start-column="8" selection-end-line="300" selection-end-column="8" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/fms/model/RoomRequest.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="135">
-          <caret line="10" column="3" lean-forward="true" selection-start-line="10" selection-start-column="3" selection-end-line="10" selection-end-column="3" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/fms/model/FacilityMaintenanceRequest.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="555">
-          <caret line="43" column="17" selection-start-line="43" selection-start-column="17" selection-end-line="43" selection-end-column="17" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/com/fms/dal/FacilitySchedulingConflictException.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="210">
@@ -1056,34 +1097,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/fms/client/common/FMSException.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="390">
-          <caret line="30" selection-start-line="30" selection-end-line="30" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/fms/client/usage/FacilityScheduler.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="30">
-          <caret line="2" column="13" selection-start-line="2" selection-start-column="13" selection-end-line="2" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
     <entry file="jar:///Library/Java/JavaVirtualMachines/jdk-11.0.2.jdk/Contents/Home/lib/src.zip!/java.sql/java/sql/PreparedStatement.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="184">
           <caret line="61" column="17" selection-start-line="61" selection-start-column="17" selection-end-line="61" selection-end-column="17" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/fms/client/usage/UsageService.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="286">
-          <caret line="46" column="48" lean-forward="true" selection-start-line="46" selection-start-column="48" selection-end-line="46" selection-end-column="48" />
         </state>
       </provider>
     </entry>
@@ -1203,16 +1220,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/NonStaticData.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="196">
-          <caret line="18" selection-start-line="18" selection-end-line="18" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/com/fms/model/MaintenanceType.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="60">
@@ -1227,7 +1234,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/test/java/com/fms/client/usage/UsageServiceTest.java">
+    <entry file="file://$PROJECT_DIR$/src/test/java/com/fms/service/usage/UsageServiceTest.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="525">
           <caret line="48" selection-start-line="48" selection-end-line="48" />
@@ -1273,16 +1280,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/fms/client/maintenance/MaintenanceCostCalculator.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="300">
-          <caret line="30" column="43" selection-start-line="30" selection-start-column="43" selection-end-line="30" selection-end-column="43" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/docs/schema/facility.seed_data.sql">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1155">
@@ -1304,33 +1301,6 @@
       </provider>
     </entry>
     <entry file="db://0b42631a-774e-4d7c-8cf1-f6f4a3a76644/consoles/facility" />
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/fms/client/common/FacilityErrorCode.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="150">
-          <caret line="10" column="32" selection-start-line="10" selection-start-column="32" selection-end-line="10" selection-end-column="32" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/fms/dal/DBMaintenance.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="180">
-          <caret line="12" column="13" selection-start-line="12" selection-start-column="13" selection-end-line="12" selection-end-column="13" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/fms/client/facility/FacilityService.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="225">
-          <caret line="28" selection-start-line="28" selection-end-line="28" />
-          <folding>
-            <element signature="e#801#802#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="jar://$PROJECT_DIR$/third_party/postgresql-42.2.5.jar!/org/postgresql/jdbc/PgConnection.class">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="3060">
@@ -1362,14 +1332,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/fms/dal/DBConnection.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="195">
-          <caret line="16" column="56" selection-start-line="16" selection-start-column="56" selection-end-line="16" selection-end-column="56" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/test/java/com/fms/client/facility/FacilityServiceTest.java">
+    <entry file="file://$PROJECT_DIR$/src/test/java/com/fms/service/facility/FacilityServiceTest.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="194">
           <caret line="23" selection-start-line="23" selection-end-line="23" />
@@ -1383,7 +1346,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/fms/client/maintenance/MaintenanceService.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/fms/service/maintenance/MaintenanceService.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="168">
           <caret line="70" column="12" selection-start-line="70" selection-start-column="12" selection-end-line="70" selection-end-column="12" />
@@ -1393,24 +1356,126 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/test/java/com/fms/client/maintenance/MaintenanceServiceTest.java">
+    <entry file="file://$PROJECT_DIR$/src/test/java/com/fms/TestData.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="253">
-          <caret line="209" column="82" selection-start-line="209" selection-start-column="82" selection-end-line="209" selection-end-column="82" />
+        <state relative-caret-position="195">
+          <caret line="105" column="29" selection-start-line="105" selection-start-column="29" selection-end-line="105" selection-end-column="29" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#2217#2218#0" expanded="true" />
+            <element signature="e#2284#2285#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/fms/dal/DBConnection.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="195">
+          <caret line="16" column="56" selection-start-line="16" selection-start-column="56" selection-end-line="16" selection-end-column="56" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/fms/service/maintenance/MaintenanceScheduler.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="30">
+          <caret line="2" column="13" selection-start-line="2" selection-start-column="13" selection-end-line="2" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/NonStaticData.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="240">
+          <caret line="18" selection-start-line="18" selection-end-line="18" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/test/java/com/fms/TestData.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/fms/service/maintenance/MaintenanceCostCalculator.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="271">
-          <caret line="77" column="37" selection-start-line="77" selection-start-column="37" selection-end-line="77" selection-end-column="37" />
+        <state relative-caret-position="450">
+          <caret line="30" column="43" selection-start-line="30" selection-start-column="43" selection-end-line="30" selection-end-column="43" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#2217#2218#0" expanded="true" />
-            <element signature="e#2284#2285#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/fms/Utility.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="30">
+          <caret line="2" column="13" selection-start-line="2" selection-start-column="13" selection-end-line="2" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/fms/service/usage/UsageCalculator.java">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/fms/service/facility/FacilityService.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="225">
+          <caret line="28" selection-start-line="28" selection-end-line="28" />
+          <folding>
+            <element signature="e#804#805#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/fms/service/common/FacilityErrorCode.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="150">
+          <caret line="10" column="32" selection-start-line="10" selection-start-column="32" selection-end-line="10" selection-end-column="32" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/fms/service/usage/FacilityScheduler.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="30">
+          <caret line="2" column="13" selection-start-line="2" selection-start-column="13" selection-end-line="2" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/fms/service/usage/UsageService.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="570">
+          <caret line="46" column="48" lean-forward="true" selection-start-line="46" selection-start-column="48" selection-end-line="46" selection-end-column="48" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/fms/service/common/FMSException.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="390">
+          <caret line="30" selection-start-line="30" selection-end-line="30" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/fms/dal/DBMaintenance.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-1446">
+          <caret line="252" column="62" selection-start-line="252" selection-start-column="62" selection-end-line="252" selection-end-column="62" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/fms/service/inspection/Inspection.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="30">
+          <caret line="2" column="23" selection-start-line="2" selection-start-column="23" selection-end-line="2" selection-end-column="23" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/test/java/com/fms/service/maintenance/MaintenanceServiceTest.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="495">
+          <caret line="203" column="87" selection-start-line="203" selection-start-column="87" selection-end-line="203" selection-end-column="87" />
+          <folding>
+            <element signature="imports" expanded="true" />
           </folding>
         </state>
       </provider>

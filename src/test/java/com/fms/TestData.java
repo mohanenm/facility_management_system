@@ -1,9 +1,9 @@
 package com.fms;
 
-import com.fms.client.common.FMSException;
-import com.fms.client.facility.FacilityService;
-import com.fms.client.maintenance.MaintenanceService;
-import com.fms.client.usage.UsageService;
+import com.fms.service.common.FMSException;
+import com.fms.service.facility.FacilityService;
+import com.fms.service.maintenance.MaintenanceService;
+import com.fms.service.usage.UsageService;
 import com.fms.model.*;
 import com.fms.req_reply_api.FacilityMaintenanceRequestResult;
 import com.fms.req_reply_api.RoomMaintenanceRequestResult;

@@ -1,9 +1,9 @@
-package com.fms.client.maintenance;
+package com.fms.service.maintenance;
 
 import com.fms.TestData;
-import com.fms.client.common.FMSException;
-import com.fms.client.facility.FacilityService;
-import com.fms.client.usage.UsageService;
+import com.fms.service.common.FMSException;
+import com.fms.service.facility.FacilityService;
+import com.fms.service.usage.UsageService;
 import com.fms.dal.RoomSchedulingConflictException;
 import com.fms.model.*;
 import com.google.common.collect.Range;
@@ -200,7 +200,8 @@ public class MaintenanceServiceTest {
     @Test
     public void calcMaintenanceCost() throws SQLException, FMSException {
         Facility facility = null;
-
+//ToDo: this test works, and we checked the print statement by calculating the result manually,
+// but replicate the calculations in java that we performed in SQL to really prove this
         try {
             facility = testData.prepFacilityInDb();
             testData.prepMaintenanceHourlyRate(facility);

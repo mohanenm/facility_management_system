@@ -1,7 +1,7 @@
-package com.fms.client.maintenance;
+package com.fms.service.maintenance;
 
-import com.fms.client.common.FMSException;
-import com.fms.client.common.FacilityErrorCode;
+import com.fms.service.common.FMSException;
+import com.fms.service.common.FacilityErrorCode;
 import com.fms.dal.DBMaintenance;
 import com.fms.model.FacilityMaintenanceRequest;
 import com.fms.model.MaintenanceRequest;

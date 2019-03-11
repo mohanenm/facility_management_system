@@ -1,4 +1,4 @@
-package com.fms.client.common;
+package com.fms.service.common;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
