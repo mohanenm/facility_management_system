@@ -13,6 +13,7 @@ import org.junit.rules.ExpectedException;
 
 import java.sql.SQLException;
 import java.time.LocalDateTime;
+import java.util.HashMap;
 
 import static com.fms.TestData.sampleRange;
 
@@ -196,16 +197,17 @@ public class MaintenanceServiceTest {
       }
     }
 
-    /*
-
     @Test
     public void calcMaintenanceCost() throws SQLException, FMSException {
         Facility facility = null;
 
         try {
             facility = testData.prepFacilityInDb();
-            int maintenanceHourlyRateId = testData.prepMaintenanceHourlyRate(facility);
-            HashMap<String, Double> costResults = maintenanceCostCalculator.calcMaintenanceCostForFacility(facility.getId(), TestData.sampleRange());
+            testData.prepMaintenanceHourlyRate(facility);
+            testData.prepRoomMaintenanceRequest(facility);
+            testData.prepRoomMaintenanceSchedule(facility);
+            HashMap<String, Double> costResults = maintenanceCostCalculator
+                    .calcMaintenanceCostForFacility(facility.getId(), TestData.sampleRange());
             System.out.println("Grand total maintenance costs: " + costResults);
         } finally {
             if(facility != null) {
@@ -213,7 +215,7 @@ public class MaintenanceServiceTest {
             }
         }
     }
-    */
+
 
 
 }
