@@ -1,6 +1,7 @@
 package com.fms.model;
 
 import com.google.gson.*;
+
 import java.io.IOException;
 import java.util.ArrayList;
 
@@ -26,13 +27,13 @@ public class Building {
   /// Constructor for database, id required
 
   public Building(
-      int id,
-      String name,
-      String streetAddress,
-      String city,
-      String state,
-      int zip,
-      ArrayList<Room> rooms) {
+          int id,
+          String name,
+          String streetAddress,
+          String city,
+          String state,
+          int zip,
+          ArrayList<Room> rooms) {
     this.id = id;
     this.name = name;
     this.streetAddress = streetAddress;
@@ -114,6 +115,7 @@ public class Building {
         && state.equals(b.state)
         && zip == b.zip;
   }
+
 
   private int id;
   private String name;

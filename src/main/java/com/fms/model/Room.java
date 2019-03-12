@@ -4,10 +4,11 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonToken;
+
 import java.io.IOException;
 import java.io.StringReader;
 
-public class Room {
+public class Room implements IRoom{
 
   public Room(int id, int buildingId, int roomNumber, int capacity) {
     this.id = id;
@@ -42,6 +43,22 @@ public class Room {
 
   public int getCapacity() {
     return capacity;
+  }
+
+  public void setId(int id) {
+    this.id = id;
+  }
+
+  public void setBuildingId(int buildingId) {
+    this.buildingId = buildingId;
+  }
+
+  public void setRoomNumber(int roomNumber) {
+    this.roomNumber = roomNumber;
+  }
+
+  public void setCapacity(int capacity) {
+    this.capacity = capacity;
   }
 
   public String toString() {
