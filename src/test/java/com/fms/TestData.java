@@ -29,10 +29,10 @@ public class TestData {
       System.out.println("SQL exception: " + e.toString());
     }
   }
-
+//ToDo: create sample building using dependency injection with IRoom interface
   public static Building sampleBuilding(String name) {
-    ArrayList<Room> rooms = new ArrayList<>();
-    rooms.add(new Room(-1, 303, 15));
+    ArrayList<IRoom> rooms = new ArrayList<>();
+    //rooms.contains(IRoom.);
     rooms.add(new Room(-1, 304, 20));
     return new Building(name, "4 Marshall Ln", "Albequerque", "NM", 66540, rooms);
   }
@@ -136,7 +136,7 @@ public class TestData {
 
   public RoomMaintenanceRequest prepRoomMaintenanceRequest(Facility facility) throws FMSException {
     Building building = facility.getFacilityDetail().getBuildings().get(0);
-    Room room = building.getRooms().get(0);
+    IRoom room = building.getRooms().get(0);
     return maintenanceService.makeRoomMaintRequest(room.getId(), TestData.sampleMaintenanceRequest());
   }
 
@@ -146,7 +146,7 @@ public class TestData {
 
   public int prepRoomMaintenanceSchedule(Facility facility) throws FMSException {
     Building building = facility.getFacilityDetail().getBuildings().get(0);
-    Room room = building.getRooms().get(0);
+    IRoom room = building.getRooms().get(0);
     RoomMaintenanceRequest rmr = maintenanceService.makeRoomMaintRequest(room.getId(),sampleMaintenanceRequest());
     return maintenanceService.scheduleRoomMaintenance(rmr.getId(), sampleRange());
   }

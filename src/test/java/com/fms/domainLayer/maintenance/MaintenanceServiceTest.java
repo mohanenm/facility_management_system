@@ -72,7 +72,7 @@ public class MaintenanceServiceTest {
             facility = testData.prepFacilityInDb();
 
             Building building = facility.getFacilityDetail().getBuildings().get(0);
-            Room room = building.getRooms().get(0);
+            IRoom room = building.getRooms().get(0);
 
             MaintenanceRequest maintenanceRequest = TestData.sampleMaintenanceRequest();
 
@@ -124,7 +124,7 @@ public class MaintenanceServiceTest {
       try {
           facility = testData.prepFacilityInDb();
           Building building = facility.getFacilityDetail().getBuildings().get(0);
-          Room room = building.getRooms().get(0);
+          IRoom room = building.getRooms().get(0);
           Range<LocalDateTime> sampleRange = sampleRange();
 
           // Reserve our new room for some sample time range
@@ -173,7 +173,7 @@ public class MaintenanceServiceTest {
         try {
           facility = testData.prepFacilityInDb();
           Building building = facility.getFacilityDetail().getBuildings().get(0);
-          Room room = building.getRooms().get(0);
+          IRoom room = building.getRooms().get(0);
           Range<LocalDateTime> sampleRange = sampleRange();
 
           // Reserve our new room for some sample time range

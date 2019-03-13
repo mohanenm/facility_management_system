@@ -14,7 +14,7 @@ public class Building {
       String city,
       String state,
       int zip,
-      ArrayList<Room> rooms) {
+      ArrayList<IRoom> rooms) {
     this.id = -1;
     this.name = name;
     this.streetAddress = streetAddress;
@@ -33,7 +33,7 @@ public class Building {
           String city,
           String state,
           int zip,
-          ArrayList<Room> rooms) {
+          ArrayList<IRoom> rooms) {
     this.id = id;
     this.name = name;
     this.streetAddress = streetAddress;
@@ -59,7 +59,7 @@ public class Building {
     return state;
   }
 
-  public ArrayList<Room> getRooms() {
+  public ArrayList<IRoom> getRooms() {
     return rooms;
   }
 
@@ -76,13 +76,13 @@ public class Building {
     JsonElement jsonTree = parser.parse(building);
     JsonObject jsonObject = jsonTree.getAsJsonObject();
 
-    ArrayList<Room> rooms = new ArrayList<>();
+    ArrayList<IRoom> rooms = new ArrayList<>();
 
     final JsonArray rooms1 = jsonObject.get("rooms").getAsJsonArray();
 
     for (JsonElement room : rooms1) {
       String roomJson = room.getAsJsonObject().toString();
-      rooms.add(Room.fromJson(roomJson));
+      rooms.add(IRoom.fromJson(roomJson));
     }
 
     return new Building(
@@ -123,5 +123,5 @@ public class Building {
   private String city;
   private String state;
   private int zip;
-  private ArrayList<Room> rooms;
+  private ArrayList<IRoom> rooms;
 }

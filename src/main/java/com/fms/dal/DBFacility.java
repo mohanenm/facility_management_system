@@ -141,8 +141,8 @@ public class DBFacility {
       resultSet.next();
 
       int buildingId = resultSet.getInt(1);
-      ArrayList<Room> rooms = new ArrayList<>();
-      for (Room room : building.getRooms()) {
+      ArrayList<IRoom> rooms = new ArrayList<>();
+      for (IRoom room : building.getRooms()) {
         rooms.add(createRoom(buildingId, room));
       }
 
@@ -163,7 +163,7 @@ public class DBFacility {
    * @return room with id
    * @throws SQLException
    */
-  private Room createRoom(int buildingId, Room room) throws SQLException {
+  private IRoom createRoom(int buildingId, IRoom room) throws SQLException {
     try {
 
       insertRoom.setInt(1, buildingId);

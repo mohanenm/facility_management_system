@@ -50,7 +50,7 @@ public class UsageServiceTest {
     try {
       facility = prepFacilityInDb();
       Building building = facility.getFacilityDetail().getBuildings().get(0);
-      Room room = building.getRooms().get(0);
+      IRoom room = building.getRooms().get(0);
       Range<LocalDateTime> sampleRange = sampleRange();
 
       // Reserve our new room for some sample time range
@@ -78,7 +78,7 @@ public class UsageServiceTest {
     try {
       facility = prepFacilityInDb();
       Building building = facility.getFacilityDetail().getBuildings().get(0);
-      Room room = building.getRooms().get(0);
+      IRoom room = building.getRooms().get(0);
 
       int rId = room.getId();
       Range<LocalDateTime> range = TestData.sampleRange();
