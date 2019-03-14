@@ -2,6 +2,9 @@ package com.fms.domainLayer.facility;
 
 import com.fms.TestData;
 import com.fms.domainLayer.common.FMSException;
+import com.fms.domainLayer.maintenance.MaintenanceCostCalculator;
+import com.fms.domainLayer.maintenance.MaintenanceService;
+import com.fms.domainLayer.usage.UsageService;
 import com.fms.model.*;
 import com.fms.req_reply_api.GetFacilityDetailResult;
 import org.junit.Rule;
@@ -14,9 +17,17 @@ import java.util.ArrayList;
 public class FacilityServiceTest {
 
   FacilityService facilityService;
+  MaintenanceService maintenanceService;
+  UsageService usageService;
+  TestData testData;
+  MaintenanceCostCalculator maintenanceCostCalculator;
 
   public FacilityServiceTest() throws SQLException {
+    maintenanceService = new MaintenanceService();
     facilityService = new FacilityService();
+    usageService = new UsageService();
+    testData = new TestData();
+    maintenanceCostCalculator = new MaintenanceCostCalculator();
   }
 
   @Test
@@ -36,7 +47,7 @@ public class FacilityServiceTest {
     assert (facility.getId() > 0);
 
     System.out.println(facility.toString());
-    facilityService.addFacilityDetail(facility.getId(), TestData.sampleFacilityDetail());
+    facilityService.addFacilityDetail(facility.getId(), testData.sampleFacilityDetail());
     facilityService.removeFacility(facility.getId());
 
     System.out.println("CHECK AGAIN");
@@ -64,7 +75,7 @@ public class FacilityServiceTest {
     // Then rethrow the exception since we told test infrastructure to expect it
     try {
       facilityService.addFacilityDetail(insertedFacilityId,
-              TestData.sampleFacilityDetailDuplicateBuildings());
+              testData.sampleFacilityDetailDuplicateBuildings());
     } catch(FMSException fse) {
       facilityService.removeFacility(insertedFacilityId);
       throw fse;
@@ -79,7 +90,7 @@ public class FacilityServiceTest {
   /// facility has duplicate named buildings. We catch it so
   /// the db does not have to.
   public void buildingDuplicatesFails() {
-    FacilityDetail sample = TestData.sampleFacilityDetail();
+    FacilityDetail sample = testData.sampleFacilityDetail();
     ArrayList<Building> buildings = sample.getBuildings();
     buildings.add(buildings.get(0));
 

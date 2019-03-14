@@ -1,19 +1,17 @@
 package com.fms.domainLayer.facility;
 
+import com.fms.dal.DBFacility;
 import com.fms.domainLayer.common.FMSException;
 import com.fms.domainLayer.common.FacilityErrorCode;
-import com.fms.dal.DBFacility;
-import com.fms.model.Building;
-import com.fms.model.Facility;
-import com.fms.model.FacilityDetail;
+import com.fms.model.*;
 import com.fms.req_reply_api.GetFacilityDetailResult;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 
 public class FacilityService {
 
@@ -25,7 +23,7 @@ public class FacilityService {
     dbFacility = new DBFacility();
   }
 
-  public ArrayList<Facility> listFacilities() {
+  public List<IFacility> listFacilities() {
     return dbFacility.readAllFacilities();
   }
 
@@ -83,11 +81,11 @@ public class FacilityService {
    * @param facilityDetail
    * @return false if there are empty building names or if there are duplicates
    */
-  public static boolean validBuildingNames(FacilityDetail facilityDetail) {
+  public static boolean validBuildingNames(IFacilityDetail facilityDetail) {
     HashSet<String> buildingNames = new HashSet<>();
     Logger logger = LogManager.getLogger();
 
-    for (Building building : facilityDetail.getBuildings()) {
+    for (IBuilding building : facilityDetail.getBuildings()) {
       String buildingName = building.getName();
       if (buildingName == null || buildingName.isEmpty()) {
         logger.log(Level.ERROR, "Found empty building name");

@@ -1,33 +1,27 @@
 package com.fms.model;
 
-import com.google.gson.*;
-import java.io.IOException;
-import java.util.ArrayList;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
-public class FacilityDetail {
-  public FacilityDetail(ArrayList<Building> buildings) {
+import java.io.IOException;
+import java.util.List;
+
+public class FacilityDetail implements IFacilityDetail {
+  public FacilityDetail(List<IBuilding> buildings) {
     this.buildings = buildings;
   }
 
-  public ArrayList<Building> getBuildings() {
+  public List<IBuilding> getBuildings() {
     return buildings;
   }
 
+  public void setBuildings(List<IBuilding> buildings) {
+    this.buildings = buildings;
+  }
+
   public static FacilityDetail fromJson(String facilityDetail) throws IOException {
-    JsonParser parser = new JsonParser();
-    JsonElement jsonTree = parser.parse(facilityDetail);
-    JsonObject jsonObject = jsonTree.getAsJsonObject();
-
-    ArrayList<Building> buildings = new ArrayList<>();
-
-    final JsonArray buildingsJson = jsonObject.get("buildings").getAsJsonArray();
-
-    for (JsonElement building : buildingsJson) {
-      String buildingJson = building.getAsJsonObject().toString();
-      buildings.add(Building.fromJson(buildingJson));
-    }
-
-    return new FacilityDetail(buildings);
+    Gson gson = new GsonBuilder().serializeNulls().create();
+    return gson.fromJson(facilityDetail, FacilityDetail.class);
   }
 
   public String toString() {
@@ -46,5 +40,5 @@ public class FacilityDetail {
     return buildings.equals(d.buildings);
   }
 
-  private ArrayList<Building> buildings;
+  private List<IBuilding> buildings;
 }

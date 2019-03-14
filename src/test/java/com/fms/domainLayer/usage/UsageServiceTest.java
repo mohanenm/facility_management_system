@@ -19,10 +19,12 @@ public class UsageServiceTest {
 
   UsageService usageService;
   FacilityService facilityService;
+  TestData testData;
 
   public UsageServiceTest() throws SQLException {
     usageService = new UsageService();
     facilityService = new FacilityService();
+    testData = new TestData();
   }
 
   @Test
@@ -38,7 +40,7 @@ public class UsageServiceTest {
   public Facility prepFacilityInDb() throws FMSException {
     Facility facility =
             facilityService.addNewFacility("Test Facility", "Healthcare Facility");
-    return facilityService.addFacilityDetail(facility.getId(), TestData.sampleFacilityDetail());
+    return facilityService.addFacilityDetail(facility.getId(), testData.sampleFacilityDetail());
   }
 
   @Test

@@ -1,11 +1,12 @@
 package com.fms.model;
 
-import com.google.gson.*;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 import java.io.IOException;
-import java.util.ArrayList;
+import java.util.List;
 
-public class Building {
+public class Building implements IBuilding {
 
   /// Client constructor - no id specified
   public Building(
@@ -14,7 +15,7 @@ public class Building {
       String city,
       String state,
       int zip,
-      ArrayList<IRoom> rooms) {
+      List<IRoom> rooms) {
     this.id = -1;
     this.name = name;
     this.streetAddress = streetAddress;
@@ -33,7 +34,7 @@ public class Building {
           String city,
           String state,
           int zip,
-          ArrayList<IRoom> rooms) {
+          List<IRoom> rooms) {
     this.id = id;
     this.name = name;
     this.streetAddress = streetAddress;
@@ -59,7 +60,7 @@ public class Building {
     return state;
   }
 
-  public ArrayList<IRoom> getRooms() {
+  public List<IRoom> getRooms() {
     return rooms;
   }
 
@@ -71,28 +72,37 @@ public class Building {
     return id;
   }
 
+  public void setId(int id) {
+    this.id = id;
+  }
+
+  public void setName(String name) {
+    this.name = name;
+  }
+
+  public void setStreetAddress(String streetAddress) {
+    this.streetAddress = streetAddress;
+  }
+
+  public void setCity(String city) {
+    this.city = city;
+  }
+
+  public void setState(String state) {
+    this.state = state;
+  }
+
+  public void setZip(int zip) {
+    this.zip = zip;
+  }
+
+  public void setRooms(List<IRoom> rooms) {
+    this.rooms = rooms;
+  }
+
   public static Building fromJson(String building) throws IOException {
-    JsonParser parser = new JsonParser();
-    JsonElement jsonTree = parser.parse(building);
-    JsonObject jsonObject = jsonTree.getAsJsonObject();
-
-    ArrayList<IRoom> rooms = new ArrayList<>();
-
-    final JsonArray rooms1 = jsonObject.get("rooms").getAsJsonArray();
-
-    for (JsonElement room : rooms1) {
-      String roomJson = room.getAsJsonObject().toString();
-      rooms.add(IRoom.fromJson(roomJson));
-    }
-
-    return new Building(
-        jsonObject.get("id").getAsInt(),
-        jsonObject.get("name").getAsString(),
-        jsonObject.get("streetAddress").getAsString(),
-        jsonObject.get("city").getAsString(),
-        jsonObject.get("state").getAsString(),
-        jsonObject.get("zip").getAsInt(),
-        rooms);
+    Gson gson = new GsonBuilder().serializeNulls().create();
+    return gson.fromJson(building, Building.class);
   }
 
   public String toString() {
@@ -123,5 +133,5 @@ public class Building {
   private String city;
   private String state;
   private int zip;
-  private ArrayList<IRoom> rooms;
+  private List<IRoom> rooms;
 }

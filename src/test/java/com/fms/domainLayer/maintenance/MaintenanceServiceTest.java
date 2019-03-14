@@ -42,7 +42,7 @@ public class MaintenanceServiceTest {
       Facility facility = null;
       try {
           facility = testData.prepFacilityInDb();
-          MaintenanceRequest maintenanceRequest = TestData.sampleMaintenanceRequest();
+          MaintenanceRequest maintenanceRequest = testData.sampleMaintenanceRequest();
 
           FacilityMaintenanceRequest facilityMaintenanceRequest =
                   maintenanceService.makeFacilityMaintRequest(facility.getId(), maintenanceRequest);
@@ -74,7 +74,7 @@ public class MaintenanceServiceTest {
             Building building = facility.getFacilityDetail().getBuildings().get(0);
             IRoom room = building.getRooms().get(0);
 
-            MaintenanceRequest maintenanceRequest = TestData.sampleMaintenanceRequest();
+            MaintenanceRequest maintenanceRequest = testData.sampleMaintenanceRequest();
 
             RoomMaintenanceRequest roomMaintenanceRequest =
                     maintenanceService.makeRoomMaintRequest(room.getId(), maintenanceRequest);
@@ -100,7 +100,7 @@ public class MaintenanceServiceTest {
       Facility facility = null;
       try {
           facility = testData.prepFacilityInDb();
-          FacilityMaintenanceSchedule facilityMaintenanceSchedule = TestData.sampleFacilityMaintenanceSchedule();
+          FacilityMaintenanceSchedule facilityMaintenanceSchedule = testData.sampleFacilityMaintenanceSchedule();
           int fmsId = facilityMaintenanceSchedule.getId();
 
           maintenanceService.scheduleFacilityMaintenance(fmsId, false, true, sampleRange());
@@ -208,7 +208,7 @@ public class MaintenanceServiceTest {
             testData.prepRoomMaintenanceRequest(facility);
             testData.prepRoomMaintenanceSchedule(facility);
             HashMap<String, Double> costResults = maintenanceCostCalculator
-                    .calcMaintenanceCostForFacility(facility.getId(), TestData.sampleRange());
+                    .calcMaintenanceCostForFacility(facility.getId(), testData.sampleRange());
             System.out.println("Grand total maintenance costs: " + costResults);
         } finally {
             if(facility != null) {

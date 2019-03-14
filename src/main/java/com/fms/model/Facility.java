@@ -3,7 +3,7 @@ package com.fms.model;
 import com.google.gson.*;
 import java.io.IOException;
 
-public class Facility {
+public class Facility implements IFacility{
 
   public Facility(int id, String name, String description) {
     this.id = id;
@@ -11,7 +11,7 @@ public class Facility {
     this.description = description;
   }
 
-  public Facility(int id, String name, String description, FacilityDetail facilityDetail) {
+  public Facility(int id, String name, String description, IFacilityDetail facilityDetail) {
     this.id = id;
     this.name = name;
     this.description = description;
@@ -30,17 +30,29 @@ public class Facility {
     return description;
   }
 
+  public void setId(int id) {
+    this.id = id;
+  }
+
+  public void setName(String name) {
+    this.name = name;
+  }
+
+  public void setDescription(String description) {
+    this.description = description;
+  }
+
   public String toString() {
     GsonBuilder builder = new GsonBuilder().setPrettyPrinting();
     Gson gson = builder.create();
     return gson.toJson(this);
   }
 
-  public void setFacilityDetail(FacilityDetail facilityDetail) {
+  public void setFacilityDetail(IFacilityDetail facilityDetail) {
     this.facilityDetail = facilityDetail;
   }
 
-  public FacilityDetail getFacilityDetail() {
+  public IFacilityDetail getFacilityDetail() {
     return facilityDetail;
   }
 
@@ -76,5 +88,5 @@ public class Facility {
   private int id;
   private String name;
   private String description;
-  private FacilityDetail facilityDetail;
+  private IFacilityDetail facilityDetail;
 }

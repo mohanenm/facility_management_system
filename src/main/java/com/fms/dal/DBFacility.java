@@ -8,6 +8,9 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.List;
+import org.springframework.context.*;
+import org.springframework.beans.*;
 
 public class DBFacility {
 
@@ -67,8 +70,8 @@ public class DBFacility {
                                     + "where f.id = ?");
   }
 
-  public ArrayList<Facility> readAllFacilities() {
-    ArrayList<Facility> result = new ArrayList<>();
+  public List<IFacility> readAllFacilities() {
+    List<IFacility> result = new ArrayList<>();
     try {
 
       Statement st = DBConnection.getConnection().createStatement();
@@ -91,14 +94,14 @@ public class DBFacility {
     return result;
   }
 
-  public Facility createFacility(String name, String description) throws SQLException {
+  public IFacility createFacility(String name, String description) throws SQLException {
     try {
       insertFacility.setString(1, name);
       insertFacility.setString(2, description);
       resultSet = insertFacility.executeQuery();
       resultSet.next();
 
-      return new Facility(resultSet.getInt(1), name, description);
+      return new IFacility(resultSet.getInt(1), name, description);
     } catch (SQLException e) {
       System.out.println("caught exception: " + e.toString());
       throw e;
@@ -110,7 +113,7 @@ public class DBFacility {
     deleteFacility.executeUpdate();
   }
 
-  public Facility addFacilityDetail(int facilityId, FacilityDetail facilityDetail) throws SQLException {
+  public IFacility addFacilityDetail(int facilityId, IFacilityDetail facilityDetail) throws SQLException {
 
     selectFacility.setInt(1, facilityId);
     resultSet = selectFacility.executeQuery();
@@ -119,16 +122,16 @@ public class DBFacility {
     String name = resultSet.getString(1);
     String description = resultSet.getString(2);
 
-    ArrayList<Building> buildings = new ArrayList<>();
+    List<IBuilding> buildings = new ArrayList<>();
 
-    for (Building building : facilityDetail.getBuildings()) {
+    for (IBuilding building : facilityDetail.getBuildings()) {
       buildings.add(createBuilding(facilityId, building));
     }
 
     return new Facility(facilityId, name, description, new FacilityDetail(buildings));
   }
 
-  private Building createBuilding(int facilityId, Building building) throws SQLException {
+  private IBuilding createBuilding(int facilityId, IBuilding building) throws SQLException {
     try {
 
       insertBuilding.setInt(1, facilityId);
@@ -141,7 +144,7 @@ public class DBFacility {
       resultSet.next();
 
       int buildingId = resultSet.getInt(1);
-      ArrayList<IRoom> rooms = new ArrayList<>();
+      List<IRoom> rooms = new ArrayList<>();
       for (IRoom room : building.getRooms()) {
         rooms.add(createRoom(buildingId, room));
       }
@@ -187,7 +190,7 @@ public class DBFacility {
 
     ArrayList<Building> buildings = new ArrayList<>();
     Building building = null;
-    Room room = null;
+    IRoom room = null;
     String facilityName = null;
     String facilityDescription = null;
 
