@@ -10,8 +10,8 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 
 public class FacilityService {
 
@@ -23,7 +23,7 @@ public class FacilityService {
     dbFacility = new DBFacility();
   }
 
-  public List<Facility> listFacilities() {
+  public ArrayList<Facility> listFacilities() {
     return dbFacility.readAllFacilities();
   }
 

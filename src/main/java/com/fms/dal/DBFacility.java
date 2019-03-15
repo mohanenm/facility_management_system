@@ -8,10 +8,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
-import java.util.List;
-import org.springframework.context.*;
-import org.springframework.beans.*;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 public class DBFacility {
 
@@ -23,7 +19,6 @@ public class DBFacility {
   private PreparedStatement deleteFacility;
   private ResultSet resultSet;
   private ResultSet facilityResultSet;
-  ApplicationContext context = new ClassPathXmlApplicationContext("META-INF/Spring-config.xml");
 
   public DBFacility() throws SQLException {
 
@@ -69,9 +64,8 @@ public class DBFacility {
                                     + "where f.id = ?");
   }
 
-  public List<IFacility> readAllFacilities() {
-    IFacility facility = (IFacility) context.getBean("facility");
-    List<IFacility> result = new ArrayList<>();
+  public ArrayList<Facility> readAllFacilities() {
+    ArrayList<Facility> result = new ArrayList<>();
     try {
 
       Statement st = DBConnection.getConnection().createStatement();
@@ -80,10 +74,10 @@ public class DBFacility {
 
       while (facilityResultSet.next()) {
         result.add(
-            facility.getClass(
-                facilityResultSet.getInt("id"),
-                facilityResultSet.getString("name"),
-                facilityResultSet.getString("description")));
+                new Facility(
+                        facilityResultSet.getInt("id"),
+                        facilityResultSet.getString("name"),
+                        facilityResultSet.getString("description")));
       }
 
       // close to manage resources
@@ -94,18 +88,14 @@ public class DBFacility {
     return result;
   }
 
-  public IFacility createFacility(String name, String description) throws SQLException {
-    IFacility facility = (IFacility) context.getBean("facility");
+  public Facility createFacility(String name, String description) throws SQLException {
     try {
       insertFacility.setString(1, name);
       insertFacility.setString(2, description);
       resultSet = insertFacility.executeQuery();
       resultSet.next();
 
-      facility.setId(resultSet.getInt(1));
-      facility.setName(name);
-      facility.setDescription(description);
-      return facility;
+      return new Facility(resultSet.getInt(1), name, description);
     } catch (SQLException e) {
       System.out.println("caught exception: " + e.toString());
       throw e;
@@ -117,8 +107,7 @@ public class DBFacility {
     deleteFacility.executeUpdate();
   }
 
-  public IFacility addFacilityDetail(int facilityId, IFacilityDetail facilityDetail) throws SQLException {
-    IFacility facility = (IFacility) context.getBean("facility");
+  public Facility addFacilityDetail(int facilityId, IFacilityDetail facilityDetail) throws SQLException {
 
     selectFacility.setInt(1, facilityId);
     resultSet = selectFacility.executeQuery();
@@ -127,13 +116,15 @@ public class DBFacility {
     String name = resultSet.getString(1);
     String description = resultSet.getString(2);
 
-    List<IBuilding> buildings = new ArrayList<>();
+    ArrayList<IBuilding> buildings = new ArrayList<>();
 
     for (IBuilding building : facilityDetail.getBuildings()) {
       buildings.add(createBuilding(facilityId, building));
     }
 
-    return facility(facilityId, name, description, new FacilityDetail(buildings));
+    IFacilityDetail resultFD = new FacilityDetail();
+    resultFD.setBuildings(buildings);
+    return new Facility(facilityId, name, description, resultFD);
   }
 
   private IBuilding createBuilding(int facilityId, IBuilding building) throws SQLException {
@@ -149,14 +140,18 @@ public class DBFacility {
       resultSet.next();
 
       int buildingId = resultSet.getInt(1);
-      List<IRoom> rooms = new ArrayList<>();
+      ArrayList<IRoom> rooms = new ArrayList<>();
       for (IRoom room : building.getRooms()) {
         rooms.add(createRoom(buildingId, room));
       }
-
-      return new Building(buildingId, building.getName(),
-              building.getStreetAddress(), building.getCity(),
-              building.getState(), building.getZip(), rooms);
+      Building result = new Building();
+      result.setId(buildingId);
+      result.setName(building.getName());
+      result.setCity(building.getCity());
+      result.setStreetAddress(building.getStreetAddress());
+      result.setState(building.getState());
+      result.setZip(building.getZip());
+      return result;
 
     } catch (SQLException e) {
       System.out.println("caught exception: " + e.toString());
@@ -181,6 +176,11 @@ public class DBFacility {
       resultSet.next();
 
       int roomId = resultSet.getInt(1);
+      Room result = new Room();
+      result.setId(roomId);
+      result.setBuildingId(buildingId);
+      result.setRoomNumber(room.getRoomNumber());
+      result.setCapacity(room.getCapacity());
       return new Room(roomId, room.getBuildingId(), room.getRoomNumber(), room.getCapacity());
     } catch (SQLException e) {
       System.out.println("caught exception: " + e.toString());
@@ -193,8 +193,8 @@ public class DBFacility {
     facilityInformation.setInt(1, facilityId);
     resultSet = facilityInformation.executeQuery();
 
-    ArrayList<Building> buildings = new ArrayList<>();
-    Building building = null;
+    ArrayList<IBuilding> buildings = new ArrayList<>();
+    IBuilding building = null;
     IRoom room = null;
     String facilityName = null;
     String facilityDescription = null;
@@ -213,15 +213,14 @@ public class DBFacility {
 
       if (building == null || building.getId() != buildingId) {
         if (hasBuilding) {
-          building =
-              new Building(
-                  buildingId,
-                  resultSet.getString("building_name"),
-                  resultSet.getString("street_address"),
-                  resultSet.getString("city"),
-                  resultSet.getString("state"),
-                  resultSet.getInt("zip"),
-                  new ArrayList<>());
+          building = new Building();
+          building.setId(buildingId);
+          building.setName(resultSet.getString("building_name"));
+          building.setStreetAddress(resultSet.getString("street_address"));
+          building.setCity(resultSet.getString("city"));
+          building.setState(resultSet.getString("state"));
+          building.setZip(resultSet.getInt("zip"));
+          building.setRooms(new ArrayList<>());
 
           buildings.add(building);
         }
@@ -229,18 +228,18 @@ public class DBFacility {
 
       if (room == null || room.getId() != roomId) {
         if (hasRoom) {
-          room =
-              new Room(
-                  roomId,
-                  resultSet.getInt("building_id"),
-                  resultSet.getInt("room_number"),
-                  resultSet.getInt("capacity"));
+          room = new Room(
+                          roomId,
+                          resultSet.getInt("building_id"),
+                          resultSet.getInt("room_number"),
+                          resultSet.getInt("capacity"));
           building.getRooms().add(room);
         }
       }
     }
 
-    FacilityDetail facilityDetail = new FacilityDetail(buildings);
+    IFacilityDetail facilityDetail = new FacilityDetail();
+    facilityDetail.setBuildings(buildings);
     Facility facility = new Facility(facilityId, facilityName, facilityDescription, facilityDetail);
 
     return new GetFacilityDetailResult(null, facility);

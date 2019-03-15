@@ -7,6 +7,8 @@ import java.io.IOException;
 
 public class Room implements IRoom{
 
+  public Room() {}
+
   public Room(int id, int buildingId, int roomNumber, int capacity) {
     this.id = id;
     this.buildingId = buildingId;

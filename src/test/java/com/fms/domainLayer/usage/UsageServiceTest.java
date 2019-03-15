@@ -37,8 +37,8 @@ public class UsageServiceTest {
     */
   }
 
-  public Facility prepFacilityInDb() throws FMSException {
-    Facility facility =
+  public IFacility prepFacilityInDb() throws FMSException {
+    IFacility facility =
             facilityService.addNewFacility("Test Facility", "Healthcare Facility");
     return facilityService.addFacilityDetail(facility.getId(), testData.sampleFacilityDetail());
   }
@@ -48,10 +48,10 @@ public class UsageServiceTest {
 
     DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd hh:mm");
 
-    Facility facility = null;
+    IFacility facility = null;
     try {
       facility = prepFacilityInDb();
-      Building building = facility.getFacilityDetail().getBuildings().get(0);
+      IBuilding building = facility.getFacilityDetail().getBuildings().get(0);
       IRoom room = building.getRooms().get(0);
       Range<LocalDateTime> sampleRange = sampleRange();
 
@@ -76,10 +76,10 @@ public class UsageServiceTest {
   @Test
   public void inUseDuringInterval() throws SQLException, FMSException {
 
-    Facility facility = null;
+    IFacility facility = null;
     try {
       facility = prepFacilityInDb();
-      Building building = facility.getFacilityDetail().getBuildings().get(0);
+      IBuilding building = facility.getFacilityDetail().getBuildings().get(0);
       IRoom room = building.getRooms().get(0);
 
       int rId = room.getId();

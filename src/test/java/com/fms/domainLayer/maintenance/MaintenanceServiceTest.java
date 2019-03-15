@@ -39,7 +39,7 @@ public class MaintenanceServiceTest {
   @Test
   public void CRUDFacilityMaintenanceRequest() throws FMSException {
 
-      Facility facility = null;
+      IFacility facility = null;
       try {
           facility = testData.prepFacilityInDb();
           MaintenanceRequest maintenanceRequest = testData.sampleMaintenanceRequest();
@@ -67,11 +67,11 @@ public class MaintenanceServiceTest {
   @Test
   public void CRUDRoomMaintenanceRequest() throws FMSException {
 
-      Facility facility = null;
+      IFacility facility = null;
         try {
             facility = testData.prepFacilityInDb();
 
-            Building building = facility.getFacilityDetail().getBuildings().get(0);
+            IBuilding building = facility.getFacilityDetail().getBuildings().get(0);
             IRoom room = building.getRooms().get(0);
 
             MaintenanceRequest maintenanceRequest = testData.sampleMaintenanceRequest();
@@ -97,7 +97,7 @@ public class MaintenanceServiceTest {
   @Test
   public void scheduleFacilityMaintenance() throws FMSException {
 
-      Facility facility = null;
+      IFacility facility = null;
       try {
           facility = testData.prepFacilityInDb();
           FacilityMaintenanceSchedule facilityMaintenanceSchedule = testData.sampleFacilityMaintenanceSchedule();
@@ -119,11 +119,11 @@ public class MaintenanceServiceTest {
   public void scheduleConflictingFacilityMaintenance() throws SQLException,
           FMSException, RoomSchedulingConflictException {
 
-      Facility facility = null;
+      IFacility facility = null;
 
       try {
           facility = testData.prepFacilityInDb();
-          Building building = facility.getFacilityDetail().getBuildings().get(0);
+          IBuilding building = facility.getFacilityDetail().getBuildings().get(0);
           IRoom room = building.getRooms().get(0);
           Range<LocalDateTime> sampleRange = sampleRange();
 
@@ -145,7 +145,7 @@ public class MaintenanceServiceTest {
   @Test
   public void scheduleRoomMaintenance() throws FMSException, SQLException {
 
-      Facility facility = null;
+      IFacility facility = null;
 
       try {
           facility = testData.prepFacilityInDb();
@@ -169,10 +169,10 @@ public class MaintenanceServiceTest {
 
         schedulingConflictExpected.expect(FMSException.class);
 
-        Facility facility = null;
+        IFacility facility = null;
         try {
           facility = testData.prepFacilityInDb();
-          Building building = facility.getFacilityDetail().getBuildings().get(0);
+          IBuilding building = facility.getFacilityDetail().getBuildings().get(0);
           IRoom room = building.getRooms().get(0);
           Range<LocalDateTime> sampleRange = sampleRange();
 
@@ -199,7 +199,7 @@ public class MaintenanceServiceTest {
 
     @Test
     public void calcMaintenanceCost() throws SQLException, FMSException {
-        Facility facility = null;
+        IFacility facility = null;
 //ToDo: this test works, and we checked the print statement by calculating the result manually,
 // but replicate the calculations in java that we performed in SQL to really prove this
         try {

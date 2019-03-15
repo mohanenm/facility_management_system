@@ -5,14 +5,20 @@ import com.fms.domainLayer.common.FMSException;
 import com.fms.domainLayer.maintenance.MaintenanceCostCalculator;
 import com.fms.domainLayer.maintenance.MaintenanceService;
 import com.fms.domainLayer.usage.UsageService;
-import com.fms.model.*;
+import com.fms.model.Facility;
+import com.fms.model.IBuilding;
+import com.fms.model.IFacility;
+import com.fms.model.IFacilityDetail;
 import com.fms.req_reply_api.GetFacilityDetailResult;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.List;
 
 public class FacilityServiceTest {
 
@@ -28,6 +34,8 @@ public class FacilityServiceTest {
     usageService = new UsageService();
     testData = new TestData();
     maintenanceCostCalculator = new MaintenanceCostCalculator();
+    ApplicationContext context = new ClassPathXmlApplicationContext("META-INF/app-context.xml");
+
   }
 
   @Test
@@ -41,7 +49,7 @@ public class FacilityServiceTest {
   public void CRUDFacility() throws FMSException
 
   {
-    Facility facility =
+    IFacility facility =
         facilityService.addNewFacility("Test Facility", "Healthcare Facility");
 
     assert (facility.getId() > 0);
@@ -66,7 +74,7 @@ public class FacilityServiceTest {
     facilityException.expect(FMSException.class);
 
     // Create a new facility to play with
-    Facility facility =
+    IFacility facility =
             facilityService.addNewFacility("Dup Building Test Facility", "Healthcare Facility");
 
     int insertedFacilityId = facility.getId();
@@ -90,8 +98,8 @@ public class FacilityServiceTest {
   /// facility has duplicate named buildings. We catch it so
   /// the db does not have to.
   public void buildingDuplicatesFails() {
-    FacilityDetail sample = testData.sampleFacilityDetail();
-    ArrayList<Building> buildings = sample.getBuildings();
+    IFacilityDetail sample = testData.sampleFacilityDetail();
+    List<IBuilding> buildings = sample.getBuildings();
     buildings.add(buildings.get(0));
 
     assert (false == FacilityService.validBuildingNames(sample));

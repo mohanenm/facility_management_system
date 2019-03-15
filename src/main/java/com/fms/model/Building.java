@@ -8,12 +8,15 @@ import java.util.List;
 
 public class Building implements IBuilding {
 
+  public Building() {}
+
   /// Client constructor - no id specified
   public Building(
       String name,
       String streetAddress,
       String city,
-      String state) {
+      String state,
+      int zip) {
     this.id = -1;
     this.name = name;
     this.streetAddress = streetAddress;
