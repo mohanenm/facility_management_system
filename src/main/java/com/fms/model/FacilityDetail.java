@@ -7,9 +7,9 @@ import java.io.IOException;
 import java.util.List;
 
 public class FacilityDetail implements IFacilityDetail {
-  public FacilityDetail(List<IBuilding> buildings) {
-    this.buildings = buildings;
-  }
+
+
+  public FacilityDetail(){};
 
   public List<IBuilding> getBuildings() {
     return buildings;

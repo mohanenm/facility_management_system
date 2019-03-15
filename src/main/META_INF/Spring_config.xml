@@ -7,59 +7,43 @@
 
     <context:component-scan base-package="com.fms" />
 
-
-    <!--<bean id="id" class="com." scope="prototype">-->
-    <!--</bean>-->
-    <!--<bean id="buildingId" class="java.lang.Integer" scope="prototype">-->
-        <!--<constructor-arg type="int" value="0"/>-->
-    <!--</bean>-->
-    <!--<bean id="roomNumber" class="java.lang.Integer" scope="prototype">-->
-        <!--<constructor-arg type="int" value="0"/>-->
-    <!--</bean>-->
-    <!--<bean id="capacity" class="java.lang.Integer" scope="prototype">-->
-        <!--<constructor-arg type="int" value="0"/>-->
-    <!--</bean>-->
-    <!--<bean id="room" class="com.fms.model.Room" scope="prototype">-->
-        <!--<constructor-arg index="0" value="0"/>-->
-        <!--<constructor-arg index="1" value="0"/>-->
-        <!--<constructor-arg index="2" value="0"/>-->
-        <!--<constructor-arg index="3" value="0"/>-->
-        <!--<property name="id" ref="id"/>-->
-        <!--<property name="buildingId" ref="buildingId"/>-->
-        <!--<property name="roomNumber" ref="roomNumber"/>-->
-        <!--<property name="capacity" ref="capacity"/>-->
-    <!--</bean>-->
-
-    <!--<bean id="name" class="java.lang.String" scope="prototype"/>-->
-    <!--<bean id="streetAddress" class="java.lang.String" scope="prototype"/>-->
-    <!--<bean id="city" class="java.lang.String" scope="prototype"/>-->
-    <!--<bean id="state" class="java.lang.String" scope="prototype"/>-->
-    <!--<bean id="zip" class="java.lang.Integer" scope="prototype">-->
-        <!--<constructor-arg type="int" value="0"/>-->
-    <!--</bean>-->
-    <!--<bean id="rooms" class="java.util.List" scope="prototype">-->
-    <!--</bean>-->
-
     <bean id="room" class="com.fms.model.Room" scope="prototype">
-        <!--<constructor-arg type="int" value="0"/>    Extra constructor arg for 'id' param-->
-        <constructor-arg type="int" value="0"/>
-        <constructor-arg type="int" value="0"/>
-        <constructor-arg type="int" value="0"/>
+        <constructor-arg index="0" value="0"/>   <!-- Extra constructor arg for 'id' param-->
+        <constructor-arg index="1" value="0"/>
+        <constructor-arg index="2" value="0"/>
+        <constructor-arg index="3" value="0"/>
     </bean>
 
     <bean id="building" class="com.fms.model.Building" scope="prototype">
-        <!--<constructor-arg type="int" value="0"/>  Extra constructor for 'id' param-->
+        <constructor-arg type="int" value="0"/> <!-- Extra constructor for 'id' param-->
         <constructor-arg type="java.lang.String" value="NULL"/>
         <constructor-arg type="java.lang.String" value="NULL"/>
         <constructor-arg type="java.lang.String" value="NULL"/>
         <constructor-arg type="java.lang.String" value="NULL"/>
         <constructor-arg type="int" value="0"/>
+        <!--Dependency injection of room into building-->
         <property name="rooms">
             <list>
-                <ref bean="room"/>
+                <ref bean="room" />
             </list>
         </property>
     </bean>
 
+    <bean id="facilityDetail" class="com.fms.model.FacilityDetail" scope="prototype">
+        <property name="buildings">
+            <list>
+                <ref bean="building"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="facility" class="com.fms.model.Facility" scope="prototype">
+        <constructor-arg index="0" value="0"/>
+        <constructor-arg type="java.lang.String" value="NULL"/>
+        <constructor-arg type="java.lang.String" value="NULL"/>
+        <property name="facilityDetail">
+                <ref bean="facilityDetail"/>
+        </property>
+    </bean>
 
 </beans>

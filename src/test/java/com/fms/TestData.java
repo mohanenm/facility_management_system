@@ -37,28 +37,38 @@ public class TestData {
     }
   }
 //ToDo: create sample building using dependency injection with IRoom interface
-  public Building sampleBuilding(String name) {
+  public Building sampleBuilding(IBuilding building) {
     List<IRoom> rooms = new ArrayList<>();
     IRoom roomA = (IRoom) context.getBean("room");
     IRoom roomB = (IRoom) context.getBean("room");
+    IBuilding sampleBuilding = (IBuilding) context.getBean("building");
     roomA.setBuildingId(1);
     roomA.setCapacity(15);
     roomA.setRoomNumber(101);
     roomB.setBuildingId(1);
     roomB.setCapacity(20);
     roomB.setRoomNumber(102);
-    return new Building(name, "4 Marshall Ln", "Albequerque", "NM", 66540, rooms);
+    sampleBuilding.setCity("Chicago");
+    sampleBuilding.setName("B1");
+    sampleBuilding.setId(1);
+    sampleBuilding.setRooms(rooms);
+    return sampleBuilding(building);
   }
 
-  public FacilityDetail sampleFacilityDetail() {
-    ArrayList<Building> buildings = new ArrayList<>();
-    buildings.add(sampleBuilding("Big1"));
-    buildings.add(sampleBuilding("B2"));
-    return new FacilityDetail(buildings);
+  public void sampleFacilityDetail() {
+    List<IBuilding> buildings = new ArrayList<>();
+    IBuilding building = (IBuilding) context.getBean("blankBuilding");
+    IBuilding sampleBuildingB = (IBuilding) context.getBean("building");
+    sampleBuildingB.setId(2);
+    sampleBuildingB.setName("B2");
+    sampleBuildingB.setCity("Sydney");
+    sampleBuildingB.setZip(60660);
+    buildings.add(sampleBuildingB);
+    buildings.add(building);
   }
 
   public FacilityDetail sampleFacilityDetailDuplicateBuildings() {
-    ArrayList<Building> buildings = new ArrayList<>();
+    List<IBuilding> buildings = new ArrayList<>();
     buildings.add(sampleBuilding("B"));
     buildings.add(sampleBuilding("B"));
     return new FacilityDetail(buildings);
@@ -148,7 +158,7 @@ public class TestData {
   }
 
   public RoomMaintenanceRequest prepRoomMaintenanceRequest(Facility facility) throws FMSException {
-    Building building = facility.getFacilityDetail().getBuildings().get(0);
+    IBuilding building = facility.getFacilityDetail().getBuildings().get(0);
     IRoom room = building.getRooms().get(0);
     return maintenanceService.makeRoomMaintRequest(room.getId(), this.sampleMaintenanceRequest());
   }
@@ -158,14 +168,14 @@ public class TestData {
   }
 
   public int prepRoomMaintenanceSchedule(Facility facility) throws FMSException {
-    Building building = facility.getFacilityDetail().getBuildings().get(0);
+    IBuilding building = facility.getFacilityDetail().getBuildings().get(0);
     IRoom room = building.getRooms().get(0);
     RoomMaintenanceRequest rmr = maintenanceService.makeRoomMaintRequest(room.getId(),sampleMaintenanceRequest());
     return maintenanceService.scheduleRoomMaintenance(rmr.getId(), sampleRange());
   }
 
   public int prepMaintenanceHourlyRate(Facility facility) throws FMSException {
-    Building building = facility.getFacilityDetail().getBuildings().get(0);
+    IBuilding building = facility.getFacilityDetail().getBuildings().get(0);
     return maintenanceService.insertMaintenanceHourlyRate(facility.getId(),
             this.sampleMaintenanceRequest().getMaintenanceTypeId(),
             this.sampleMaintenanceHourlyRate().getRate());

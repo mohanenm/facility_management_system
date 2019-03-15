@@ -13,16 +13,13 @@ public class Building implements IBuilding {
       String name,
       String streetAddress,
       String city,
-      String state,
-      int zip,
-      List<IRoom> rooms) {
+      String state) {
     this.id = -1;
     this.name = name;
     this.streetAddress = streetAddress;
     this.city = city;
     this.state = state;
     this.zip = zip;
-    this.rooms = rooms;
   }
 
   /// Constructor for database, id required
@@ -33,15 +30,13 @@ public class Building implements IBuilding {
           String streetAddress,
           String city,
           String state,
-          int zip,
-          List<IRoom> rooms) {
+          int zip) {
     this.id = id;
     this.name = name;
     this.streetAddress = streetAddress;
     this.city = city;
     this.state = state;
     this.zip = zip;
-    this.rooms = rooms;
   }
 
   public String getName() {

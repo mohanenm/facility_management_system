@@ -66,7 +66,7 @@ public class JsonMarshallingTest {
 
   @Test
   public void BuildingMarshalling() throws IOException {
-    Building building = testData.sampleBuilding("B1");
+    Building building = testData.sampleBuilding();
     Building again = Building.fromJson(building.toString());
     boolean areEqual = again.equals(building);
     assert (areEqual);
