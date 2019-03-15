@@ -17,7 +17,6 @@ import java.time.Month;
 import java.util.ArrayList;
 import java.util.List;
 
-//import org.springframework.
 
 public class TestData {
 
@@ -37,7 +36,7 @@ public class TestData {
     }
   }
 //ToDo: create sample building using dependency injection with IRoom interface
-  public Building sampleBuilding(IBuilding building) {
+  public IBuilding sampleBuilding() {
     List<IRoom> rooms = new ArrayList<>();
     IRoom roomA = (IRoom) context.getBean("room");
     IRoom roomB = (IRoom) context.getBean("room");
@@ -52,30 +51,40 @@ public class TestData {
     sampleBuilding.setName("B1");
     sampleBuilding.setId(1);
     sampleBuilding.setRooms(rooms);
-    return sampleBuilding(building);
+    return sampleBuilding;
   }
 
-  public void sampleFacilityDetail() {
+  public IFacilityDetail sampleFacilityDetail() {
     List<IBuilding> buildings = new ArrayList<>();
-    IBuilding building = (IBuilding) context.getBean("blankBuilding");
+    IBuilding sampleBuildingA = sampleBuilding();
     IBuilding sampleBuildingB = (IBuilding) context.getBean("building");
     sampleBuildingB.setId(2);
     sampleBuildingB.setName("B2");
     sampleBuildingB.setCity("Sydney");
     sampleBuildingB.setZip(60660);
     buildings.add(sampleBuildingB);
-    buildings.add(building);
+    buildings.add(sampleBuildingA);
+    IFacilityDetail sampleFacilityDetail = (IFacilityDetail) context.getBean("facilityDetail");
+    sampleFacilityDetail.setBuildings(buildings);
+    return sampleFacilityDetail;
   }
 
-  public FacilityDetail sampleFacilityDetailDuplicateBuildings() {
+  public IFacilityDetail sampleFacilityDetailDuplicateBuildings() {
     List<IBuilding> buildings = new ArrayList<>();
-    buildings.add(sampleBuilding("B"));
-    buildings.add(sampleBuilding("B"));
-    return new FacilityDetail(buildings);
+    buildings.add(sampleBuilding());
+    buildings.add(sampleBuilding());
+    IFacilityDetail sampleFacilityDetailDup = (IFacilityDetail) context.getBean("facilityDetail");
+    sampleFacilityDetailDup.setBuildings(buildings);
+    return sampleFacilityDetailDup;
   }
 
-  public Facility sampleFacility() {
-    return new Facility(-1, "F1", "sample facility for test", sampleFacilityDetail());
+  public IFacility sampleFacility() {
+    IFacilityDetail facilityDetail = sampleFacilityDetail();
+    IFacility sampleFacility = (IFacility) context.getBean("facility");
+    sampleFacility.setDescription("Sample facility for unit testing.");
+    sampleFacility.setName("F1");
+    sampleFacility.setFacilityDetail(facilityDetail);
+    return sampleFacility;
   }
 
   public FacilityMaintenanceRequest sampleFacilityMaintenanceRequest() {
@@ -151,10 +160,10 @@ public class TestData {
         "The Room Maintenance Request does not correctly reference an existing room ");
   }
 
-  public Facility prepFacilityInDb() throws FMSException {
-    Facility facility =
+  public IFacility prepFacilityInDb() throws FMSException {
+    IFacility facility =
             facilityService.addNewFacility("Test Facility", "Healthcare Facility");
-    return facilityService.addFacilityDetail(facility.getId(), this.sampleFacilityDetail());
+    return facilityService.addFacilityDetail(facility.getId(), testData.sampleFacilityDetail());
   }
 
   public RoomMaintenanceRequest prepRoomMaintenanceRequest(Facility facility) throws FMSException {

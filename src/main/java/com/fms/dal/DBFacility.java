@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 import org.springframework.context.*;
 import org.springframework.beans.*;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 public class DBFacility {
 
@@ -20,11 +21,9 @@ public class DBFacility {
   private PreparedStatement facilityInformation;
   private PreparedStatement selectFacility;
   private PreparedStatement deleteFacility;
-
   private ResultSet resultSet;
   private ResultSet facilityResultSet;
-
-  // private PreparedStatement insertFacilityMaintenanceRequest;
+  ApplicationContext context = new ClassPathXmlApplicationContext("META-INF/Spring-config.xml");
 
   public DBFacility() throws SQLException {
 
@@ -71,6 +70,7 @@ public class DBFacility {
   }
 
   public List<IFacility> readAllFacilities() {
+    IFacility facility = (IFacility) context.getBean("facility");
     List<IFacility> result = new ArrayList<>();
     try {
 
@@ -80,7 +80,7 @@ public class DBFacility {
 
       while (facilityResultSet.next()) {
         result.add(
-            new Facility(
+            facility.getClass(
                 facilityResultSet.getInt("id"),
                 facilityResultSet.getString("name"),
                 facilityResultSet.getString("description")));
@@ -95,13 +95,17 @@ public class DBFacility {
   }
 
   public IFacility createFacility(String name, String description) throws SQLException {
+    IFacility facility = (IFacility) context.getBean("facility");
     try {
       insertFacility.setString(1, name);
       insertFacility.setString(2, description);
       resultSet = insertFacility.executeQuery();
       resultSet.next();
 
-      return new IFacility(resultSet.getInt(1), name, description);
+      facility.setId(resultSet.getInt(1));
+      facility.setName(name);
+      facility.setDescription(description);
+      return facility;
     } catch (SQLException e) {
       System.out.println("caught exception: " + e.toString());
       throw e;
@@ -114,6 +118,7 @@ public class DBFacility {
   }
 
   public IFacility addFacilityDetail(int facilityId, IFacilityDetail facilityDetail) throws SQLException {
+    IFacility facility = (IFacility) context.getBean("facility");
 
     selectFacility.setInt(1, facilityId);
     resultSet = selectFacility.executeQuery();
@@ -128,7 +133,7 @@ public class DBFacility {
       buildings.add(createBuilding(facilityId, building));
     }
 
-    return new Facility(facilityId, name, description, new FacilityDetail(buildings));
+    return facility(facilityId, name, description, new FacilityDetail(buildings));
   }
 
   private IBuilding createBuilding(int facilityId, IBuilding building) throws SQLException {

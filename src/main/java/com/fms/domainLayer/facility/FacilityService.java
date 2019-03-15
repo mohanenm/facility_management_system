@@ -23,11 +23,11 @@ public class FacilityService {
     dbFacility = new DBFacility();
   }
 
-  public List<IFacility> listFacilities() {
+  public List<Facility> listFacilities() {
     return dbFacility.readAllFacilities();
   }
 
-  public Facility addNewFacility(String name, String description) throws FMSException {
+  public IFacility addNewFacility(String name, String description) throws FMSException {
     try {
       return dbFacility.createFacility(name, description);
     } catch (SQLException e) {
@@ -56,7 +56,7 @@ public class FacilityService {
   ///  - Buildings with same name
   ///  - If facility_id is a bad id not mapping to existing facility
   ///  - Any issues with insert into building, room,
-  public Facility addFacilityDetail(int facilityId, FacilityDetail facilityDetail) throws FMSException {
+  public IFacility addFacilityDetail(int facilityId, FacilityDetail facilityDetail) throws FMSException {
     if (validBuildingNames(facilityDetail)) {
       try {
         return dbFacility.addFacilityDetail(facilityId, facilityDetail);
