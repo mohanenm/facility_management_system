@@ -57,7 +57,12 @@ public class TestData {
   }
 
   public static Facility sampleFacility() {
-    return new Facility(-1, "F1", "sample facility for test", sampleFacilityDetail());
+    Facility facility = new Facility();
+    facility.setId(-1);
+    facility.setName("F1");
+    facility.setDescription("Sample facility for Unit testing.");
+    facility.setFacilityDetail(sampleFacilityDetail());
+    return facility;
   }
 
   public static FacilityMaintenanceRequest sampleFacilityMaintenanceRequest() {

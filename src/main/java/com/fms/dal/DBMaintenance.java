@@ -1,12 +1,12 @@
 package com.fms.dal;
 
-import com.fms.model.*;
+import com.fms.model.FacilityMaintenanceRequest;
+import com.fms.model.MaintenanceRequest;
+import com.fms.model.RoomMaintenanceRequest;
 import com.google.common.collect.Range;
+import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.apache.logging.log4j.Level;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import java.sql.*;
 import java.time.LocalDateTime;
@@ -35,10 +35,6 @@ public class DBMaintenance {
   private PreparedStatement insertMaintenanceHourlyRate;
   private PreparedStatement deleteMaintenanceHourlyRate;
   private PreparedStatement calcMaintenanceCostForFacility;
-
-  //to be used if we make the maintenance related models dependency injected
-  ApplicationContext context = new ClassPathXmlApplicationContext("META-INF/Spring-config.xml");
-
 
   public DBMaintenance() throws SQLException {
     insertMaintenanceRequest =

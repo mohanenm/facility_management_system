@@ -30,7 +30,7 @@ public class JsonMarshallingTest {
   @Test
   public void FacilityMarshalling() throws IOException {
     Facility facility = new Facility(1, "F1", "Psychological Testing");
-    facility.setFacilityDetail(testData.sampleFacilityDetail());
+    facility.setFacilityDetail(TestData.sampleFacilityDetail());
     Facility again = Facility.fromJson(facility.toString());
     boolean areEqual = again.equals(facility);
     assert (areEqual);
@@ -38,7 +38,7 @@ public class JsonMarshallingTest {
 
   @Test
   public void FacilityDetailMarshalling() throws IOException {
-    FacilityDetail facilityDetail = testData.sampleFacilityDetail();
+    FacilityDetail facilityDetail = TestData.sampleFacilityDetail();
     FacilityDetail again = FacilityDetail.fromJson(facilityDetail.toString());
     boolean areEqual = again.equals(facilityDetail);
     assert (areEqual);
@@ -46,7 +46,7 @@ public class JsonMarshallingTest {
 
   @Test
   public void FacilityInspectionMarshalling() throws IOException {
-    FacilityInspection facilityInspection = testData.sampleFacilityInspection();
+    FacilityInspection facilityInspection = TestData.sampleFacilityInspection();
     FacilityInspection again = FacilityInspection.fromJson(facilityInspection.toString());
     boolean areEqual = again.equals(facilityInspection);
     assert (areEqual);

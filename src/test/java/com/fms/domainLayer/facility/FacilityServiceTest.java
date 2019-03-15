@@ -13,8 +13,6 @@ import com.fms.req_reply_api.GetFacilityDetailResult;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -34,7 +32,6 @@ public class FacilityServiceTest {
     usageService = new UsageService();
     testData = new TestData();
     maintenanceCostCalculator = new MaintenanceCostCalculator();
-    ApplicationContext context = new ClassPathXmlApplicationContext("META-INF/app-context.xml");
 
   }
 
@@ -55,7 +52,7 @@ public class FacilityServiceTest {
     assert (facility.getId() > 0);
 
     System.out.println(facility.toString());
-    facilityService.addFacilityDetail(facility.getId(), testData.sampleFacilityDetail());
+    facilityService.addFacilityDetail(facility.getId(), TestData.sampleFacilityDetail());
     facilityService.removeFacility(facility.getId());
 
     System.out.println("CHECK AGAIN");

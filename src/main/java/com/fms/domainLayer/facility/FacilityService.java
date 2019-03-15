@@ -56,7 +56,7 @@ public class FacilityService {
   ///  - Buildings with same name
   ///  - If facility_id is a bad id not mapping to existing facility
   ///  - Any issues with insert into building, room,
-  public IFacility addFacilityDetail(int facilityId, FacilityDetail facilityDetail) throws FMSException {
+  public IFacility addFacilityDetail(int facilityId, IFacilityDetail facilityDetail) throws FMSException {
     if (validBuildingNames(facilityDetail)) {
       try {
         return dbFacility.addFacilityDetail(facilityId, facilityDetail);

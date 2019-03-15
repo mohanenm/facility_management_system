@@ -5,6 +5,8 @@ import java.io.IOException;
 
 public class Facility implements IFacility{
 
+  public Facility() {}
+
   public Facility(int id, String name, String description) {
     this.id = id;
     this.name = name;
