@@ -2,13 +2,12 @@ package com.fms.req_reply_api;
 
 import com.fms.model.FacilityMaintenanceRequest;
 import com.google.gson.*;
-
 import java.io.IOException;
 
 public class FacilityMaintenanceRequestResult {
 
   public FacilityMaintenanceRequestResult(
-          FacilityMaintenanceRequest facilityMaintenanceRequest, String errorMessage) {
+      FacilityMaintenanceRequest facilityMaintenanceRequest, String errorMessage) {
     this.facilityMaintenanceRequest = facilityMaintenanceRequest;
     this.errorMessage = errorMessage;
   }

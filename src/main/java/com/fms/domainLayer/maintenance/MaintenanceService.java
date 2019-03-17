@@ -1,18 +1,17 @@
 package com.fms.domainLayer.maintenance;
 
+import com.fms.dal.DBMaintenance;
 import com.fms.domainLayer.common.FMSException;
 import com.fms.domainLayer.common.FacilityErrorCode;
-import com.fms.dal.DBMaintenance;
 import com.fms.model.FacilityMaintenanceRequest;
 import com.fms.model.MaintenanceRequest;
 import com.fms.model.RoomMaintenanceRequest;
 import com.google.common.collect.Range;
+import java.sql.SQLException;
+import java.time.LocalDateTime;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-
-import java.sql.SQLException;
-import java.time.LocalDateTime;
 
 public class MaintenanceService {
 
@@ -31,83 +30,89 @@ public class MaintenanceService {
   public FacilityMaintenanceRequest makeFacilityMaintRequest(
       int facilityId, MaintenanceRequest maintenanceRequest) throws FMSException {
     try {
-      return
-          dbMaintenance.makeFacilityMaintRequest(facilityId, maintenanceRequest);
+      return dbMaintenance.makeFacilityMaintRequest(facilityId, maintenanceRequest);
     } catch (SQLException e) {
-      throw new FMSException (FacilityErrorCode.INVALID_MAINTENANCE_REQUEST,
-              "Could not make this Maintenance Request.");
+      throw new FMSException(
+          FacilityErrorCode.INVALID_MAINTENANCE_REQUEST,
+          "Could not make this Maintenance Request.");
     }
   }
 
-  public void removeFacilityMaintRequest(int facilityMaintenanceRequestId) throws FMSException{
+  public void removeFacilityMaintRequest(int facilityMaintenanceRequestId) throws FMSException {
     try {
       dbMaintenance.removeFacilityMaintRequest(facilityMaintenanceRequestId);
     } catch (SQLException e) {
-      throw new FMSException(FacilityErrorCode.UNABLE_TO_DELETE_REQUEST,
-              "Could not remove this Maintenance Request");
+      throw new FMSException(
+          FacilityErrorCode.UNABLE_TO_DELETE_REQUEST, "Could not remove this Maintenance Request");
     }
   }
 
   public RoomMaintenanceRequest makeRoomMaintRequest(
-          int roomId, MaintenanceRequest maintenanceRequest) throws FMSException {
+      int roomId, MaintenanceRequest maintenanceRequest) throws FMSException {
     try {
-      return
-              dbMaintenance.makeRoomMaintRequest(roomId, maintenanceRequest);
+      return dbMaintenance.makeRoomMaintRequest(roomId, maintenanceRequest);
     } catch (SQLException e) {
-      throw new FMSException (FacilityErrorCode.INVALID_MAINTENANCE_REQUEST,
-              "Could not make this Maintenance Request.");
+      throw new FMSException(
+          FacilityErrorCode.INVALID_MAINTENANCE_REQUEST,
+          "Could not make this Maintenance Request.");
     }
   }
 
-  public void removeRoomMaintRequest(int roomMaintenanceRequestId) throws FMSException{
+  public void removeRoomMaintRequest(int roomMaintenanceRequestId) throws FMSException {
     try {
       dbMaintenance.removeRoomMaintRequest(roomMaintenanceRequestId);
     } catch (SQLException e) {
-      throw new FMSException(FacilityErrorCode.UNABLE_TO_DELETE_REQUEST,
-              "Could not remove this Maintenance Request");
+      throw new FMSException(
+          FacilityErrorCode.UNABLE_TO_DELETE_REQUEST, "Could not remove this Maintenance Request");
     }
   }
 
-  public int scheduleRoomMaintenance (
-          int roomMaintenanceRequestId, Range<LocalDateTime> maintenancePeriod) throws FMSException {
+  public int scheduleRoomMaintenance(
+      int roomMaintenanceRequestId, Range<LocalDateTime> maintenancePeriod) throws FMSException {
     try {
       return dbMaintenance.scheduleRoomMaintenance(roomMaintenanceRequestId, maintenancePeriod);
     } catch (SQLException e) {
       logger.log(Level.ERROR, "Schedule room maintenance failed, excp: " + e);
-      throw new FMSException(FacilityErrorCode.SCHEDULE_ROOM_MAINTENANCE_FAILED,
-              "Failed to schedule maintenance on room, excp ->: " + e.toString());
+      throw new FMSException(
+          FacilityErrorCode.SCHEDULE_ROOM_MAINTENANCE_FAILED,
+          "Failed to schedule maintenance on room, excp ->: " + e.toString());
     }
   }
 
-  public boolean scheduleFacilityMaintenance
-          (int facilityRequestId, boolean vacancyRequired, boolean isRoutine,
-           Range<LocalDateTime> maintenancePeriod) throws FMSException {
+  public boolean scheduleFacilityMaintenance(
+      int facilityRequestId,
+      boolean vacancyRequired,
+      boolean isRoutine,
+      Range<LocalDateTime> maintenancePeriod)
+      throws FMSException {
     try {
-      return dbMaintenance.scheduleFacilityMaintenance(facilityRequestId, vacancyRequired, isRoutine, maintenancePeriod);
+      return dbMaintenance.scheduleFacilityMaintenance(
+          facilityRequestId, vacancyRequired, isRoutine, maintenancePeriod);
     } catch (SQLException e) {
-      //ToDo:
+      // ToDo:
       return false;
     }
   }
 
-  public int insertMaintenanceHourlyRate (int facilityId, int maintenanceTypeId, double hourlyRate) throws FMSException {
+  public int insertMaintenanceHourlyRate(int facilityId, int maintenanceTypeId, double hourlyRate)
+      throws FMSException {
     try {
       return dbMaintenance.setMaintenanceHourlyRate(facilityId, maintenanceTypeId, hourlyRate);
     } catch (SQLException e) {
       logger.log(Level.ERROR, "Hourly rate insertion failed, excp: " + e);
-      throw new FMSException(FacilityErrorCode.UNABLE_TO_INSERT_HOURLY_RATE,
-              "Failed to insert hourly rate on room, excp ->: " + e.toString());
+      throw new FMSException(
+          FacilityErrorCode.UNABLE_TO_INSERT_HOURLY_RATE,
+          "Failed to insert hourly rate on room, excp ->: " + e.toString());
     }
   }
 
-  public void removeMaintenanceHourlyRate (int maintenanceHourlyRateId) throws FMSException {
+  public void removeMaintenanceHourlyRate(int maintenanceHourlyRateId) throws FMSException {
     try {
       dbMaintenance.removeFacilityMaintRequest(maintenanceHourlyRateId);
     } catch (SQLException e) {
       logger.log(Level.ERROR, "Removal of maintenance hourly rate failed, excp: " + e);
-      throw new FMSException(FacilityErrorCode.UNABLE_TO_DELETE_REQUEST,
-              "Unable to remove Maintenance Hourly Rate");
+      throw new FMSException(
+          FacilityErrorCode.UNABLE_TO_DELETE_REQUEST, "Unable to remove Maintenance Hourly Rate");
     }
   }
-
 }

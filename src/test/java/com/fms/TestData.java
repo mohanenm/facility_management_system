@@ -8,7 +8,6 @@ import com.fms.model.*;
 import com.fms.req_reply_api.FacilityMaintenanceRequestResult;
 import com.fms.req_reply_api.RoomMaintenanceRequestResult;
 import com.google.common.collect.Range;
-
 import java.sql.SQLException;
 import java.time.LocalDateTime;
 import java.time.Month;
@@ -20,13 +19,12 @@ public class TestData {
   FacilityService facilityService;
   UsageService usageService;
 
-
   public TestData() throws SQLException {
     try {
       maintenanceService = new MaintenanceService();
       facilityService = new FacilityService();
       usageService = new UsageService();
-    } catch(SQLException e) {
+    } catch (SQLException e) {
       System.out.println("SQL exception: " + e.toString());
     }
   }
@@ -99,10 +97,10 @@ public class TestData {
 
   public static FacilityMaintenanceSchedule sampleFacilityMaintenanceSchedule() {
     return new FacilityMaintenanceSchedule(
-            -1,
-            -1,
-            LocalDateTime.of(1984, Month.DECEMBER, 17, 15, 30),
-            LocalDateTime.of(2010, Month.SEPTEMBER, 17, 4, 10));
+        -1,
+        -1,
+        LocalDateTime.of(1984, Month.DECEMBER, 17, 15, 30),
+        LocalDateTime.of(2010, Month.SEPTEMBER, 17, 4, 10));
   }
 
   public static RoomMaintenanceRequest sampleRoomMaintenanceRequest() {
@@ -111,60 +109,64 @@ public class TestData {
 
   public static RoomReservation sampleRoomReservation() {
     return new RoomReservation(
-            -1,
-            -1,
-            LocalDateTime.of(1984, Month.DECEMBER, 17, 15, 30),
-            LocalDateTime.of(2010, Month.SEPTEMBER, 17, 4, 10),
-            -1);
+        -1,
+        -1,
+        LocalDateTime.of(1984, Month.DECEMBER, 17, 15, 30),
+        LocalDateTime.of(2010, Month.SEPTEMBER, 17, 4, 10),
+        -1);
   }
 
   public static RoomMaintenanceSchedule sampleRoomMaintenanceSchedule() {
     return new RoomMaintenanceSchedule(
-            -1,
-            -1,
-            LocalDateTime.of(2019, Month.JANUARY, 13, 20, 8),
-            LocalDateTime.of(2019, Month.JANUARY, 13, 21, 8));
+        -1,
+        -1,
+        LocalDateTime.of(2019, Month.JANUARY, 13, 20, 8),
+        LocalDateTime.of(2019, Month.JANUARY, 13, 21, 8));
   }
 
   public static FacilityMaintenanceRequestResult sampleFacilityMaintenanceRequestResult() {
     return new FacilityMaintenanceRequestResult(
-            sampleFacilityMaintenanceRequest(),
-            "The Facility Maintenance Request you have submitted does not correctly reference an existing facility ");
+        sampleFacilityMaintenanceRequest(),
+        "The Facility Maintenance Request you have submitted does not correctly reference an existing facility ");
   }
 
   public static RoomMaintenanceRequestResult sampleRoomMaintenanceRequestResult() {
     return new RoomMaintenanceRequestResult(
-            sampleRoomMaintenanceRequest(),
-            "The Room Maintenance Request does not correctly reference an existing room ");
+        sampleRoomMaintenanceRequest(),
+        "The Room Maintenance Request does not correctly reference an existing room ");
   }
 
   public IFacility prepFacilityInDb() throws FMSException {
-    IFacility facility =
-            facilityService.addNewFacility("Test Facility", "Healthcare Facility");
+    IFacility facility = facilityService.addNewFacility("Test Facility", "Healthcare Facility");
     return facilityService.addFacilityDetail(facility.getId(), TestData.sampleFacilityDetail());
   }
 
   public RoomMaintenanceRequest prepRoomMaintenanceRequest(IFacility facility) throws FMSException {
     IBuilding building = facility.getFacilityDetail().getBuildings().get(0);
     IRoom room = building.getRooms().get(0);
-    return maintenanceService.makeRoomMaintRequest(room.getId(), TestData.sampleMaintenanceRequest());
+    return maintenanceService.makeRoomMaintRequest(
+        room.getId(), TestData.sampleMaintenanceRequest());
   }
 
-  public FacilityMaintenanceRequest prepFacilityMaintenanceRequest(Facility facility) throws FMSException {
-    return maintenanceService.makeFacilityMaintRequest(facility.getId(), TestData.sampleMaintenanceRequest());
+  public FacilityMaintenanceRequest prepFacilityMaintenanceRequest(Facility facility)
+      throws FMSException {
+    return maintenanceService.makeFacilityMaintRequest(
+        facility.getId(), TestData.sampleMaintenanceRequest());
   }
 
   public int prepRoomMaintenanceSchedule(IFacility facility) throws FMSException {
     IBuilding building = facility.getFacilityDetail().getBuildings().get(0);
     IRoom room = building.getRooms().get(0);
-    RoomMaintenanceRequest rmr = maintenanceService.makeRoomMaintRequest(room.getId(),sampleMaintenanceRequest());
+    RoomMaintenanceRequest rmr =
+        maintenanceService.makeRoomMaintRequest(room.getId(), sampleMaintenanceRequest());
     return maintenanceService.scheduleRoomMaintenance(rmr.getId(), sampleRange());
   }
 
   public int prepMaintenanceHourlyRate(IFacility facility) throws FMSException {
     IBuilding building = facility.getFacilityDetail().getBuildings().get(0);
-    return maintenanceService.insertMaintenanceHourlyRate(facility.getId(),
-            TestData.sampleMaintenanceRequest().getMaintenanceTypeId(),
-            TestData.sampleMaintenanceHourlyRate().getRate());
+    return maintenanceService.insertMaintenanceHourlyRate(
+        facility.getId(),
+        TestData.sampleMaintenanceRequest().getMaintenanceTypeId(),
+        TestData.sampleMaintenanceHourlyRate().getRate());
   }
 }

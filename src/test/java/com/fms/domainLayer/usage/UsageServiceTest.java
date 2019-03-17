@@ -1,19 +1,18 @@
 package com.fms.domainLayer.usage;
 
+import static com.fms.TestData.sampleRange;
+
 import com.fms.TestData;
+import com.fms.dal.RoomSchedulingConflictException;
 import com.fms.domainLayer.common.FMSException;
 import com.fms.domainLayer.facility.FacilityService;
-import com.fms.dal.RoomSchedulingConflictException;
 import com.fms.model.*;
 import com.google.common.collect.Range;
-import org.junit.Test;
-
 import java.sql.SQLException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-
-import static com.fms.TestData.sampleRange;
+import org.junit.Test;
 
 public class UsageServiceTest {
 
@@ -38,9 +37,8 @@ public class UsageServiceTest {
   }
 
   public IFacility prepFacilityInDb() throws FMSException {
-    IFacility facility =
-            facilityService.addNewFacility("Test Facility", "Healthcare Facility");
-    return facilityService.addFacilityDetail(facility.getId(), testData.sampleFacilityDetail());
+    IFacility facility = facilityService.addNewFacility("Test Facility", "Healthcare Facility");
+    return facilityService.addFacilityDetail(facility.getId(), TestData.sampleFacilityDetail());
   }
 
   @Test
@@ -56,21 +54,25 @@ public class UsageServiceTest {
       Range<LocalDateTime> sampleRange = sampleRange();
 
       // Reserve our new room for some sample time range
-      RoomReservation roomReservation = usageService.scheduleRoomReservation(room.getId(), sampleRange);
+      RoomReservation roomReservation =
+          usageService.scheduleRoomReservation(room.getId(), sampleRange);
     } finally {
-      if(facility != null) {
+      if (facility != null) {
         facilityService.removeFacility(facility.getId());
       }
     }
   }
 
-  @Test //currently just testing listing inspections, will add insert functionality once passes
+  @Test // currently just testing listing inspections, will add insert functionality once passes
   public void addInspectionToList() throws SQLException {
-    ArrayList<FacilityInspection> listOfInspections = usageService.listInspections(1,
+    ArrayList<FacilityInspection> listOfInspections =
+        usageService.listInspections(
+            1,
             Range.closed(
-                    LocalDateTime.of(2018, 1, 1, 1, 1, 0, 0),
-                    LocalDateTime.of(2019, 10, 1, 1, 1, 0, 0)));
-    System.out.println("Inspections of facility within given range -> " + listOfInspections.toString());
+                LocalDateTime.of(2018, 1, 1, 1, 1, 0, 0),
+                LocalDateTime.of(2019, 10, 1, 1, 1, 0, 0)));
+    System.out.println(
+        "Inspections of facility within given range -> " + listOfInspections.toString());
   }
 
   @Test
@@ -86,10 +88,9 @@ public class UsageServiceTest {
       Range<LocalDateTime> range = TestData.sampleRange();
       assert (usageService.isInUseDuringInterval(rId, range) == false);
     } finally {
-      if(facility != null) {
+      if (facility != null) {
         facilityService.removeFacility(facility.getId());
       }
     }
   }
-
 }

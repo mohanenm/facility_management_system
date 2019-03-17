@@ -12,7 +12,8 @@ public class FacilityMaintenanceWebRequest {
     this.facilityId = facilityId;
   }
 
-  public FacilityMaintenanceWebRequest(int id, MaintenanceRequest maintenanceRequest, int facilityId) {
+  public FacilityMaintenanceWebRequest(
+      int id, MaintenanceRequest maintenanceRequest, int facilityId) {
     this.id = id;
     this.maintenanceRequest = maintenanceRequest;
     this.facilityId = facilityId;

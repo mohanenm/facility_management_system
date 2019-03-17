@@ -1,20 +1,21 @@
 package com.fms.dal;
 
 public class RoomSchedulingConflictException extends Exception {
-    int roomId;
+  int roomId;
 
-    public RoomSchedulingConflictException(int roomId, RoomSchedulingConflict roomSchedulingConflict) {
-        this.roomId = roomId;
-        this.roomSchedulingConflict = roomSchedulingConflict;
-    }
+  public RoomSchedulingConflictException(
+      int roomId, RoomSchedulingConflict roomSchedulingConflict) {
+    this.roomId = roomId;
+    this.roomSchedulingConflict = roomSchedulingConflict;
+  }
 
-    public int getRoomId() {
-        return roomId;
-    }
+  public int getRoomId() {
+    return roomId;
+  }
 
-    public RoomSchedulingConflict getRoomSchedulingConflict() {
-        return roomSchedulingConflict;
-    }
+  public RoomSchedulingConflict getRoomSchedulingConflict() {
+    return roomSchedulingConflict;
+  }
 
-    RoomSchedulingConflict roomSchedulingConflict;
+  RoomSchedulingConflict roomSchedulingConflict;
 }

@@ -3,7 +3,7 @@ package com.fms.model;
 import com.google.gson.*;
 import java.io.IOException;
 
-public class Facility implements IFacility{
+public class Facility implements IFacility {
 
   public Facility() {}
 

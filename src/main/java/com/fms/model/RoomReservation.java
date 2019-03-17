@@ -15,7 +15,8 @@ public class RoomReservation {
     this.maintenanceRequestId = maintenanceRequestId;
   }
 
-  public RoomReservation(int roomId, LocalDateTime start, LocalDateTime finish, Integer maintenanceRequestId) {
+  public RoomReservation(
+      int roomId, LocalDateTime start, LocalDateTime finish, Integer maintenanceRequestId) {
     this.roomId = roomId;
     this.start = start;
     this.finish = finish;
@@ -24,8 +25,12 @@ public class RoomReservation {
 
   // TODO: Is this necessary
   public static RoomReservation withId(int id, RoomReservation roomReservation) {
-    return new RoomReservation(id, roomReservation.roomId, roomReservation.start,
-            roomReservation.finish, roomReservation.maintenanceRequestId);
+    return new RoomReservation(
+        id,
+        roomReservation.roomId,
+        roomReservation.start,
+        roomReservation.finish,
+        roomReservation.maintenanceRequestId);
   }
 
   public int getId() {

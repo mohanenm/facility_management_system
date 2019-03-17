@@ -1,13 +1,20 @@
 package com.fms.model;
 
 public interface IRoom {
-    public int getId();
-    public int getBuildingId();
-    public int getRoomNumber();
-    public int getCapacity();
-    public void setId(int id);
-    public void setBuildingId(int buildingId);
-    public void setRoomNumber(int roomNumber);
-    public void setCapacity(int capacity);
-    //public static Room fromJson(String room) throws IOException;
+  int getId();
+
+  int getBuildingId();
+
+  int getRoomNumber();
+
+  int getCapacity();
+
+  void setId(int id);
+
+  void setBuildingId(int buildingId);
+
+  void setRoomNumber(int roomNumber);
+
+  void setCapacity(int capacity);
+  // public static Room fromJson(String room) throws IOException;
 }

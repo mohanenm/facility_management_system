@@ -3,13 +3,12 @@ package com.fms.dal;
 import com.fms.model.FacilityInspection;
 import com.fms.model.RoomReservation;
 import com.google.common.collect.Range;
-import org.apache.logging.log4j.Level;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
 import java.sql.*;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import org.apache.logging.log4j.Level;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public class DBUsage {
 
@@ -30,13 +29,13 @@ public class DBUsage {
     insertRoomReservation =
         DBConnection.getConnection()
             .prepareStatement(
-                "insert into room_reservation\n" +
-                        "(room_id, start, finish, maintenance_request_id) \n" +
-                        "values (?, ?, ?, ?) RETURNING id");
+                "insert into room_reservation\n"
+                    + "(room_id, start, finish, maintenance_request_id) \n"
+                    + "values (?, ?, ?, ?) RETURNING id");
 
-    //Not necessarily a need to query a room request, if the request is successful it
-    //becomes a reservation which can be queried with checkRoomAvailability, if not
-    //it is thrown out
+    // Not necessarily a need to query a room request, if the request is successful it
+    // becomes a reservation which can be queried with checkRoomAvailability, if not
+    // it is thrown out
     queryRoomRequest =
         DBConnection.getConnection()
             .prepareStatement(
@@ -66,12 +65,14 @@ public class DBUsage {
                     + "    )");
 
     listInspections =
-            DBConnection.getConnection().prepareStatement("select\n" +
-                    "*\n" +
-                    "from \n" +
-                    "facility_inspection as fi\n" +
-                    "where (? < fi.completed) and \n" +
-                    "(? > fi.completed)");
+        DBConnection.getConnection()
+            .prepareStatement(
+                "select\n"
+                    + "*\n"
+                    + "from \n"
+                    + "facility_inspection as fi\n"
+                    + "where (? < fi.completed) and \n"
+                    + "(? > fi.completed)");
   }
 
   private RoomReservation insertRoomReservation(RoomReservation roomRequest) throws SQLException {
@@ -86,7 +87,7 @@ public class DBUsage {
       insertRoomReservation.setTimestamp(2, start);
       insertRoomReservation.setTimestamp(3, finish);
       Integer maintenanceRequestId = roomRequest.getMaintenanceRequestId();
-      if(maintenanceRequestId == null) {
+      if (maintenanceRequestId == null) {
         insertRoomReservation.setNull(4, Types.INTEGER);
       } else {
         insertRoomReservation.setInt(4, maintenanceRequestId.intValue());
@@ -106,15 +107,14 @@ public class DBUsage {
   }
 
   /**
-   *
    * @param roomId - Id of room being reserved
    * @param reservationPeriod Start/finish range for reservation
    * @param maintenanceRequestId - If supplied implies reservation is for maintenance
    * @return true if succeeded
    * @throws SQLException
    */
-  public RoomReservation scheduleRoomReservation(int roomId, Range<LocalDateTime> reservationPeriod,
-                                         Integer maintenanceRequestId)
+  public RoomReservation scheduleRoomReservation(
+      int roomId, Range<LocalDateTime> reservationPeriod, Integer maintenanceRequestId)
       throws SQLException, RoomSchedulingConflictException {
 
     /// Look up RoomMaintenanceRequest
@@ -133,25 +133,28 @@ public class DBUsage {
     // If next is false, no records, no conflict.
     boolean hasConflict = resultSet.next() != false;
 
-    if(hasConflict) {
+    if (hasConflict) {
       LocalDateTime existingStart = resultSet.getTimestamp(1).toLocalDateTime();
       LocalDateTime existingFinish = resultSet.getTimestamp(2).toLocalDateTime();
 
-      RoomSchedulingConflict conflict = new RoomSchedulingConflict(reservationPeriod,
-              Range.open(existingStart, existingFinish));
+      RoomSchedulingConflict conflict =
+          new RoomSchedulingConflict(reservationPeriod, Range.open(existingStart, existingFinish));
 
       logger.log(Level.ERROR, "Scheduling conflict encountered: " + conflict);
       throw new RoomSchedulingConflictException(roomId, conflict);
     }
 
-    return insertRoomReservation(new RoomReservation(roomId, reservationPeriod.lowerEndpoint(),
-            reservationPeriod.upperEndpoint(), maintenanceRequestId));
+    return insertRoomReservation(
+        new RoomReservation(
+            roomId,
+            reservationPeriod.lowerEndpoint(),
+            reservationPeriod.upperEndpoint(),
+            maintenanceRequestId));
   }
 
-
-  //ToDO: add test for this method.
+  // ToDO: add test for this method.
   public boolean queryUseDuringInterval(int roomId, Range<LocalDateTime> queryPeriod)
-    throws SQLException {
+      throws SQLException {
     Timestamp start = Timestamp.valueOf(queryPeriod.lowerEndpoint());
     Timestamp finish = Timestamp.valueOf(queryPeriod.upperEndpoint());
 
@@ -170,8 +173,8 @@ public class DBUsage {
     return isInUse;
   }
 
-  public ArrayList<FacilityInspection> readAllInspections(int facilityId, Range<LocalDateTime> inspectionsPeriod)
-    throws SQLException {
+  public ArrayList<FacilityInspection> readAllInspections(
+      int facilityId, Range<LocalDateTime> inspectionsPeriod) throws SQLException {
     ArrayList<FacilityInspection> inspectionsList = new ArrayList<>();
     Timestamp start = Timestamp.valueOf(inspectionsPeriod.lowerEndpoint());
     Timestamp finish = Timestamp.valueOf(inspectionsPeriod.upperEndpoint());

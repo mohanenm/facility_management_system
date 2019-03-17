@@ -1,18 +1,19 @@
 package com.fms.model;
 
 public interface IFacility {
-    public int getId();
+  int getId();
 
-    public String getName();
+  String getName();
 
-    public String getDescription();
+  String getDescription();
 
-    public void setId(int id);
+  void setId(int id);
 
-    public void setName(String name);
+  void setName(String name);
 
-    public void setDescription(String description);
-    IFacilityDetail getFacilityDetail();
-    void setFacilityDetail(IFacilityDetail facilityDetail);
+  void setDescription(String description);
 
+  IFacilityDetail getFacilityDetail();
+
+  void setFacilityDetail(IFacilityDetail facilityDetail);
 }
