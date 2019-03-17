@@ -5,10 +5,12 @@ import com.fms.domainLayer.facility.FacilityService;
 import com.fms.domainLayer.maintenance.MaintenanceCostCalculator;
 import com.fms.domainLayer.maintenance.MaintenanceService;
 import com.fms.domainLayer.usage.UsageService;
-import com.fms.req_reply_api.*; // temporary solution
+import com.fms.req_reply_api.GetFacilityDetailResult;
+import com.fms.req_reply_api.RoomMaintenanceRequestResult;
+import org.junit.Test;
+
 import java.io.IOException;
 import java.sql.SQLException;
-import org.junit.Test;
 
 public class JsonMarshallingTest {
 
