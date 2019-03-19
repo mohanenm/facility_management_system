@@ -6,7 +6,7 @@ import java.io.IOException;
 
 public class RoomMaintenanceRequestResult {
   public RoomMaintenanceRequestResult(
-          RoomMaintenanceRequest roomMaintenanceRequest, String errorMessage) {
+      RoomMaintenanceRequest roomMaintenanceRequest, String errorMessage) {
     this.roomMaintenanceRequest = roomMaintenanceRequest;
     this.errorMessage = errorMessage;
   }

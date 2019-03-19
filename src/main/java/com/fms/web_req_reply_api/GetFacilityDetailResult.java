@@ -2,7 +2,6 @@ package com.fms.web_req_reply_api;
 
 import com.fms.domainLayer.facility.Facility;
 import com.google.gson.*;
-
 import java.io.IOException;
 
 public class GetFacilityDetailResult {

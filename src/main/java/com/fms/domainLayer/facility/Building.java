@@ -2,7 +2,6 @@ package com.fms.domainLayer.facility;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-
 import java.io.IOException;
 import java.util.List;
 
@@ -11,12 +10,7 @@ public class Building implements IBuilding {
   public Building() {}
 
   /// Client constructor - no id specified
-  public Building(
-      String name,
-      String streetAddress,
-      String city,
-      String state,
-      int zip) {
+  public Building(String name, String streetAddress, String city, String state, int zip) {
     this.id = -1;
     this.name = name;
     this.streetAddress = streetAddress;
@@ -27,13 +21,7 @@ public class Building implements IBuilding {
 
   /// Constructor for database, id required
 
-  public Building(
-          int id,
-          String name,
-          String streetAddress,
-          String city,
-          String state,
-          int zip) {
+  public Building(int id, String name, String streetAddress, String city, String state, int zip) {
     this.id = id;
     this.name = name;
     this.streetAddress = streetAddress;
@@ -123,7 +111,6 @@ public class Building implements IBuilding {
         && state.equals(b.state)
         && zip == b.zip;
   }
-
 
   private int id;
   private String name;

@@ -1,4 +1,3 @@
 package com.fms.domainLayer.inspection;
 
-public class Inspection {
-}
+public class Inspection {}
