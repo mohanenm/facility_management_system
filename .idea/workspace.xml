@@ -1,52 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="ad95d66d-f414-4d3d-9027-4313c6346107" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/fb6397e5-d891-4a44-ba76-0879ea32ef3f.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/fb6397e5-d891-4a44-ba76-0879ea32ef3f.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/fb6397e5-d891-4a44-ba76-0879ea32ef3f/storage_v2/_src_/database/facility.o27eHQ/schema/public.abK9xQ.meta" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/fb6397e5-d891-4a44-ba76-0879ea32ef3f/storage_v2/_src_/database/facility.o27eHQ/schema/public.abK9xQ.meta" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/META_INF/Spring_config.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/META_INF/Spring_config.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/fms/dal/DBFacility.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/fms/dal/DBFacility.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/fms/dal/DBMaintenance.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/fms/dal/DBMaintenance.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/fms/dal/DBUsage.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/fms/dal/DBUsage.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/fms/dal/FacilitySchedulingConflictException.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/fms/domainLayer/common/FacilitySchedulingConflictException.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/fms/dal/RoomSchedulingConflict.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/fms/domainLayer/usage/RoomSchedulingConflict.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/fms/dal/RoomSchedulingConflictException.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/fms/domainLayer/common/RoomSchedulingConflictException.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/fms/domainLayer/facility/FacilityService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/fms/domainLayer/services/FacilityService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/fms/domainLayer/maintenance/MaintenanceService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/fms/domainLayer/services/MaintenanceService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/fms/domainLayer/usage/UsageService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/fms/domainLayer/services/UsageService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/fms/model/Building.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/fms/domainLayer/facility/Building.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/fms/model/Facility.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/fms/domainLayer/facility/Facility.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/fms/model/FacilityDetail.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/fms/domainLayer/facility/FacilityDetail.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/fms/model/FacilityInspection.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/fms/domainLayer/inspection/FacilityInspection.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/fms/model/FacilityMaintenanceRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/fms/domainLayer/maintenance/FacilityMaintenanceRequest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/fms/model/FacilityMaintenanceSchedule.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/fms/domainLayer/maintenance/FacilityMaintenanceSchedule.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/fms/model/IBuilding.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/fms/domainLayer/facility/IBuilding.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/fms/model/IFacility.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/fms/domainLayer/facility/IFacility.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/fms/model/IFacilityDetail.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/fms/domainLayer/facility/IFacilityDetail.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/fms/model/IRoom.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/fms/domainLayer/facility/IRoom.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/fms/model/MaintenanceHourlyRate.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/fms/domainLayer/maintenance/MaintenanceHourlyRate.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/fms/model/MaintenanceRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/fms/domainLayer/maintenance/MaintenanceRequest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/fms/model/MaintenanceType.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/fms/domainLayer/maintenance/MaintenanceType.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/fms/model/Room.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/fms/domainLayer/facility/Room.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/fms/model/RoomMaintenanceRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/fms/domainLayer/maintenance/RoomMaintenanceRequest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/fms/model/RoomMaintenanceSchedule.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/fms/domainLayer/maintenance/RoomMaintenanceSchedule.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/fms/model/RoomRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/fms/domainLayer/usage/RoomRequest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/fms/model/RoomReservation.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/fms/domainLayer/usage/RoomReservation.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/fms/model/RoomSchedule.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/fms/domainLayer/usage/RoomSchedule.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/fms/req_reply_api/AddFacilityDetailResult.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/fms/web_req_reply_api/AddFacilityDetailResult.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/fms/req_reply_api/AddFacilityResult.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/fms/web_req_reply_api/AddFacilityResult.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/fms/req_reply_api/FacilityMaintenanceRequestResult.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/fms/web_req_reply_api/FacilityMaintenanceRequestResult.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/fms/req_reply_api/FacilityMaintenanceWebRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/fms/web_req_reply_api/FacilityMaintenanceWebRequest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/fms/req_reply_api/GetFacilityDetailResult.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/fms/web_req_reply_api/GetFacilityDetailResult.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/fms/req_reply_api/RoomMaintenanceRequestResult.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/fms/web_req_reply_api/RoomMaintenanceRequestResult.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/fms/req_reply_api/RoomRequestResult.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/fms/web_req_reply_api/RoomRequestResult.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/com/fms/TestData.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/fms/TestData.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/com/fms/domainLayer/facility/FacilityServiceTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/fms/domainLayer/facility/FacilityServiceTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/com/fms/domainLayer/maintenance/MaintenanceServiceTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/fms/domainLayer/maintenance/MaintenanceServiceTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/com/fms/domainLayer/usage/UsageServiceTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/fms/domainLayer/usage/UsageServiceTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/com/fms/model/JsonMarshallingTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/fms/model/JsonMarshallingTest.java" afterDir="false" />
-    </list>
+    <list default="true" id="ad95d66d-f414-4d3d-9027-4313c6346107" name="Default Changelist" comment="" />
     <ignored path="$PROJECT_DIR$/.gradle/" />
     <ignored path="$PROJECT_DIR$/build/" />
     <ignored path="$PROJECT_DIR$/out/" />
@@ -109,39 +64,38 @@
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/com/fms/domainLayer/usage/FacilityScheduler.java">
+        <entry file="file://$PROJECT_DIR$/src/test/java/com/fms/domainLayer/facility/FacilityServiceTest.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="30">
-              <caret line="2" column="13" selection-start-line="2" selection-start-column="13" selection-end-line="2" selection-end-column="13" />
+            <state relative-caret-position="425">
+              <caret line="55" selection-start-line="55" selection-end-line="55" />
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/com/fms/domainLayer/usage/RoomRequest.java">
+        <entry file="file://$PROJECT_DIR$/.idea/dataSources.local.xml">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="60">
-              <caret line="5" column="13" selection-start-line="5" selection-start-column="13" selection-end-line="5" selection-end-column="13" />
+            <state relative-caret-position="180">
+              <caret line="12" column="10" selection-start-line="12" selection-start-column="10" selection-end-line="12" selection-end-column="10" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/main/META_INF/Spring_config.xml">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="298">
+              <caret line="21" column="61" selection-start-line="21" selection-start-column="61" selection-end-line="21" selection-end-column="61" />
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/com/fms/domainLayer/maintenance/MaintenanceCostCalculator.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="60">
-              <caret line="14" column="13" selection-start-line="14" selection-start-column="13" selection-end-line="14" selection-end-column="13" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/com/fms/domainLayer/maintenance/FacilityMaintenanceRequest.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="60">
-              <caret line="6" column="13" selection-start-line="6" selection-start-column="13" selection-end-line="6" selection-end-column="13" />
-            </state>
-          </provider>
+        <entry file="file://$PROJECT_DIR$/.idea/dataSources.xml">
+          <provider selected="true" editor-type-id="text-editor" />
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
@@ -162,7 +116,7 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/com/fms/domainLayer/facility/IFacilityDetail.java">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="60">
@@ -348,6 +302,11 @@
             <path>
               <item name="facility" type="b2602c69:ProjectViewProjectNode" />
               <item name="facility_management_system" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name=".idea" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="facility" type="b2602c69:ProjectViewProjectNode" />
+              <item name="facility_management_system" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
               <item name="docs" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
@@ -372,161 +331,7 @@
               <item name="facility_management_system" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
               <item name="main" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
-              <item name="java" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="facility" type="b2602c69:ProjectViewProjectNode" />
-              <item name="facility_management_system" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
-              <item name="java" type="462c0819:PsiDirectoryNode" />
-              <item name="fms" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="facility" type="b2602c69:ProjectViewProjectNode" />
-              <item name="facility_management_system" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
-              <item name="java" type="462c0819:PsiDirectoryNode" />
-              <item name="fms" type="462c0819:PsiDirectoryNode" />
-              <item name="dal" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="facility" type="b2602c69:ProjectViewProjectNode" />
-              <item name="facility_management_system" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
-              <item name="java" type="462c0819:PsiDirectoryNode" />
-              <item name="fms" type="462c0819:PsiDirectoryNode" />
-              <item name="domainLayer" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="facility" type="b2602c69:ProjectViewProjectNode" />
-              <item name="facility_management_system" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
-              <item name="java" type="462c0819:PsiDirectoryNode" />
-              <item name="fms" type="462c0819:PsiDirectoryNode" />
-              <item name="domainLayer" type="462c0819:PsiDirectoryNode" />
-              <item name="common" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="facility" type="b2602c69:ProjectViewProjectNode" />
-              <item name="facility_management_system" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
-              <item name="java" type="462c0819:PsiDirectoryNode" />
-              <item name="fms" type="462c0819:PsiDirectoryNode" />
-              <item name="domainLayer" type="462c0819:PsiDirectoryNode" />
-              <item name="facility" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="facility" type="b2602c69:ProjectViewProjectNode" />
-              <item name="facility_management_system" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
-              <item name="java" type="462c0819:PsiDirectoryNode" />
-              <item name="fms" type="462c0819:PsiDirectoryNode" />
-              <item name="domainLayer" type="462c0819:PsiDirectoryNode" />
-              <item name="inspection" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="facility" type="b2602c69:ProjectViewProjectNode" />
-              <item name="facility_management_system" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
-              <item name="java" type="462c0819:PsiDirectoryNode" />
-              <item name="fms" type="462c0819:PsiDirectoryNode" />
-              <item name="domainLayer" type="462c0819:PsiDirectoryNode" />
-              <item name="maintenance" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="facility" type="b2602c69:ProjectViewProjectNode" />
-              <item name="facility_management_system" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
-              <item name="java" type="462c0819:PsiDirectoryNode" />
-              <item name="fms" type="462c0819:PsiDirectoryNode" />
-              <item name="domainLayer" type="462c0819:PsiDirectoryNode" />
-              <item name="services" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="facility" type="b2602c69:ProjectViewProjectNode" />
-              <item name="facility_management_system" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
-              <item name="java" type="462c0819:PsiDirectoryNode" />
-              <item name="fms" type="462c0819:PsiDirectoryNode" />
-              <item name="domainLayer" type="462c0819:PsiDirectoryNode" />
-              <item name="usage" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="facility" type="b2602c69:ProjectViewProjectNode" />
-              <item name="facility_management_system" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
-              <item name="java" type="462c0819:PsiDirectoryNode" />
-              <item name="fms" type="462c0819:PsiDirectoryNode" />
-              <item name="web_req_reply_api" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="facility" type="b2602c69:ProjectViewProjectNode" />
-              <item name="facility_management_system" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="test" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
-            </path>
-            <path>
-              <item name="facility" type="b2602c69:ProjectViewProjectNode" />
-              <item name="facility_management_system" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="test" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
-              <item name="java" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="facility" type="b2602c69:ProjectViewProjectNode" />
-              <item name="facility_management_system" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="test" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
-              <item name="java" type="462c0819:PsiDirectoryNode" />
-              <item name="fms" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="facility" type="b2602c69:ProjectViewProjectNode" />
-              <item name="facility_management_system" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="test" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
-              <item name="java" type="462c0819:PsiDirectoryNode" />
-              <item name="fms" type="462c0819:PsiDirectoryNode" />
-              <item name="domainLayer" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="facility" type="b2602c69:ProjectViewProjectNode" />
-              <item name="facility_management_system" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="test" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
-              <item name="java" type="462c0819:PsiDirectoryNode" />
-              <item name="fms" type="462c0819:PsiDirectoryNode" />
-              <item name="domainLayer" type="462c0819:PsiDirectoryNode" />
-              <item name="facility" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="facility" type="b2602c69:ProjectViewProjectNode" />
-              <item name="facility_management_system" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="test" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
-              <item name="java" type="462c0819:PsiDirectoryNode" />
-              <item name="fms" type="462c0819:PsiDirectoryNode" />
-              <item name="domainLayer" type="462c0819:PsiDirectoryNode" />
-              <item name="maintenance" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="facility" type="b2602c69:ProjectViewProjectNode" />
-              <item name="facility_management_system" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="test" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
-              <item name="java" type="462c0819:PsiDirectoryNode" />
-              <item name="fms" type="462c0819:PsiDirectoryNode" />
-              <item name="model" type="462c0819:PsiDirectoryNode" />
+              <item name="META_INF" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="facility" type="b2602c69:ProjectViewProjectNode" />
@@ -688,7 +493,7 @@
     <property name="Repository.Attach.Sources" value="false" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
-    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1553036961519" />
+    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1553037799736" />
     <property name="database.console.LAST_STATE" value="false" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="project.structure.last.edited" value="Modules" />
@@ -990,7 +795,14 @@
       <option name="project" value="LOCAL" />
       <updated>1552954215839</updated>
     </task>
-    <option name="localTasksCounter" value="25" />
+    <task id="LOCAL-00025" summary="Restructured packages">
+      <created>1553036984107</created>
+      <option name="number" value="00025" />
+      <option name="presentableId" value="LOCAL-00025" />
+      <option name="project" value="LOCAL" />
+      <updated>1553036984107</updated>
+    </task>
+    <option name="localTasksCounter" value="26" />
     <servers />
   </component>
   <component name="TestHistory">
@@ -1026,7 +838,7 @@
     </history-entry>
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="63465000" />
+    <option name="totallyTimeSpent" value="63878000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -1058,9 +870,9 @@
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" sideWeight="0.4993895" weight="0.32778355" />
-      <window_info anchor="bottom" id="Terminal" order="7" sideWeight="0.5628816" weight="0.3215909" />
-      <window_info anchor="bottom" id="Event Log" order="8" sideWeight="0.46886447" side_tool="true" visible="true" weight="0.28457144" />
-      <window_info anchor="bottom" id="Version Control" order="9" sideWeight="0.53113556" visible="true" weight="0.28457144" />
+      <window_info anchor="bottom" id="Terminal" order="7" sideWeight="0.56227106" visible="true" weight="0.32114285" />
+      <window_info anchor="bottom" id="Event Log" order="8" sideWeight="0.43772894" side_tool="true" visible="true" weight="0.32114285" />
+      <window_info anchor="bottom" id="Version Control" order="9" sideWeight="0.53113556" weight="0.28457144" />
       <window_info anchor="bottom" id="Build" order="10" weight="0.24349636" />
       <window_info anchor="bottom" id="Messages" order="11" sideWeight="0.498779" weight="0.3249428" />
       <window_info anchor="bottom" id="Inspection Results" order="12" visible="true" weight="0.32959184" />
@@ -1130,7 +942,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="got an error in facility and haven't updated the client test class, but made some structural changes" />
     <MESSAGE value="maybe fixed the facility class? gotta fix client to find out///" />
     <MESSAGE value="added ability to add rooms 2 facility" />
     <MESSAGE value="fuck a floor class we don't need it" />
@@ -1155,37 +966,14 @@
     <MESSAGE value="!!!BROKEN COMMIT!!!&#10;More fixes to testData, other refactors &#10;utilising the interfaces" />
     <MESSAGE value="!!!BROKEN COMMIT!!!&#10;Everything compiles now, just missing classpath&#10;to allow for passing tests" />
     <MESSAGE value="stash commit" />
-    <option name="LAST_COMMIT_MESSAGE" value="stash commit" />
-  </component>
-  <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/test/java/com/fms/domainLayer/facility/FacilityServiceTest.java</url>
-          <line>51</line>
-          <properties />
-          <option name="timeStamp" value="20" />
-        </line-breakpoint>
-      </breakpoints>
-    </breakpoint-manager>
+    <MESSAGE value="Restructured packages" />
+    <option name="LAST_COMMIT_MESSAGE" value="Restructured packages" />
   </component>
   <component name="antWorkspaceConfiguration">
     <option name="IS_AUTOSCROLL_TO_SOURCE" value="false" />
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/.idea/workspace.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-5" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/.idea/dataSources.local.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="180">
-          <caret line="12" column="10" lean-forward="true" selection-start-line="12" selection-start-column="10" selection-end-line="12" selection-end-column="10" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/test/java/com/fms/model/JsonMarshallingTest.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="156">
@@ -1210,13 +998,6 @@
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/META_INF/Spring_config.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="315">
-          <caret line="21" column="61" selection-start-line="21" selection-start-column="61" selection-end-line="21" selection-end-column="61" />
         </state>
       </provider>
     </entry>
@@ -1278,16 +1059,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="749">
           <caret line="58" column="25" selection-start-line="58" selection-start-column="25" selection-end-line="58" selection-end-column="25" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/test/java/com/fms/domainLayer/facility/FacilityServiceTest.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="365">
-          <caret line="55" selection-start-line="55" selection-end-line="55" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
@@ -1547,6 +1318,33 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="60">
           <caret line="4" column="17" selection-start-line="4" selection-start-column="17" selection-end-line="4" selection-end-column="17" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/test/java/com/fms/domainLayer/facility/FacilityServiceTest.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="425">
+          <caret line="55" selection-start-line="55" selection-end-line="55" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/.idea/dataSources.xml">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/.idea/dataSources.local.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="180">
+          <caret line="12" column="10" selection-start-line="12" selection-start-column="10" selection-end-line="12" selection-end-column="10" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/META_INF/Spring_config.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="298">
+          <caret line="21" column="61" selection-start-line="21" selection-start-column="61" selection-end-line="21" selection-end-column="61" />
         </state>
       </provider>
     </entry>
