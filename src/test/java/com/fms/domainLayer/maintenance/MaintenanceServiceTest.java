@@ -2,10 +2,14 @@ package com.fms.domainLayer.maintenance;
 
 import com.fms.TestData;
 import com.fms.domainLayer.common.FMSException;
-import com.fms.domainLayer.facility.FacilityService;
-import com.fms.domainLayer.usage.UsageService;
-import com.fms.dal.RoomSchedulingConflictException;
-import com.fms.model.*;
+import com.fms.domainLayer.facility.IBuilding;
+import com.fms.domainLayer.facility.IFacility;
+import com.fms.domainLayer.facility.IRoom;
+import com.fms.domainLayer.services.FacilityService;
+import com.fms.domainLayer.services.MaintenanceService;
+import com.fms.domainLayer.services.UsageService;
+import com.fms.domainLayer.common.RoomSchedulingConflictException;
+import com.fms.domainLayer.usage.RoomReservation;
 import com.google.common.collect.Range;
 import org.junit.Rule;
 import org.junit.Test;

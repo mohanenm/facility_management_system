@@ -1,8 +1,8 @@
 package com.fms.dal;
 
-import com.fms.model.FacilityMaintenanceRequest;
-import com.fms.model.MaintenanceRequest;
-import com.fms.model.RoomMaintenanceRequest;
+import com.fms.domainLayer.maintenance.FacilityMaintenanceRequest;
+import com.fms.domainLayer.maintenance.MaintenanceRequest;
+import com.fms.domainLayer.maintenance.RoomMaintenanceRequest;
 import com.google.common.collect.Range;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;

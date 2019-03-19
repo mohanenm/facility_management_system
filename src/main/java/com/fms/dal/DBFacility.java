@@ -1,7 +1,7 @@
 package com.fms.dal;
 
-import com.fms.model.*;
-import com.fms.req_reply_api.GetFacilityDetailResult;
+import com.fms.domainLayer.facility.*;
+import com.fms.web_req_reply_api.GetFacilityDetailResult;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
