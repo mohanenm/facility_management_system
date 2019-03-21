@@ -1,5 +1,9 @@
 package com.fms.model;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+
+import java.io.IOException;
 import java.util.List;
 
 public interface IFacilityDetail {
@@ -7,8 +11,8 @@ public interface IFacilityDetail {
 
   void setBuildings(List<IBuilding> buildings);
 
-  //    public static FacilityDetail fromJson(String facilityDetail) throws IOException {
-  //        Gson gson = new GsonBuilder().serializeNulls().create();
-  //        return gson.fromJson(facilityDetail, FacilityDetail.class);
-  //    }
+  static FacilityDetail fromJson(String facilityDetail) throws IOException {
+        Gson gson = new GsonBuilder().serializeNulls().create();
+        return gson.fromJson(facilityDetail, FacilityDetail.class);
+    }
 }

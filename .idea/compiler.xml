@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="CompilerConfiguration">
-    <bytecodeTargetLevel>
+    <option name="DEFAULT_COMPILER" value="Eclipse" />
+    <bytecodeTargetLevel target="11">
       <module name="facility.main" target="1.8" />
       <module name="facility.test" target="1.8" />
     </bytecodeTargetLevel>
