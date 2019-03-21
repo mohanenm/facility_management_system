@@ -1,12 +1,14 @@
 package com.fms.model;
 
 import com.fms.TestData;
-import com.fms.domainLayer.facility.FacilityService;
-import com.fms.domainLayer.maintenance.MaintenanceCostCalculator;
-import com.fms.domainLayer.maintenance.MaintenanceService;
-import com.fms.domainLayer.usage.UsageService;
-import com.fms.req_reply_api.GetFacilityDetailResult;
-import com.fms.req_reply_api.RoomMaintenanceRequestResult;
+import com.fms.domainLayer.facility.*;
+import com.fms.domainLayer.inspection.FacilityInspection;
+import com.fms.domainLayer.maintenance.*;
+import com.fms.domainLayer.services.FacilityService;
+import com.fms.domainLayer.services.MaintenanceService;
+import com.fms.domainLayer.services.UsageService;
+import com.fms.domainLayer.usage.RoomReservation;
+import com.fms.web_req_reply_api.*;//temporary solution
 import org.junit.Test;
 
 import java.io.IOException;
@@ -56,7 +58,7 @@ public class JsonMarshallingTest {
   @Test
   public void GetFacilityDetailResultMarshalling() throws IOException {
     GetFacilityDetailResult getFacilityDetailResult =
-        new GetFacilityDetailResult(null, TestData.sampleFacility());
+        new GetFacilityDetailResult(null, testData.sampleFacility());
     GetFacilityDetailResult again =
         GetFacilityDetailResult.fromJson(getFacilityDetailResult.toString());
     boolean areEqual = again.equals(getFacilityDetailResult);
@@ -67,7 +69,7 @@ public class JsonMarshallingTest {
 
   @Test
   public void BuildingMarshalling() throws IOException {
-    IBuilding building = TestData.sampleBuilding("B1");
+    IBuilding building = testData.sampleBuilding("B1");
     IBuilding again = Building.fromJson(building.toString());
     boolean areEqual = again.equals(building);
     assert (areEqual);
@@ -76,14 +78,14 @@ public class JsonMarshallingTest {
   @Test
   public void RoomMarshalling() throws IOException {
     Room room = new Room(1, 5, 201);
-    Room again = Room.fromJson(room.toString());
+    Room again = room.fromJson(room.toString());
     boolean areEqual = again.equals(room);
     assert (areEqual);
   }
 
   @Test
   public void MaintenanceTypeMarshalling() throws IOException {
-    MaintenanceType maintenanceType = TestData.sampleMaintenanceType();
+    MaintenanceType maintenanceType = testData.sampleMaintenanceType();
     MaintenanceType again = MaintenanceType.fromJson(maintenanceType.toString());
     boolean areEqual = again.equals(maintenanceType);
     System.out.println("Maintenance type -> " + maintenanceType);
@@ -92,7 +94,7 @@ public class JsonMarshallingTest {
 
   @Test
   public void MaintenanceHourlyRateMarshalling() throws IOException {
-    MaintenanceHourlyRate maintenanceHourlyRate = TestData.sampleMaintenanceHourlyRate();
+    MaintenanceHourlyRate maintenanceHourlyRate = testData.sampleMaintenanceHourlyRate();
     MaintenanceHourlyRate again = MaintenanceHourlyRate.fromJson(maintenanceHourlyRate.toString());
     boolean areEqual = again.equals(maintenanceHourlyRate);
     System.out.println("Maintenance rate -> " + maintenanceHourlyRate);
@@ -101,7 +103,7 @@ public class JsonMarshallingTest {
 
   @Test
   public void MaintenanceRequestMarshalling() throws IOException {
-    MaintenanceRequest maintenanceRequest = TestData.sampleMaintenanceRequest();
+    MaintenanceRequest maintenanceRequest = testData.sampleMaintenanceRequest();
     MaintenanceRequest again = MaintenanceRequest.fromJson(maintenanceRequest.toString());
     boolean areEqual = again.equals(maintenanceRequest);
     System.out.println("Maintenance request -> " + maintenanceRequest);
@@ -111,7 +113,7 @@ public class JsonMarshallingTest {
   @Test
   public void FacilityMaintenanceRequestMarshalling() throws IOException {
     FacilityMaintenanceRequest facilityMaintenanceRequest =
-        TestData.sampleFacilityMaintenanceRequest();
+        testData.sampleFacilityMaintenanceRequest();
     FacilityMaintenanceRequest again =
         FacilityMaintenanceRequest.fromJson(facilityMaintenanceRequest.toString());
     boolean areEqual = again.equals(facilityMaintenanceRequest);
@@ -119,17 +121,16 @@ public class JsonMarshallingTest {
     assert (areEqual);
   }
 
-  //  @Test
-  //  public void FacilityMaintenanceRequestResultMarshalling() throws IOException {
-  //    FacilityMaintenanceRequestResult facilityMaintenanceRequestResult =
-  //        TestData.sampleFacilityMaintenanceRequestResult();
-  //    FacilityMaintenanceRequestResult again =
-  //        FacilityMaintenanceRequestResult.fromJson(facilityMaintenanceRequestResult.toString());
-  //    boolean areEqual = again.equals(facilityMaintenanceRequestResult);
-  //    System.out.println("Facility Maintenance Request Result-> " +
-  // facilityMaintenanceRequestResult);
-  //    assert (areEqual);
-  //  }
+//  @Test
+//  public void FacilityMaintenanceRequestResultMarshalling() throws IOException {
+//    FacilityMaintenanceRequestResult facilityMaintenanceRequestResult =
+//        TestData.sampleFacilityMaintenanceRequestResult();
+//    FacilityMaintenanceRequestResult again =
+//        FacilityMaintenanceRequestResult.fromJson(facilityMaintenanceRequestResult.toString());
+//    boolean areEqual = again.equals(facilityMaintenanceRequestResult);
+//    System.out.println("Facility Maintenance Request Result-> " + facilityMaintenanceRequestResult);
+//    assert (areEqual);
+//  }
 
   @Test
   public void FacilityMaintenanceScheduleMarshalling() throws IOException {
@@ -144,7 +145,7 @@ public class JsonMarshallingTest {
 
   @Test
   public void RoomMaintenanceRequestMarshalling() throws IOException {
-    RoomMaintenanceRequest roomMaintenanceRequest = TestData.sampleRoomMaintenanceRequest();
+    RoomMaintenanceRequest roomMaintenanceRequest = testData.sampleRoomMaintenanceRequest();
     RoomMaintenanceRequest again =
         RoomMaintenanceRequest.fromJson(roomMaintenanceRequest.toString());
     boolean areEqual = again.equals(roomMaintenanceRequest);
@@ -155,7 +156,7 @@ public class JsonMarshallingTest {
   @Test
   public void RoomMaintenanceRequestResultMarshalling() throws IOException {
     RoomMaintenanceRequestResult roomMaintenanceRequestResult =
-        TestData.sampleRoomMaintenanceRequestResult();
+        testData.sampleRoomMaintenanceRequestResult();
     RoomMaintenanceRequestResult again =
         RoomMaintenanceRequestResult.fromJson(roomMaintenanceRequestResult.toString());
     boolean areEqual = again.equals(roomMaintenanceRequestResult);
@@ -165,7 +166,7 @@ public class JsonMarshallingTest {
 
   @Test
   public void RoomReservationMarshalling() throws IOException {
-    RoomReservation roomReservation = TestData.sampleRoomReservation();
+    RoomReservation roomReservation = testData.sampleRoomReservation();
     RoomReservation again = RoomReservation.fromJson(roomReservation.toString());
     boolean areEqual = again.equals(roomReservation);
     System.out.println("Room Reservation request -> " + roomReservation);
@@ -174,7 +175,7 @@ public class JsonMarshallingTest {
 
   @Test
   public void RoomMaintenanceScheduleMarshalling() throws IOException {
-    RoomMaintenanceSchedule roomMaintenanceSchedule = TestData.sampleRoomMaintenanceSchedule();
+    RoomMaintenanceSchedule roomMaintenanceSchedule = testData.sampleRoomMaintenanceSchedule();
     RoomMaintenanceSchedule again =
         RoomMaintenanceSchedule.fromJson(roomMaintenanceSchedule.toString());
     boolean areEqual = again.equals(roomMaintenanceSchedule);

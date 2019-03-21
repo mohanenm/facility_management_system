@@ -1,7 +1,9 @@
 package com.fms.dal;
 
-import com.fms.model.FacilityInspection;
-import com.fms.model.RoomReservation;
+import com.fms.domainLayer.usage.RoomSchedulingConflict;
+import com.fms.domainLayer.common.RoomSchedulingConflictException;
+import com.fms.domainLayer.inspection.FacilityInspection;
+import com.fms.domainLayer.usage.RoomReservation;
 import com.google.common.collect.Range;
 import java.sql.*;
 import java.time.LocalDateTime;
