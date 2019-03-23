@@ -6,8 +6,6 @@ import com.fms.domainLayer.common.FacilityErrorCode;
 import com.fms.domainLayer.facility.Facility;
 import com.fms.domainLayer.facility.IBuilding;
 import com.fms.domainLayer.facility.IFacility;
-import com.fms.domainLayer.facility.IFacilityDetail;
-import com.fms.web_req_reply_api.GetFacilityDetailResult;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -15,6 +13,7 @@ import org.apache.logging.log4j.Logger;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 
 public class FacilityService {
 
@@ -59,10 +58,10 @@ public class FacilityService {
   ///  - Buildings with same name
   ///  - If facility_id is a bad id not mapping to existing facility
   ///  - Any issues with insert into building, room,
-  public IFacility addFacilityDetail(int facilityId, IFacilityDetail facilityDetail) throws FMSException {
-    if (validBuildingNames(facilityDetail)) {
+  public IFacility addFacilityDetail(int facilityId, List<IBuilding> buildings) throws FMSException {
+    if (validBuildingNames(buildings)) {
       try {
-        return dbFacility.addFacilityDetail(facilityId, facilityDetail);
+        return dbFacility.addFacilityDetail(facilityId, buildings);
       } catch (SQLException e) {
         throw new FMSException(FacilityErrorCode.INSERT_FACILITY_DETAIL_FAILED,
                 "Unable to add facility detail for facility: " + facilityId +
@@ -81,14 +80,14 @@ public class FacilityService {
    * Count number of occurrences of each building name at the facility. Any building name that
    * appears more than once is an exception.
    *
-   * @param facilityDetail
+   * @param buildings The details for this facility is the buildings
    * @return false if there are empty building names or if there are duplicates
    */
-  public static boolean validBuildingNames(IFacilityDetail facilityDetail) {
+  public static boolean validBuildingNames(List<IBuilding> buildings) {
     HashSet<String> buildingNames = new HashSet<>();
     Logger logger = LogManager.getLogger();
 
-    for (IBuilding building : facilityDetail.getBuildings()) {
+    for (IBuilding building : buildings) {
       String buildingName = building.getName();
       if (buildingName == null || buildingName.isEmpty()) {
         logger.log(Level.ERROR, "Found empty building name");
@@ -106,12 +105,13 @@ public class FacilityService {
     return true;
   }
 
-  public GetFacilityDetailResult getFacilityInformation(int facilityId) throws SQLException {
+  public IFacility getFacilityInformation(int facilityId) throws FMSException {
     try {
       return dbFacility.getFacilityInformation(facilityId);
     } catch (SQLException e) {
-      return new GetFacilityDetailResult(
-          "Unable to get facility information: " + e.toString(), null);
+      throw new FMSException(FacilityErrorCode.NO_FACILITY_INFORMATION,
+              "Could not get facility information for: "
+      + facilityId + " exception: " + e);
     }
   }
 }

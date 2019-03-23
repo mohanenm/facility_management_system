@@ -1,5 +1,7 @@
 package com.fms.domainLayer.facility;
 
+import java.util.List;
+
 public interface IFacility {
   int getId();
 
@@ -13,7 +15,8 @@ public interface IFacility {
 
   void setDescription(String description);
 
-  IFacilityDetail getFacilityDetail();
+  List<IBuilding> getBuildings();
 
-  void setFacilityDetail(IFacilityDetail facilityDetail);
+  void setBuildings(List<IBuilding> buildings);
+
 }

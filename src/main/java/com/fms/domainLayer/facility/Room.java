@@ -1,5 +1,6 @@
 package com.fms.domainLayer.facility;
 
+import com.fms.domainLayer.common.InterfaceAdapter;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import java.io.IOException;
@@ -66,7 +67,8 @@ public class Room implements IRoom {
   }
 
   public static Room fromJson(String room) throws IOException {
-    Gson gson = new GsonBuilder().serializeNulls().create();
+    Gson gson = new GsonBuilder().serializeNulls()
+            .registerTypeAdapter(IRoom.class, new InterfaceAdapter<IRoom>()).create();
     return gson.fromJson(room, Room.class);
     //    JsonReader reader = new JsonReader(new StringReader(room));
     //    reader.beginObject();

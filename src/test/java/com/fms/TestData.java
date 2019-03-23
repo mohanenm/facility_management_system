@@ -11,10 +11,12 @@ import com.fms.domainLayer.usage.RoomReservation;
 import com.fms.web_req_reply_api.FacilityMaintenanceRequestResult;
 import com.fms.web_req_reply_api.RoomMaintenanceRequestResult;
 import com.google.common.collect.Range;
+
 import java.sql.SQLException;
 import java.time.LocalDateTime;
 import java.time.Month;
 import java.util.ArrayList;
+import java.util.List;
 
 public class TestData {
 
@@ -33,28 +35,24 @@ public class TestData {
   }
 
   public static Building sampleBuilding(String name) {
-    ArrayList<Room> rooms = new ArrayList<>();
+    List<IRoom> rooms = new ArrayList<>();
     rooms.add(new Room(-1, 303, 15));
     rooms.add(new Room(-1, 304, 20));
-    return new Building(name, "4 Marshall Ln", "Albequerque", "NM", 66540);
+    return new Building(name, "4 Marshall Ln", "Albequerque", "NM", 66540, rooms);
   }
 
-  public static FacilityDetail sampleFacilityDetail() {
+  public static ArrayList<IBuilding> sampleBuildings() {
     ArrayList<IBuilding> buildings = new ArrayList<>();
     buildings.add(sampleBuilding("Big1"));
     buildings.add(sampleBuilding("B2"));
-    FacilityDetail facilityDetail = new FacilityDetail();
-    facilityDetail.setBuildings(buildings);
-    return facilityDetail;
+    return buildings;
   }
 
-  public static FacilityDetail sampleFacilityDetailDuplicateBuildings() {
+  public static ArrayList<IBuilding> sampleDuplicateBuildings() {
     ArrayList<IBuilding> buildings = new ArrayList<>();
     buildings.add(sampleBuilding("B"));
     buildings.add(sampleBuilding("B"));
-    FacilityDetail facilityDetail = new FacilityDetail();
-    facilityDetail.setBuildings(buildings);
-    return facilityDetail;
+    return buildings;
   }
 
   public static Facility sampleFacility() {
@@ -62,7 +60,7 @@ public class TestData {
     facility.setId(-1);
     facility.setName("F1");
     facility.setDescription("Sample facility for Unit testing.");
-    facility.setFacilityDetail(sampleFacilityDetail());
+    facility.setBuildings(sampleBuildings());
     return facility;
   }
 
@@ -141,11 +139,11 @@ public class TestData {
 
   public IFacility prepFacilityInDb() throws FMSException {
     IFacility facility = facilityService.addNewFacility("Test Facility", "Healthcare Facility");
-    return facilityService.addFacilityDetail(facility.getId(), TestData.sampleFacilityDetail());
+    return facilityService.addFacilityDetail(facility.getId(), TestData.sampleBuildings());
   }
 
   public RoomMaintenanceRequest prepRoomMaintenanceRequest(IFacility facility) throws FMSException {
-    IBuilding building = facility.getFacilityDetail().getBuildings().get(0);
+    IBuilding building = facility.getBuildings().get(0);
     IRoom room = building.getRooms().get(0);
     return maintenanceService.makeRoomMaintRequest(
         room.getId(), TestData.sampleMaintenanceRequest());
@@ -158,7 +156,7 @@ public class TestData {
   }
 
   public int prepRoomMaintenanceSchedule(IFacility facility) throws FMSException {
-    IBuilding building = facility.getFacilityDetail().getBuildings().get(0);
+    IBuilding building = facility.getBuildings().get(0);
     IRoom room = building.getRooms().get(0);
     RoomMaintenanceRequest rmr =
         maintenanceService.makeRoomMaintRequest(room.getId(), sampleMaintenanceRequest());
@@ -166,7 +164,7 @@ public class TestData {
   }
 
   public int prepMaintenanceHourlyRate(IFacility facility) throws FMSException {
-    IBuilding building = facility.getFacilityDetail().getBuildings().get(0);
+    IBuilding building = facility.getBuildings().get(0);
     return maintenanceService.insertMaintenanceHourlyRate(
         facility.getId(),
         TestData.sampleMaintenanceRequest().getMaintenanceTypeId(),

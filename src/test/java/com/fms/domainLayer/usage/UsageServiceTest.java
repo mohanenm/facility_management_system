@@ -44,7 +44,7 @@ public class UsageServiceTest {
   public IFacility prepFacilityInDb() throws FMSException {
     IFacility facility =
             facilityService.addNewFacility("Test Facility", "Healthcare Facility");
-    return facilityService.addFacilityDetail(facility.getId(), testData.sampleFacilityDetail());
+    return facilityService.addFacilityDetail(facility.getId(), testData.sampleBuildings());
   }
 
   @Test
@@ -55,7 +55,7 @@ public class UsageServiceTest {
     IFacility facility = null;
     try {
       facility = prepFacilityInDb();
-      IBuilding building = facility.getFacilityDetail().getBuildings().get(0);
+      IBuilding building = facility.getBuildings().get(0);
       IRoom room = building.getRooms().get(0);
       Range<LocalDateTime> sampleRange = sampleRange();
 
@@ -83,7 +83,7 @@ public class UsageServiceTest {
     IFacility facility = null;
     try {
       facility = prepFacilityInDb();
-      IBuilding building = facility.getFacilityDetail().getBuildings().get(0);
+      IBuilding building = facility.getBuildings().get(0);
       IRoom room = building.getRooms().get(0);
 
       int rId = room.getId();

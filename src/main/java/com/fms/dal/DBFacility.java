@@ -1,13 +1,13 @@
 package com.fms.dal;
 
 import com.fms.domainLayer.facility.*;
-import com.fms.web_req_reply_api.GetFacilityDetailResult;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.List;
 
 public class DBFacility {
 
@@ -107,7 +107,7 @@ public class DBFacility {
     deleteFacility.executeUpdate();
   }
 
-  public Facility addFacilityDetail(int facilityId, IFacilityDetail facilityDetail) throws SQLException {
+  public Facility addFacilityDetail(int facilityId, List<IBuilding> newBuildings) throws SQLException {
 
     selectFacility.setInt(1, facilityId);
     resultSet = selectFacility.executeQuery();
@@ -118,13 +118,11 @@ public class DBFacility {
 
     ArrayList<IBuilding> buildings = new ArrayList<>();
 
-    for (IBuilding building : facilityDetail.getBuildings()) {
+    for (IBuilding building : newBuildings) {
       buildings.add(createBuilding(facilityId, building));
     }
 
-    IFacilityDetail resultFD = new FacilityDetail();
-    resultFD.setBuildings(buildings);
-    return new Facility(facilityId, name, description, resultFD);
+    return new Facility(facilityId, name, description, buildings);
   }
 
   private IBuilding createBuilding(int facilityId, IBuilding building) throws SQLException {
@@ -151,6 +149,7 @@ public class DBFacility {
       result.setStreetAddress(building.getStreetAddress());
       result.setState(building.getState());
       result.setZip(building.getZip());
+      result.setRooms(rooms);
       return result;
 
     } catch (SQLException e) {
@@ -188,7 +187,7 @@ public class DBFacility {
     }
   }
 
-  public GetFacilityDetailResult getFacilityInformation(int facilityId) throws SQLException {
+  public IFacility getFacilityInformation(int facilityId) throws SQLException {
 
     facilityInformation.setInt(1, facilityId);
     resultSet = facilityInformation.executeQuery();
@@ -238,10 +237,6 @@ public class DBFacility {
       }
     }
 
-    IFacilityDetail facilityDetail = new FacilityDetail();
-    facilityDetail.setBuildings(buildings);
-    Facility facility = new Facility(facilityId, facilityName, facilityDescription, facilityDetail);
-
-    return new GetFacilityDetailResult(null, facility);
+    return new Facility(facilityId, facilityName, facilityDescription, buildings);
   }
 }

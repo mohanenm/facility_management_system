@@ -4,6 +4,7 @@
     <bytecodeTargetLevel>
       <module name="facility.main" target="11" />
       <module name="facility.test" target="11" />
+
     </bytecodeTargetLevel>
   </component>
 </project>

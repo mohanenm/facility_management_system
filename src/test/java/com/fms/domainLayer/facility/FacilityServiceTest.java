@@ -3,10 +3,9 @@ package com.fms.domainLayer.facility;
 import com.fms.TestData;
 import com.fms.domainLayer.common.FMSException;
 import com.fms.domainLayer.maintenance.MaintenanceCostCalculator;
-import com.fms.domainLayer.services.MaintenanceService;
 import com.fms.domainLayer.services.FacilityService;
+import com.fms.domainLayer.services.MaintenanceService;
 import com.fms.domainLayer.services.UsageService;
-import com.fms.web_req_reply_api.GetFacilityDetailResult;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
@@ -49,7 +48,7 @@ public class FacilityServiceTest {
     assert (facility.getId() > 0);
 
     System.out.println(facility.toString());
-    facilityService.addFacilityDetail(facility.getId(), TestData.sampleFacilityDetail());
+    facilityService.addFacilityDetail(facility.getId(), TestData.sampleBuildings());
     facilityService.removeFacility(facility.getId());
 
     System.out.println("CHECK AGAIN");
@@ -77,7 +76,7 @@ public class FacilityServiceTest {
     // Then rethrow the exception since we told test infrastructure to expect it
     try {
       facilityService.addFacilityDetail(insertedFacilityId,
-              testData.sampleFacilityDetailDuplicateBuildings());
+              testData.sampleDuplicateBuildings());
     } catch(FMSException fse) {
       facilityService.removeFacility(insertedFacilityId);
       throw fse;
@@ -92,16 +91,15 @@ public class FacilityServiceTest {
   /// facility has duplicate named buildings. We catch it so
   /// the db does not have to.
   public void buildingDuplicatesFails() {
-    IFacilityDetail sample = testData.sampleFacilityDetail();
-    List<IBuilding> buildings = sample.getBuildings();
+    List<IBuilding> buildings = testData.sampleBuildings();
     buildings.add(buildings.get(0));
 
-    assert (false == FacilityService.validBuildingNames(sample));
+    assert (false == FacilityService.validBuildingNames(buildings));
   }
 
   @Test
-  public void getFacilityInformation() throws SQLException {
-    GetFacilityDetailResult result = facilityService.getFacilityInformation(1);
+  public void getFacilityInformation() throws FMSException {
+    IFacility result = facilityService.getFacilityInformation(1);
     System.out.println("GetFacilityDetailResult -> " + result);
   }
 }

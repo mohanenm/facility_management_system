@@ -1,6 +1,9 @@
 package com.fms.web_req_reply_api;
 
+import com.fms.domainLayer.common.InterfaceAdapter;
 import com.fms.domainLayer.facility.Facility;
+import com.fms.domainLayer.facility.IBuilding;
+import com.fms.domainLayer.facility.IRoom;
 import com.google.gson.*;
 import java.io.IOException;
 
@@ -19,28 +22,21 @@ public class GetFacilityDetailResult {
   }
 
   public String toString() {
-    GsonBuilder builder = new GsonBuilder().setPrettyPrinting();
+    GsonBuilder builder = new GsonBuilder()
+            .registerTypeAdapter(IBuilding.class, new InterfaceAdapter<IBuilding>())
+            .registerTypeAdapter(IRoom.class, new InterfaceAdapter<IRoom>())
+            .setPrettyPrinting();
     Gson gson = builder.create();
     return gson.toJson(this);
   }
 
   public static GetFacilityDetailResult fromJson(String getFacilityDetailResult)
       throws IOException {
-    JsonParser parser = new JsonParser();
-    JsonElement jsonTree = parser.parse(getFacilityDetailResult);
-    JsonObject jsonObject = jsonTree.getAsJsonObject();
-
-    JsonElement facilityElement = jsonObject.get("facility");
-
-    Facility facility =
-        facilityElement == null
-            ? null
-            : Facility.fromJson(facilityElement.getAsJsonObject().toString());
-
-    JsonElement errorMessageElement = jsonObject.get("errorMessage");
-
-    String errorMessage = errorMessageElement == null ? null : errorMessageElement.getAsString();
-    return new GetFacilityDetailResult(errorMessage, facility);
+    Gson gson = new GsonBuilder().serializeNulls()
+            .registerTypeAdapter(IBuilding.class, new InterfaceAdapter<IBuilding>())
+            .registerTypeAdapter(IRoom.class, new InterfaceAdapter<IRoom>())
+            .create();
+    return gson.fromJson(getFacilityDetailResult, GetFacilityDetailResult.class);
   }
 
   @Override

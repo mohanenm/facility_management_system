@@ -1,7 +1,11 @@
 package com.fms.domainLayer.facility;
 
-import com.google.gson.*;
+import com.fms.domainLayer.common.InterfaceAdapter;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+
 import java.io.IOException;
+import java.util.List;
 
 public class Facility implements IFacility {
 
@@ -13,11 +17,11 @@ public class Facility implements IFacility {
     this.description = description;
   }
 
-  public Facility(int id, String name, String description, IFacilityDetail facilityDetail) {
+  public Facility(int id, String name, String description, List<IBuilding> buildings) {
     this.id = id;
     this.name = name;
     this.description = description;
-    this.facilityDetail = facilityDetail;
+    this.buildings = buildings;
   }
 
   public int getId() {
@@ -45,36 +49,20 @@ public class Facility implements IFacility {
   }
 
   public String toString() {
-    GsonBuilder builder = new GsonBuilder().setPrettyPrinting();
+    GsonBuilder builder = new GsonBuilder()
+            .registerTypeAdapter(IBuilding.class, new InterfaceAdapter<IBuilding>())
+            .registerTypeAdapter(IRoom.class, new InterfaceAdapter<IRoom>())
+            .setPrettyPrinting();
     Gson gson = builder.create();
     return gson.toJson(this);
   }
 
-  public void setFacilityDetail(IFacilityDetail facilityDetail) {
-    this.facilityDetail = facilityDetail;
-  }
-
-  public IFacilityDetail getFacilityDetail() {
-    return facilityDetail;
-  }
-
   public static Facility fromJson(String facility) throws IOException {
-    JsonParser parser = new JsonParser();
-    JsonElement jsonTree = parser.parse(facility);
-    JsonObject jsonObject = jsonTree.getAsJsonObject();
-
-    JsonElement facilityDetailJE = jsonObject.get("facilityDetail");
-
-    FacilityDetail facilityDetail =
-        facilityDetailJE == null
-            ? null
-            : FacilityDetail.fromJson(facilityDetailJE.getAsJsonObject().toString());
-
-    return new Facility(
-        jsonObject.get("id").getAsInt(),
-        jsonObject.get("name").getAsString(),
-        jsonObject.get("description").getAsString(),
-        facilityDetail);
+    Gson gson = new GsonBuilder().serializeNulls()
+            .registerTypeAdapter(IBuilding.class, new InterfaceAdapter<IBuilding>())
+            .registerTypeAdapter(IRoom.class, new InterfaceAdapter<IRoom>())
+            .create();
+    return gson.fromJson(facility, Facility.class);
   }
 
   @Override
@@ -84,11 +72,24 @@ public class Facility implements IFacility {
       return true;
     }
 
-    return facilityDetail.equals(f.facilityDetail);
+    return id == f.id &&
+            name.equals(f.name) &&
+            description.equals(f.description) &&
+            buildings.equals(f.buildings);
   }
 
   private int id;
   private String name;
   private String description;
-  private IFacilityDetail facilityDetail;
+
+  @Override
+  public List<IBuilding> getBuildings() {
+    return buildings;
+  }
+
+  public void setBuildings(List<IBuilding> buildings) {
+    this.buildings = buildings;
+  }
+
+  List<IBuilding> buildings;
 }

@@ -1,5 +1,6 @@
 package com.fms.domainLayer.facility;
 
+import com.fms.domainLayer.common.InterfaceAdapter;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import java.io.IOException;
@@ -9,25 +10,25 @@ public class Building implements IBuilding {
 
   public Building() {}
 
-  /// Client constructor - no id specified
-  public Building(String name, String streetAddress, String city, String state, int zip) {
-    this.id = -1;
+  public Building(String name, String streetAddress, String city, String state, int zip, List<IRoom> rooms) {
     this.name = name;
     this.streetAddress = streetAddress;
     this.city = city;
     this.state = state;
     this.zip = zip;
+    this.rooms = rooms;
   }
 
-  /// Constructor for database, id required
+/// Constructor for database, id required
 
-  public Building(int id, String name, String streetAddress, String city, String state, int zip) {
+  public Building(int id, String name, String streetAddress, String city, String state, int zip, List<IRoom> rooms) {
     this.id = id;
     this.name = name;
     this.streetAddress = streetAddress;
     this.city = city;
     this.state = state;
     this.zip = zip;
+    this.rooms = rooms;
   }
 
   public String getName() {
@@ -87,12 +88,16 @@ public class Building implements IBuilding {
   }
 
   public static Building fromJson(String building) throws IOException {
-    Gson gson = new GsonBuilder().serializeNulls().create();
+    Gson gson = new GsonBuilder().serializeNulls()
+            .registerTypeAdapter(IRoom.class, new InterfaceAdapter<IRoom>())
+            .create();
     return gson.fromJson(building, Building.class);
   }
 
   public String toString() {
-    GsonBuilder builder = new GsonBuilder().setPrettyPrinting();
+    GsonBuilder builder = new GsonBuilder()
+            .registerTypeAdapter(IRoom.class, new InterfaceAdapter<IRoom>())
+            .setPrettyPrinting();
     Gson gson = builder.create();
     return gson.toJson(this);
   }
