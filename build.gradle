@@ -14,7 +14,7 @@ plugins {
     id 'application'
 
 
-    id 'com.github.sherter.google-java-format' version '0.8'
+    //id 'com.github.sherter.google-java-format' version '0.8'
 }
 
 configurations {
@@ -47,6 +47,17 @@ dependencies {
 
     // Use JUnit test framework
     testImplementation 'junit:junit:4.12'
+}
+
+jar {
+//baseName = 'analytics'
+   from('src/META_INF/') {
+      include 'Spring_config.xml'
+   }
+
+//       manifest {
+//        attributes 'Implementation-Title': 'Analytics Library', 'Implementation-Version': version
+//    }
 }
 
 // Define the main class for the application

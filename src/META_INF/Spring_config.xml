@@ -7,8 +7,8 @@
 
     <context:component-scan base-package="com.fms" />
 
-    <bean id="room" class="com.fms.domainLayer.facility.Room" scope="prototype">
-        <constructor-arg index="0" value="0"/>   <!-- Extra constructor arg for 'id' param-->
+    <bean id="secretOfUniverseRoom" class="com.fms.domainLayer.facility.Room" scope="prototype">
+        <constructor-arg index="0" value="42"/>   <!-- Extra constructor arg for 'id' param-->
         <constructor-arg index="1" value="0"/>
         <constructor-arg index="2" value="0"/>
         <constructor-arg index="3" value="0"/>
@@ -24,7 +24,7 @@
         <!--Dependency injection of room into building-->
         <property name="rooms">
             <list>
-                <ref bean="room" />
+                <ref bean="secretOfUniverseRoom" />
             </list>
         </property>
     </bean>
