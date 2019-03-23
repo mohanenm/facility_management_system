@@ -9,3 +9,4 @@ out/**
 /bin/
 
 .idea/dbnavigator.xml
+.idea/workspace.xml
