@@ -326,7 +326,7 @@ public class DBMaintenance {
   }
 
   public RoomMaintenanceRequest makeRoomMaintRequest(
-      int roomId, MaintenanceRequest maintenanceRequest) throws SQLException {
+      int roomId, IMaintenanceRequest maintenanceRequest) throws SQLException {
 
     try {
 
@@ -351,9 +351,17 @@ public class DBMaintenance {
       int roomMaintenanceRequestId = resultSet.getInt((1));
       System.out.println("Insert of room maint req id -> " + roomMaintenanceRequestId);
 
-      maintenanceRequest = new MaintenanceRequest(maintenanceRequestId, maintenanceRequest);
+      MaintenanceRequest maintenanceRequestResult = new MaintenanceRequest();
+      maintenanceRequestResult.setId(maintenanceRequestId);
+      maintenanceRequestResult.setRoutine(maintenanceRequest.isRoutine());
+      maintenanceRequestResult.setVacateRequired(maintenanceRequest.isVacateRequired());
+      maintenanceRequestResult.setMaintenanceTypeId(maintenanceRequest.getMaintenanceTypeId());
+      maintenanceRequestResult.setDescription(maintenanceRequest.getDescription());
 
-      return new RoomMaintenanceRequest(roomMaintenanceRequestId, maintenanceRequest);
+      RoomMaintenanceRequest roomMaintenanceRequest = new RoomMaintenanceRequest();
+      roomMaintenanceRequest.setId(roomMaintenanceRequestId);
+      roomMaintenanceRequest.setMaintenanceRequest(maintenanceRequestResult);
+      return roomMaintenanceRequest;
 
     } catch (SQLException e) {
       System.out.println("caught exception: " + e.toString());

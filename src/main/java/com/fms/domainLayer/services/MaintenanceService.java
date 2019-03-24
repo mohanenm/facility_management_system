@@ -50,7 +50,7 @@ public class MaintenanceService {
   }
 
   public RoomMaintenanceRequest makeRoomMaintRequest(
-          int roomId, MaintenanceRequest maintenanceRequest) throws FMSException {
+          int roomId, IMaintenanceRequest maintenanceRequest) throws FMSException {
     try {
       return
               dbMaintenance.makeRoomMaintRequest(roomId, maintenanceRequest);

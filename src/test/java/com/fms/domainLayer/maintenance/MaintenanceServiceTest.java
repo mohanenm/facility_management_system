@@ -83,7 +83,7 @@ public class MaintenanceServiceTest {
             IBuilding building = facility.getBuildings().get(0);
             IRoom room = building.getRooms().get(0);
 
-            MaintenanceRequest maintenanceRequest = testData.sampleMaintenanceRequest();
+            IMaintenanceRequest maintenanceRequest = testData.sampleMaintenanceRequest();
 
             RoomMaintenanceRequest roomMaintenanceRequest =
                     maintenanceService.makeRoomMaintRequest(room.getId(), maintenanceRequest);
@@ -92,8 +92,13 @@ public class MaintenanceServiceTest {
 
             assert (rmrId > 0);
 
-            MaintenanceRequest fromDb = roomMaintenanceRequest.getMaintenanceRequest();
-            MaintenanceRequest patchedId = new MaintenanceRequest(-1, fromDb);
+            IMaintenanceRequest fromDb = roomMaintenanceRequest.getMaintenanceRequest();
+            MaintenanceRequest patchedId = new MaintenanceRequest();
+            patchedId.setDescription(fromDb.getDescription());
+            patchedId.setMaintenanceTypeId(fromDb.getMaintenanceTypeId());
+            patchedId.setVacateRequired(fromDb.isVacateRequired());
+            patchedId.setRoutine(fromDb.isRoutine());
+            patchedId.setId(-1);
 
             assert (patchedId.equals(maintenanceRequest));
             maintenanceService.removeRoomMaintRequest(rmrId);

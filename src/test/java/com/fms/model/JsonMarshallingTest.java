@@ -9,7 +9,6 @@ import com.fms.domainLayer.services.MaintenanceService;
 import com.fms.domainLayer.services.UsageService;
 import com.fms.domainLayer.usage.RoomReservation;
 import com.fms.web_req_reply_api.GetFacilityDetailResult;
-import com.fms.web_req_reply_api.RoomMaintenanceRequestResult;
 import org.junit.Test;
 
 import java.io.IOException;
@@ -127,14 +126,14 @@ public class JsonMarshallingTest {
     assertEquals (roomMaintenanceRequest, again);
   }
 
-  @Test
-  public void RoomMaintenanceRequestResultMarshalling() throws IOException {
-    RoomMaintenanceRequestResult roomMaintenanceRequestResult =
-        TestData.sampleRoomMaintenanceRequestResult();
-    RoomMaintenanceRequestResult again =
-        RoomMaintenanceRequestResult.fromJson(roomMaintenanceRequestResult.toString());
-    assertEquals(roomMaintenanceRequestResult, again);
-  }
+//  @Test
+//  public void RoomMaintenanceRequestResultMarshalling() throws IOException {
+//    RoomMaintenanceRequestResult roomMaintenanceRequestResult =
+//        TestData.sampleRoomMaintenanceRequestResult();
+//    RoomMaintenanceRequestResult again =
+//        RoomMaintenanceRequestResult.fromJson(roomMaintenanceRequestResult.toString());
+//    assertEquals(roomMaintenanceRequestResult, again);
+//  }
 
   @Test
   public void RoomReservationMarshalling() throws IOException {

@@ -1,10 +1,15 @@
 package com.fms.domainLayer.maintenance;
 
-import com.google.gson.*;
+import com.fms.domainLayer.common.InterfaceAdapter;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+
 import java.io.IOException;
 import java.time.LocalDateTime;
 
-public class FacilityMaintenanceSchedule {
+public class FacilityMaintenanceSchedule implements IFacilityMaintenanceSchedule{
+
+  public FacilityMaintenanceSchedule() {}
 
   public FacilityMaintenanceSchedule(
       int id, int facilityMaintenanceRequestId, LocalDateTime start, LocalDateTime finish) {
@@ -30,6 +35,22 @@ public class FacilityMaintenanceSchedule {
     return finish;
   }
 
+  public void setId(int id) {
+    this.id = id;
+  }
+
+  public void setFacilityMaintenanceRequestId(int facilityMaintenanceRequestId) {
+    this.facilityMaintenanceRequestId = facilityMaintenanceRequestId;
+  }
+
+  public void setStart(LocalDateTime start) {
+    this.start = start;
+  }
+
+  public void setFinish(LocalDateTime finish) {
+    this.finish = finish;
+  }
+
   public String toString() {
     GsonBuilder builder =
         new GsonBuilder().setPrettyPrinting().setDateFormat("yyyy-MM-dd hh:mm:ss.SSS");
@@ -39,43 +60,10 @@ public class FacilityMaintenanceSchedule {
 
   public static FacilityMaintenanceSchedule fromJson(String facilityMaintenanceSchedule)
       throws IOException {
-    JsonParser parser = new JsonParser();
-    JsonElement jsonTree = parser.parse(facilityMaintenanceSchedule);
-    JsonObject jsonObject = jsonTree.getAsJsonObject();
-
-    JsonObject startAsJsonObject = jsonObject.get("start").getAsJsonObject();
-    JsonObject startDateObject = startAsJsonObject.get("date").getAsJsonObject();
-    JsonObject startTimeObject = startAsJsonObject.get("time").getAsJsonObject();
-
-    JsonObject finishAsJsonObject = jsonObject.get("finish").getAsJsonObject();
-    JsonObject finishDateObject = finishAsJsonObject.get("date").getAsJsonObject();
-    JsonObject finishTimeObject = finishAsJsonObject.get("time").getAsJsonObject();
-
-    LocalDateTime start =
-        LocalDateTime.of(
-            startDateObject.get("year").getAsInt(),
-            startDateObject.get("month").getAsInt(),
-            startDateObject.get("day").getAsInt(),
-            startTimeObject.get("hour").getAsInt(),
-            startTimeObject.get("minute").getAsInt(),
-            startTimeObject.get("second").getAsInt(),
-            startTimeObject.get("nano").getAsInt());
-
-    LocalDateTime finish =
-        LocalDateTime.of(
-            finishDateObject.get("year").getAsInt(),
-            finishDateObject.get("month").getAsInt(),
-            finishDateObject.get("day").getAsInt(),
-            finishTimeObject.get("hour").getAsInt(),
-            finishTimeObject.get("minute").getAsInt(),
-            finishTimeObject.get("second").getAsInt(),
-            finishTimeObject.get("nano").getAsInt());
-
-    return new FacilityMaintenanceSchedule(
-        jsonObject.get("id").getAsInt(),
-        jsonObject.get("facilityMaintenanceRequestId").getAsInt(),
-        start,
-        finish);
+    Gson gson = new GsonBuilder().serializeNulls()
+            .registerTypeAdapter(IFacilityMaintenanceSchedule.class, new InterfaceAdapter<IFacilityMaintenanceSchedule>())
+            .create();
+    return gson.fromJson(facilityMaintenanceSchedule, FacilityMaintenanceSchedule.class);
   }
 
   @Override
