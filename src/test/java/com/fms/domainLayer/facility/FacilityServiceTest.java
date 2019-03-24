@@ -6,13 +6,12 @@ import com.fms.domainLayer.maintenance.MaintenanceCostCalculator;
 import com.fms.domainLayer.services.FacilityService;
 import com.fms.domainLayer.services.MaintenanceService;
 import com.fms.domainLayer.services.UsageService;
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.rules.ExpectedException;
-
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import org.junit.Rule;
+import org.junit.Test;
+import org.junit.rules.ExpectedException;
 
 public class FacilityServiceTest {
 
@@ -28,7 +27,6 @@ public class FacilityServiceTest {
     usageService = new UsageService();
     testData = new TestData();
     maintenanceCostCalculator = new MaintenanceCostCalculator();
-
   }
 
   @Test
@@ -39,11 +37,9 @@ public class FacilityServiceTest {
 
   // Single test to create, read, and update our facility
   @Test
-  public void CRUDFacility() throws FMSException
+  public void CRUDFacility() throws FMSException {
 
-  {
-    IFacility facility =
-        facilityService.addNewFacility("Test Facility", "Healthcare Facility");
+    IFacility facility = facilityService.addNewFacility("Test Facility", "Healthcare Facility");
 
     assert (facility.getId() > 0);
 
@@ -55,8 +51,7 @@ public class FacilityServiceTest {
     listFacilities();
   }
 
-  @Rule
-  public ExpectedException facilityException = ExpectedException.none();
+  @Rule public ExpectedException facilityException = ExpectedException.none();
 
   @Test
   /// Ensure that insert of facility detail with duplicate buildings
@@ -68,22 +63,21 @@ public class FacilityServiceTest {
 
     // Create a new facility to play with
     IFacility facility =
-            facilityService.addNewFacility("Dup Building Test Facility", "Healthcare Facility");
+        facilityService.addNewFacility("Dup Building Test Facility", "Healthcare Facility");
 
     int insertedFacilityId = facility.getId();
 
     // To make test idempotent, clean up the facilty we created in catch clause.
     // Then rethrow the exception since we told test infrastructure to expect it
     try {
-      facilityService.addFacilityDetail(insertedFacilityId,
-              testData.sampleDuplicateBuildings());
-    } catch(FMSException fse) {
+      facilityService.addFacilityDetail(insertedFacilityId, testData.sampleDuplicateBuildings());
+    } catch (FMSException fse) {
       facilityService.removeFacility(insertedFacilityId);
       throw fse;
     }
 
     // Better not get here
-    assert(false);
+    assert (false);
   }
 
   @Test

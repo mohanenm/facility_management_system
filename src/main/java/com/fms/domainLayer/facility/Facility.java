@@ -3,7 +3,6 @@ package com.fms.domainLayer.facility;
 import com.fms.domainLayer.common.InterfaceAdapter;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-
 import java.io.IOException;
 import java.util.List;
 
@@ -49,7 +48,8 @@ public class Facility implements IFacility {
   }
 
   public String toString() {
-    GsonBuilder builder = new GsonBuilder()
+    GsonBuilder builder =
+        new GsonBuilder()
             .registerTypeAdapter(IBuilding.class, new InterfaceAdapter<IBuilding>())
             .registerTypeAdapter(IRoom.class, new InterfaceAdapter<IRoom>())
             .setPrettyPrinting();
@@ -58,7 +58,9 @@ public class Facility implements IFacility {
   }
 
   public static Facility fromJson(String facility) throws IOException {
-    Gson gson = new GsonBuilder().serializeNulls()
+    Gson gson =
+        new GsonBuilder()
+            .serializeNulls()
             .registerTypeAdapter(IBuilding.class, new InterfaceAdapter<IBuilding>())
             .registerTypeAdapter(IRoom.class, new InterfaceAdapter<IRoom>())
             .create();
@@ -72,10 +74,10 @@ public class Facility implements IFacility {
       return true;
     }
 
-    return id == f.id &&
-            name.equals(f.name) &&
-            description.equals(f.description) &&
-            buildings.equals(f.buildings);
+    return id == f.id
+        && name.equals(f.name)
+        && description.equals(f.description)
+        && buildings.equals(f.buildings);
   }
 
   private int id;

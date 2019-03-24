@@ -13,8 +13,8 @@ plugins {
     // Apply the application plugin to add support for building an application
     id 'application'
 
-
-    //id 'com.github.sherter.google-java-format' version '0.8'
+    //google java format, why delete?
+    id 'com.github.sherter.google-java-format' version '0.8'
 }
 
 configurations {

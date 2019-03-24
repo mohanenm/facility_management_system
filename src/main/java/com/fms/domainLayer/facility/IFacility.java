@@ -18,5 +18,4 @@ public interface IFacility {
   List<IBuilding> getBuildings();
 
   void setBuildings(List<IBuilding> buildings);
-
 }

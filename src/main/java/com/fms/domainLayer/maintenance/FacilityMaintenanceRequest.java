@@ -3,10 +3,9 @@ package com.fms.domainLayer.maintenance;
 import com.fms.domainLayer.common.InterfaceAdapter;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-
 import java.io.IOException;
 
-public class FacilityMaintenanceRequest implements IFacilityMaintenanceRequest{
+public class FacilityMaintenanceRequest implements IFacilityMaintenanceRequest {
 
   public FacilityMaintenanceRequest() {}
 
@@ -20,8 +19,10 @@ public class FacilityMaintenanceRequest implements IFacilityMaintenanceRequest{
   }
 
   public String toString() {
-    GsonBuilder builder = new GsonBuilder()
-            .registerTypeAdapter(IMaintenanceRequest.class, new InterfaceAdapter<IMaintenanceRequest>())
+    GsonBuilder builder =
+        new GsonBuilder()
+            .registerTypeAdapter(
+                IMaintenanceRequest.class, new InterfaceAdapter<IMaintenanceRequest>())
             .setPrettyPrinting();
     Gson gson = builder.create();
     return gson.toJson(this);
@@ -41,8 +42,11 @@ public class FacilityMaintenanceRequest implements IFacilityMaintenanceRequest{
 
   public static FacilityMaintenanceRequest fromJson(String facilityMaintenanceRequest)
       throws IOException {
-    Gson gson = new GsonBuilder().serializeNulls()
-            .registerTypeAdapter(IMaintenanceRequest.class, new InterfaceAdapter<IMaintenanceRequest>())
+    Gson gson =
+        new GsonBuilder()
+            .serializeNulls()
+            .registerTypeAdapter(
+                IMaintenanceRequest.class, new InterfaceAdapter<IMaintenanceRequest>())
             .create();
     return gson.fromJson(facilityMaintenanceRequest, FacilityMaintenanceRequest.class);
   }

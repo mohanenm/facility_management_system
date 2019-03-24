@@ -1,7 +1,6 @@
 package com.fms.dal;
 
 import com.fms.domainLayer.facility.*;
-
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -23,45 +22,45 @@ public class DBFacility {
   public DBFacility() throws SQLException {
 
     insertFacility =
-            DBConnection.getConnection()
-                    .prepareStatement(
-                            "INSERT into facility (name, description) values (?,?) RETURNING id");
+        DBConnection.getConnection()
+            .prepareStatement("INSERT into facility (name, description) values (?,?) RETURNING id");
     deleteFacility =
-            DBConnection.getConnection().prepareStatement("delete from facility where id = ?");
+        DBConnection.getConnection().prepareStatement("delete from facility where id = ?");
 
     selectFacility =
-            DBConnection.getConnection().prepareStatement("select name, description from facility where id = ?");
+        DBConnection.getConnection()
+            .prepareStatement("select name, description from facility where id = ?");
     insertBuilding =
-            DBConnection.getConnection()
-                    .prepareStatement(
-                            "INSERT into building (facility_id, name, street_address, city, state, zip)" +
-                                    " values (?,?,?,?,?,?) RETURNING id");
+        DBConnection.getConnection()
+            .prepareStatement(
+                "INSERT into building (facility_id, name, street_address, city, state, zip)"
+                    + " values (?,?,?,?,?,?) RETURNING id");
     insertRoom =
-            DBConnection.getConnection()
-                    .prepareStatement(
-                            "INSERT into room (building_id, room_number, capacity) values (?,?,?) RETURNING id");
+        DBConnection.getConnection()
+            .prepareStatement(
+                "INSERT into room (building_id, room_number, capacity) values (?,?,?) RETURNING id");
     facilityInformation =
-            DBConnection.getConnection()
-                    .prepareStatement(
-                            ""
-                                    + "select \n"
-                                    + "    f.id as facility_id,\n"
-                                    + "    f.name as facility_name, \n"
-                                    + "    f.description as description,\n"
-                                    + "    b.id as building_id,\n"
-                                    + "    b.name as building_name,\n"
-                                    + "    b.street_address as street_address,\n"
-                                    + "    b.city as city,\n"
-                                    + "    b.state as state,\n"
-                                    + "    b.zip as zip,\n"
-                                    + "    r.id as room_id,\n"
-                                    + "    r.room_number as room_number,\n"
-                                    + "    r.capacity as capacity\n"
-                                    + "from\n"
-                                    + "    facility as f \n"
-                                    + "    left join building as b on (b.facility_id = f.id)\n"
-                                    + "    left join room as r on (r.building_id = b.id)"
-                                    + "where f.id = ?");
+        DBConnection.getConnection()
+            .prepareStatement(
+                ""
+                    + "select \n"
+                    + "    f.id as facility_id,\n"
+                    + "    f.name as facility_name, \n"
+                    + "    f.description as description,\n"
+                    + "    b.id as building_id,\n"
+                    + "    b.name as building_name,\n"
+                    + "    b.street_address as street_address,\n"
+                    + "    b.city as city,\n"
+                    + "    b.state as state,\n"
+                    + "    b.zip as zip,\n"
+                    + "    r.id as room_id,\n"
+                    + "    r.room_number as room_number,\n"
+                    + "    r.capacity as capacity\n"
+                    + "from\n"
+                    + "    facility as f \n"
+                    + "    left join building as b on (b.facility_id = f.id)\n"
+                    + "    left join room as r on (r.building_id = b.id)"
+                    + "where f.id = ?");
   }
 
   public ArrayList<Facility> readAllFacilities() {
@@ -74,10 +73,10 @@ public class DBFacility {
 
       while (facilityResultSet.next()) {
         result.add(
-                new Facility(
-                        facilityResultSet.getInt("id"),
-                        facilityResultSet.getString("name"),
-                        facilityResultSet.getString("description")));
+            new Facility(
+                facilityResultSet.getInt("id"),
+                facilityResultSet.getString("name"),
+                facilityResultSet.getString("description")));
       }
 
       // close to manage resources
@@ -107,7 +106,8 @@ public class DBFacility {
     deleteFacility.executeUpdate();
   }
 
-  public Facility addFacilityDetail(int facilityId, List<IBuilding> newBuildings) throws SQLException {
+  public Facility addFacilityDetail(int facilityId, List<IBuilding> newBuildings)
+      throws SQLException {
 
     selectFacility.setInt(1, facilityId);
     resultSet = selectFacility.executeQuery();
@@ -227,11 +227,12 @@ public class DBFacility {
 
       if (room == null || room.getId() != roomId) {
         if (hasRoom) {
-          room = new Room(
-                          roomId,
-                          resultSet.getInt("building_id"),
-                          resultSet.getInt("room_number"),
-                          resultSet.getInt("capacity"));
+          room =
+              new Room(
+                  roomId,
+                  resultSet.getInt("building_id"),
+                  resultSet.getInt("room_number"),
+                  resultSet.getInt("capacity"));
           building.getRooms().add(room);
         }
       }

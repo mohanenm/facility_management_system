@@ -67,8 +67,11 @@ public class Room implements IRoom {
   }
 
   public static Room fromJson(String room) throws IOException {
-    Gson gson = new GsonBuilder().serializeNulls()
-            .registerTypeAdapter(IRoom.class, new InterfaceAdapter<IRoom>()).create();
+    Gson gson =
+        new GsonBuilder()
+            .serializeNulls()
+            .registerTypeAdapter(IRoom.class, new InterfaceAdapter<IRoom>())
+            .create();
     return gson.fromJson(room, Room.class);
     //    JsonReader reader = new JsonReader(new StringReader(room));
     //    reader.beginObject();

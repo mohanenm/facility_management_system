@@ -2,11 +2,11 @@ package com.fms.domainLayer.maintenance;
 
 public interface IFacilityMaintenanceRequest {
 
-    int getId();
+  int getId();
 
-    IMaintenanceRequest getMaintenanceRequest();
+  IMaintenanceRequest getMaintenanceRequest();
 
-    void setId(int id);
+  void setId(int id);
 
-    void setMaintenanceRequest(IMaintenanceRequest maintenanceRequest);
+  void setMaintenanceRequest(IMaintenanceRequest maintenanceRequest);
 }

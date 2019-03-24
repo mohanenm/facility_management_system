@@ -5,13 +5,12 @@ import com.fms.domainLayer.maintenance.IMaintenanceRequest;
 import com.fms.domainLayer.maintenance.MaintenanceRequest;
 import com.fms.domainLayer.maintenance.RoomMaintenanceRequest;
 import com.google.common.collect.Range;
-import org.apache.logging.log4j.Level;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
 import java.sql.*;
 import java.time.LocalDateTime;
 import java.util.HashMap;
+import org.apache.logging.log4j.Level;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public class DBMaintenance {
 
