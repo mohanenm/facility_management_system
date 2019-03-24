@@ -6,12 +6,13 @@ import com.fms.domainLayer.maintenance.MaintenanceCostCalculator;
 import com.fms.domainLayer.services.FacilityService;
 import com.fms.domainLayer.services.MaintenanceService;
 import com.fms.domainLayer.services.UsageService;
-import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
+
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class FacilityServiceTest {
 

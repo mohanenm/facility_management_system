@@ -82,7 +82,12 @@ public class TestData {
   }
 
   public static MaintenanceHourlyRate sampleMaintenanceHourlyRate() {
-    return new MaintenanceHourlyRate(-1, -1, 1, 20.00);
+    MaintenanceHourlyRate maintenanceHourlyRate = new MaintenanceHourlyRate();
+    maintenanceHourlyRate.setId(-1);
+    maintenanceHourlyRate.setFacilityId(-1);
+    maintenanceHourlyRate.setMaintenanceTypeId(1);
+    maintenanceHourlyRate.setHourlyRate(20.00);
+    return maintenanceHourlyRate;
   }
 
   public static MaintenanceRequest sampleMaintenanceRequest() {
@@ -108,15 +113,19 @@ public class TestData {
   }
 
   public static FacilityMaintenanceSchedule sampleFacilityMaintenanceSchedule() {
-    return new FacilityMaintenanceSchedule(
-        -1,
-        -1,
-        LocalDateTime.of(1984, Month.DECEMBER, 17, 15, 30),
-        LocalDateTime.of(2010, Month.SEPTEMBER, 17, 4, 10));
+    FacilityMaintenanceSchedule facilityMaintenanceSchedule = new FacilityMaintenanceSchedule();
+    facilityMaintenanceSchedule.setId(-1);
+    facilityMaintenanceSchedule.setFacilityMaintenanceRequestId(-1);
+    facilityMaintenanceSchedule.setStart(LocalDateTime.of(1984, Month.DECEMBER, 17, 15, 30));
+    facilityMaintenanceSchedule.setFinish(LocalDateTime.of(2010, Month.SEPTEMBER, 17, 4, 10));
+    return facilityMaintenanceSchedule;
   }
 
   public static RoomMaintenanceRequest sampleRoomMaintenanceRequest() {
-    return new RoomMaintenanceRequest(-1, sampleMaintenanceRequest());
+    RoomMaintenanceRequest roomMaintenanceRequest = new RoomMaintenanceRequest();
+    roomMaintenanceRequest.setMaintenanceRequest(sampleMaintenanceRequest());
+    roomMaintenanceRequest.setId(-1);
+    return roomMaintenanceRequest;
   }
 
   public static RoomReservation sampleRoomReservation() {

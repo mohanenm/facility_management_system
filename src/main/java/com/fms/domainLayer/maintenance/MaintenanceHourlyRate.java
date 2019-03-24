@@ -1,9 +1,12 @@
 package com.fms.domainLayer.maintenance;
 
+import com.fms.domainLayer.common.InterfaceAdapter;
 import com.google.gson.*;
 import java.io.IOException;
 
-public class MaintenanceHourlyRate {
+public class MaintenanceHourlyRate implements IMaintenanceHourlyRate{
+
+  public MaintenanceHourlyRate() {}
 
   public MaintenanceHourlyRate(int id, int facilityId, int maintenanceTypeId, double hourlyRate) {
     this.id = id;
@@ -28,6 +31,22 @@ public class MaintenanceHourlyRate {
     return hourlyRate;
   }
 
+  public void setId(int id) {
+    this.id = id;
+  }
+
+  public void setFacilityId(int facilityId) {
+    this.facilityId = facilityId;
+  }
+
+  public void setMaintenanceTypeId(int maintenanceTypeId) {
+    this.maintenanceTypeId = maintenanceTypeId;
+  }
+
+  public void setHourlyRate(double hourlyRate) {
+    this.hourlyRate = hourlyRate;
+  }
+
   public String toString() {
     GsonBuilder builder = new GsonBuilder().setPrettyPrinting();
     Gson gson = builder.create();
@@ -35,15 +54,10 @@ public class MaintenanceHourlyRate {
   }
 
   public static MaintenanceHourlyRate fromJson(String maintenanceRate) throws IOException {
-    JsonParser parser = new JsonParser();
-    JsonElement jsonTree = parser.parse(maintenanceRate);
-    JsonObject jsonObject = jsonTree.getAsJsonObject();
-
-    return new MaintenanceHourlyRate(
-        jsonObject.get("id").getAsInt(),
-        jsonObject.get("facilityId").getAsInt(),
-        jsonObject.get("maintenanceTypeId").getAsInt(),
-        jsonObject.get("hourlyRate").getAsDouble());
+    Gson gson = new GsonBuilder().serializeNulls()
+            .registerTypeAdapter(IMaintenanceHourlyRate.class, new InterfaceAdapter<IMaintenanceHourlyRate>())
+            .create();
+    return gson.fromJson(maintenanceRate, MaintenanceHourlyRate.class);
   }
 
   @Override

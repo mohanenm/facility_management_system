@@ -1,10 +1,17 @@
 package com.fms.web_req_reply_api;
 
+import com.fms.domainLayer.common.InterfaceAdapter;
+import com.fms.domainLayer.maintenance.IRoomMaintenanceRequest;
 import com.fms.domainLayer.maintenance.RoomMaintenanceRequest;
-import com.google.gson.*;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+
 import java.io.IOException;
 
 public class RoomMaintenanceRequestResult {
+
+  public RoomMaintenanceRequestResult() {}
+
   public RoomMaintenanceRequestResult(
       RoomMaintenanceRequest roomMaintenanceRequest, String errorMessage) {
     this.roomMaintenanceRequest = roomMaintenanceRequest;
@@ -19,17 +26,10 @@ public class RoomMaintenanceRequestResult {
 
   public static RoomMaintenanceRequestResult fromJson(String roomMaintenanceRequestResult)
       throws IOException {
-    JsonParser parser = new JsonParser();
-    JsonElement jsonTree = parser.parse(roomMaintenanceRequestResult);
-    JsonObject jsonObject = jsonTree.getAsJsonObject();
-
-    JsonElement roomMaintenanceRequestJE = jsonObject.get("roomMaintenanceRequest");
-
-    RoomMaintenanceRequest roomMaintenanceRequest =
-        RoomMaintenanceRequest.fromJson(roomMaintenanceRequestJE.getAsJsonObject().toString());
-
-    return new RoomMaintenanceRequestResult(
-        roomMaintenanceRequest, jsonObject.get("errorMessage").getAsString());
+    Gson gson = new GsonBuilder().serializeNulls()
+            .registerTypeAdapter(IRoomMaintenanceRequest.class, new InterfaceAdapter<IRoomMaintenanceRequest>())
+            .create();
+    return gson.fromJson(roomMaintenanceRequestResult, RoomMaintenanceRequestResult.class);
   }
 
   @Override
@@ -45,6 +45,6 @@ public class RoomMaintenanceRequestResult {
             || errorMessage.equals(g.errorMessage));
   }
 
-  RoomMaintenanceRequest roomMaintenanceRequest;
+  IRoomMaintenanceRequest roomMaintenanceRequest;
   String errorMessage;
 }

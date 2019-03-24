@@ -73,47 +73,6 @@ public class Room implements IRoom {
             .registerTypeAdapter(IRoom.class, new InterfaceAdapter<IRoom>())
             .create();
     return gson.fromJson(room, Room.class);
-    //    JsonReader reader = new JsonReader(new StringReader(room));
-    //    reader.beginObject();
-    //
-    //    int id = 0;
-    //    int buildingId = 0;
-    //    int roomNumber = 0;
-    //    int capacity = 0;
-    //
-    //    while (reader.hasNext()) {
-    //      JsonToken token = reader.peek();
-    //      if (token.equals(JsonToken.NAME)) {
-    //        String key = reader.nextName();
-    //
-    //        switch (key) {
-    //          case "id":
-    //            {
-    //              id = reader.nextInt();
-    //              break;
-    //            }
-    //          case "buildingId":
-    //            {
-    //              buildingId = reader.nextInt();
-    //              break;
-    //            }
-    //          case "roomNumber":
-    //            {
-    //              roomNumber = reader.nextInt();
-    //              break;
-    //            }
-    //          case "capacity":
-    //            {
-    //              capacity = reader.nextInt();
-    //              break;
-    //            }
-    //          default:
-    //            System.out.println("no match");
-    //        }
-    //      }
-    //    }
-    //
-    //    return new Room(id, buildingId, roomNumber, capacity);
   }
 
   @Override
