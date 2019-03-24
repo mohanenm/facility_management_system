@@ -6,6 +6,7 @@ public class Inspection {
     private String inspectionType;
     private String inspectionDetail;
 
+
     public Inspection() {}
 
     public String getInspectionType() {

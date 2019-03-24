@@ -1,9 +1,0 @@
-<component name="libraryTable">
-  <library name="Gradle: :postgresql-42.2.5:">
-    <CLASSES>
-      <root url="jar://$PROJECT_DIR$/third_party/postgresql-42.2.5.jar!/" />
-    </CLASSES>
-    <JAVADOC />
-    <SOURCES />
-  </library>
-</component>
