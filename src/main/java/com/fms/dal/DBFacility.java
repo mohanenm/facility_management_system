@@ -180,7 +180,7 @@ public class DBFacility {
       result.setBuildingId(buildingId);
       result.setRoomNumber(room.getRoomNumber());
       result.setCapacity(room.getCapacity());
-      return new Room(roomId, room.getBuildingId(), room.getRoomNumber(), room.getCapacity());
+      return result;
     } catch (SQLException e) {
       System.out.println("caught exception: " + e.toString());
       throw e;

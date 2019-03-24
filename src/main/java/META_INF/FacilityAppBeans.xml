@@ -7,5 +7,69 @@
 
     <context:component-scan base-package="com.fms" />
 
+    <bean id="roomA" class="com.fms.domainLayer.facility.Room" scope="prototype">
+        <constructor-arg index="0" value="-1"/>   <!-- Extra constructor arg for 'id' param-->
+        <constructor-arg index="1" value="-1"/>
+        <constructor-arg index="2" value="101"/>
+        <constructor-arg index="3" value="45"/>
+    </bean>
+
+    <bean id="roomB" class="com.fms.domainLayer.facility.Room" scope="prototype">
+        <constructor-arg index="0" value="-1"/>   <!-- Extra constructor arg for 'id' param-->
+        <constructor-arg index="1" value="-1"/>
+        <constructor-arg index="2" value="102"/>
+        <constructor-arg index="3" value="20"/>
+    </bean>
+
+    <bean id="roomC" class="com.fms.domainLayer.facility.Room" scope="prototype">
+        <constructor-arg index="0" value="-1"/>   <!-- Extra constructor arg for 'id' param-->
+        <constructor-arg index="1" value="-1"/>
+        <constructor-arg index="2" value="103"/>
+        <constructor-arg index="3" value="35"/>
+    </bean>
+
+    <bean id="corboy" class="com.fms.domainLayer.facility.Building" scope="prototype">
+        <constructor-arg type="int" value="-1"/> <!-- Extra constructor for 'id' param-->
+        <constructor-arg type="java.lang.String" value="Corboy Law Center"/>
+        <constructor-arg type="java.lang.String" value="25 East Pearson St."/>
+        <constructor-arg type="java.lang.String" value="Chicago"/>
+        <constructor-arg type="java.lang.String" value="Il"/>
+        <constructor-arg type="int" value="60660"/>
+        <!--Dependency injection of room into building-->
+        <property name="rooms">
+            <list>
+                <ref bean="roomA" />
+                <ref bean="roomB" />
+                <ref bean="roomC" />
+
+            </list>
+        </property>
+    </bean>
+
+    <bean id="loyolaFacility" class="com.fms.domainLayer.facility.Facility" scope="prototype">
+        <constructor-arg index="0" value="-1"/>
+        <constructor-arg type="java.lang.String" value="Loyola University Facility"/>
+        <constructor-arg type="java.lang.String" value="A Jesuit University Located in Chicago, IL"/>
+        <property name="buildings">
+            <list>
+                <ref bean="corboy"/>
+            </list>
+        </property>
+    </bean>
+
+
+
+    <bean id="facilityService" class="com.fms.domainLayer.services.FacilityService" scope="prototype">
+
+    </bean>
+
+    <bean id="maintenanceService" class="com.fms.domainLayer.services.MaintenanceService" scope="prototype">
+
+    </bean>
+
+    <bean id="usageService" class="com.fms.domainLayer.services.UsageService" scope="prototype">
+
+    </bean>
+
 
 </beans>
