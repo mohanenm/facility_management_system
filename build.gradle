@@ -12,6 +12,9 @@ plugins {
 
     // Apply the application plugin to add support for building an application
     id 'application'
+
+
+    //id 'com.github.sherter.google-java-format' version '0.8'
 }
 
 configurations {
@@ -21,7 +24,8 @@ configurations {
 repositories {
     // Use jcenter for resolving your dependencies.
     // You can declare any Maven/Ivy/file repository here.
-    jcenter()
+
+        jcenter()  // or mavenCentral()
 
     flatDir {
         dirs 'third_party'
@@ -38,9 +42,22 @@ dependencies {
 
     compile group: 'org.apache.logging.log4j', name: 'log4j-api', version: '2.11.2'
     compile group: 'org.apache.logging.log4j', name: 'log4j-core', version: '2.11.2'
+    compile group: 'org.springframework', name: 'spring-beans', version: '4.3.18.RELEASE'
+    compile group: 'org.springframework', name: 'spring-context', version: '4.3.18.RELEASE'
 
     // Use JUnit test framework
     testImplementation 'junit:junit:4.12'
+}
+
+jar {
+//baseName = 'analytics'
+   from('../src/META_INF/') {
+      include 'Spring_config.xml'
+   }
+
+//       manifest {
+//        attributes 'Implementation-Title': 'Analytics Library', 'Implementation-Version': version
+//    }
 }
 
 // Define the main class for the application

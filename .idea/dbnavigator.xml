@@ -25,79 +25,268 @@
     <show-object-properties value="true" />
     <loaded-nodes>
       <connection connection-id="0b42631a-774e-4d7c-8cf1-f6f4a3a76644">
-        <schema name="pg_catalog" object-types="function, table, view" />
-        <schema name="public" object-types="function, table, view, column" />
+        <schema name="pg_catalog" object-types="table, view" />
+        <schema name="public" object-types="column, table, view" />
       </connection>
     </loaded-nodes>
   </component>
   <component name="DBNavigator.Project.DatabaseConsoleManager">
     <connection id="0b42631a-774e-4d7c-8cf1-f6f4a3a76644">
-      <console name="facility" type="STANDARD" schema="public" session="Main">select 
-    f.id as facility_id,
-    f.name as name, 
-    f.description as description,
-    b.id as building_id,
-    b.name as building_name,
-    b.street_address as street_address,
-    b.city as city,
-    b.state as state,
-    b.zip as zip,
-    r.id as room_id,
-    r.room_number as room_number,
-    r.capacity as capacity
+      <console name="facility" type="STANDARD" schema="public" session="Main">select
+    *
+from facility_maintenance_schedule
+
+insert into 
+    facility_maintenance_schedule 
+    ( facility_maintenence_request_id, &quot;start&quot;, &quot;finish&quot;)
+values
+    (3, '2020-01-01 12:00', '2020-01-02 12:00')
+returning id;
+
+
+insert into room_reservation
+(room_id, start, finish, maintenance_request_id) 
+values (1, '2020-01-01 12:00', '2020-01-02 12:00', null);
+
+delete from room
+where id in (
+    select 
+        R.id
+    from room R
+        inner join building B on (B.id = R.building_id)
+        inner join facility F on (F.id = B.facility_id)
+    where
+        facility_id = 1
+);
+
+select * from facility_maintenance_request;
+select * from facility;
+select * from building;
+select * from room;
+select * from room_maintenance_request;
+
+select * from maintenance_hourly_rate;
+
+insert into 
+    maintenance_hourly_rate
+    (facility_id, hourly_rate, maintenance_type_id)
+values(1, 16.0, 2)
+returning id;
+
+select * from maintenance_hourly_rate
+
+insert into 
+    facility (description, name)
+values
+('testing facility', 'f1')
+returning id;
+
+select * from facility;
+
+select
+    R.id, R.id
 from
-    facility as f 
-    left join building as b on (b.facility_id = f.id)
-    left join room as r on (r.building_id = b.id)
-    where f.id = 1;
+    room R
+    inner join building on (R.building_id = building.id);
+
+select 
+   -- R.id as room_id,
+   -- *
+   RMS.*,
+   RMS.finish - RMS.start
+from 
+    room R 
+    inner join building B on (R.building_id = B.id)
+    inner join facility F on (B.facility_id = F.id)
+    inner join room_maintenance_request RMR on (R.id = RMR.room_id)
+    inner join room_maintenance_schedule RMS on (RMS.room_maintenance_request_id = RMR.id)
+where 
+    F.id = 2;
+    
+    
+    
+select 
+   -- R.id as room_id,
+   -- *
+--   R.id room_id,
+--   F.id facility_id, 
+--   MR.id as mr_id,
+--   RMR.id as rmr_id,
+--   MT.description mt_descr, 
+   --MR.description,
+   
+   F.id facility_id,
+   MT.id maintenance_req_id,
+   COALESCE(MHR.hourly_rate, 15) hourly_rate,
+   SUM(EXTRACT(EPOCH FROM (RMS.finish - RMS.start)))/3600 total_hours,
+   COALESCE(MHR.hourly_rate, 15) * SUM(EXTRACT(EPOCH FROM (RMS.finish - RMS.start)))/3600 grand_total_cost
+from 
+    room R 
+    inner join building B on (R.building_id = B.id)
+    full join facility F on (B.facility_id = F.id)
+    inner join room_maintenance_request RMR on (R.id = RMR.room_id)
+    full join maintenance_request MR on (MR.id = RMR.maintenance_request_id)
+    full join maintenance_type MT on (MR.maintenance_type_id = MT.id)
+    inner join room_maintenance_schedule RMS on (RMS.room_maintenance_request_id = RMR.id)
+    full join maintenance_hourly_rate MHR on (F.id = MHR.facility_id and MT.id = MHR.maintenance_type_id)
+where 
+    F.id = 2
+group by
+    F.id, 
+    MT.id,
+    MHR.hourly_rate
+    ;
+    
+    
+select 
+   F.id facility_id,
+   MT.id maintenance_req_id,
+   COALESCE(MHR.hourly_rate, 15) hourly_rate,
+   SUM(EXTRACT(EPOCH FROM (RMS.finish - RMS.start)))/3600 total_hours,
+   COALESCE(MHR.hourly_rate, 15) * SUM(EXTRACT(EPOCH FROM (RMS.finish - RMS.start)))/3600 grand_total_cost
+from 
+    room R 
+    inner join building B on (R.building_id = B.id)
+    full join facility F on (B.facility_id = F.id)
+    inner join room_maintenance_request RMR on (R.id = RMR.room_id)
+    full join maintenance_request MR on (MR.id = RMR.maintenance_request_id)
+    full join maintenance_type MT on (MR.maintenance_type_id = MT.id)
+    inner join room_maintenance_schedule RMS on (RMS.room_maintenance_request_id = RMR.id)
+    full join maintenance_hourly_rate MHR on (F.id = MHR.facility_id and MT.id = MHR.maintenance_type_id)
+where 
+    F.id = 2
+group by
+    F.id, 
+    MT.id,
+    MHR.hourly_rate;
+  
+-- '2018-01-01 05:00:00'
+-- '2020-01-01 05:00:00'
+
+select current_timestamp;
+select to_timestamp('2018-01-01 05:00:00', 'YYYY-MM-DD hh24:mi:ss');
+select least(to_timestamp('2020-01-01 05:00:00', 'YYYY-MM-DD hh24:mi:ss'), current_timestamp);
+
+select 
+   F.id facility_id,
+   MT.description,
+   COALESCE(MHR.hourly_rate, 15) hourly_rate,
+   
+   SUM(EXTRACT(EPOCH FROM (
+        least(to_timestamp('2020-01-01 05:00:00', 'YYYY-MM-DD hh24:mi:ss'), RMS.finish) - 
+        greatest(to_timestamp('2018-01-01 05:00:00', 'YYYY-MM-DD hh24:mi:ss'), RMS.start)
+        )))/3600 
+        
+        total_hours,
+        
+   COALESCE(MHR.hourly_rate, 15) * 
+       SUM(EXTRACT(EPOCH FROM (
+            least(to_timestamp('2020-01-01 05:00:00', 'YYYY-MM-DD hh24:mi:ss'), RMS.finish) - 
+            greatest(to_timestamp('2018-01-01 05:00:00', 'YYYY-MM-DD hh24:mi:ss'), RMS.start)
+            )))/3600 
+
+        partial_cost_of_type
+        
+from 
+    room R 
+    inner join building B on (R.building_id = B.id)
+    full join facility F on (B.facility_id = F.id)
+    inner join room_maintenance_request RMR on (R.id = RMR.room_id)
+    full join maintenance_request MR on (MR.id = RMR.maintenance_request_id)
+    full join maintenance_type MT on (MR.maintenance_type_id = MT.id)
+    inner join room_maintenance_schedule RMS on (RMS.room_maintenance_request_id = RMR.id)
+    full join maintenance_hourly_rate MHR on (F.id = MHR.facility_id and MT.id = MHR.maintenance_type_id)
+where 
+    F.id = 2 and
+    to_timestamp('2018-01-01 05:00:00', 'YYYY-MM-DD hh24:mi:ss') between RMS.start and RMS.finish or
+    to_timestamp('2020-01-01 05:00:00', 'YYYY-MM-DD hh24:mi:ss') between RMS.start and RMS.finish or
+    (to_timestamp('2018-01-01 05:00:00', 'YYYY-MM-DD hh24:mi:ss')  &lt; RMS.start and 
+     to_timestamp('2020-01-01 05:00:00', 'YYYY-MM-DD hh24:mi:ss') &gt; RMS.finish)
+group by
+    F.id, 
+    MT.id,
+    MHR.hourly_rate;  
+    
+    
+    
+ select 
+   F.id facility_id,
+   MT.id maintenance_req_id,
+   COALESCE(MHR.hourly_rate, 15) hourly_rate,
+   
+   SUM(EXTRACT(EPOCH FROM (
+        least(to_timestamp('2018-01-01 05:00:01', 'YYYY-MM-DD hh24:mi:ss'), RMS.finish) - 
+        greatest(to_timestamp('2018-01-01 05:00:00', 'YYYY-MM-DD hh24:mi:ss'), RMS.start)
+        )))/3600 
+        
+        total_hours,
+        
+   COALESCE(MHR.hourly_rate, 15) * 
+       SUM(EXTRACT(EPOCH FROM (
+            least(to_timestamp('2018-01-01 05:00:01', 'YYYY-MM-DD hh24:mi:ss'), RMS.finish) - 
+            greatest(to_timestamp('2018-01-01 05:00:00', 'YYYY-MM-DD hh24:mi:ss'), RMS.start)
+            )))/3600 
+
+        grand_total_cost
+from 
+    room R 
+    inner join building B on (R.building_id = B.id)
+    full join facility F on (B.facility_id = F.id)
+    inner join room_maintenance_request RMR on (R.id = RMR.room_id)
+    full join maintenance_request MR on (MR.id = RMR.maintenance_request_id)
+    full join maintenance_type MT on (MR.maintenance_type_id = MT.id)
+    inner join room_maintenance_schedule RMS on (RMS.room_maintenance_request_id = RMR.id)
+    full join maintenance_hourly_rate MHR on (F.id = MHR.facility_id and MT.id = MHR.maintenance_type_id)
+where 
+    F.id = 2 and
+    to_timestamp('2018-01-01 05:00:00', 'YYYY-MM-DD hh24:mi:ss') between RMS.start and RMS.finish or
+    to_timestamp('2018-01-01 05:00:01', 'YYYY-MM-DD hh24:mi:ss') between RMS.start and RMS.finish or
+    (to_timestamp('2018-01-01 05:00:00', 'YYYY-MM-DD hh24:mi:ss')  &lt; RMS.start and 
+     to_timestamp('2018-01-01 05:00:01', 'YYYY-MM-DD hh24:mi:ss') &gt; RMS.finish)
+group by
+    F.id, 
+    MT.id,
+    MHR.hourly_rate;  
+    
+ select * from maintenance_hourly_rate;
+    
 
 select * from maintenance_request;
 
 select 
-    fmr.id as facility_maintenance_request_id,
-    mr.id as maintenance_request_id,
-    mr.maintenance_type_id,
-    mr.description as description,
-    mr.is_vacate_required as is_vacate_required,
-    mr.is_routine as is_routine 
-from 
-    facility_maintenance_request fmr
-    join maintenance_request mr on (fmr.maintenance_request_id = mr.id)
-where
-    fmr.id = 1;
-
-select * from room_maintenance_request;
-
-select * from room_maintenance_schedule;
-
-select * from facility_maintenance_schedule;
-
-select
+    R.id as room_id,
     *
-from 
-    facility_maintenance_schedule as fms
-    where 
-    ('2019-01-30 07:30:00' between fms.start and fms.finish) or
-    ('2019-01-30 07:50:00' between fms.start and fms.finish) or
-    (
-        ('2019-01-30 07:30:00' &lt; fms.start) and 
-        ('2019-01-30 07:50:00' &gt; fms.finish)
-    );
+from  
+    room R 
+    inner join building B on (R.building_id = B.id)
+    inner join facility F on (B.facility_id = F.id);
 
-select
-    *
-from 
-    facility_maintenance_schedule as fms
-    where 
-    ('2019-01-30 08:01:00' between fms.start and fms.finish) or
-    ('2019-01-30 08:29:00' between fms.start and fms.finish) or
-    (
-        ('2019-01-30 08:01:00' &lt; fms.start) and 
-        ('2019-01-30 08:29:00' &gt; fms.finish)
-    );</console>
-      <console name="facility queries" type="STANDARD" schema="public" session="Main">select * from facility;
+        
+select * from room_maintenance_request RMR join maintenance_request MR on (MR.id = RMR.maintenance_request_id);
 
-select * from room;</console>
+select 
+    * 
+from 
+    room_maintenance_schedule RMS
+    inner join room_maintenance_request RMR on (RMS.room_maintenance_request_id = RMR.id)
+    inner join room R on (RMR.room_id = R.id)
+    inner join building B on (R.building_id = B.id)
+    inner join maintenance_request MR on (RMR.maintenance_request_id = MR.id)
+    inner join facility F on (B.facility_id = F.id)
+where 
+    F.id = 1;
+    
+    
+    
+    
+delete from 
+    maintenance_hourly_rate
+where id = 2;
+
+rollback;
+
+select * from facility;</console>
+      <console name="facility queries" type="STANDARD" schema="public" session="Main">SELECT id, room_id, start, finish, maintenance_request_id FROM room_reservation</console>
     </connection>
   </component>
   <component name="DBNavigator.Project.DatabaseFileManager">
@@ -107,12 +296,14 @@ select * from room;</console>
     <connection id="0b42631a-774e-4d7c-8cf1-f6f4a3a76644" />
   </component>
   <component name="DBNavigator.Project.DatasetFilterManager">
+    <filter-actions connection-id="0b42631a-774e-4d7c-8cf1-f6f4a3a76644" dataset="public.room_maintenance_request" active-filter-id="" />
     <filter-actions connection-id="0b42631a-774e-4d7c-8cf1-f6f4a3a76644" dataset="public.facility" active-filter-id="" />
   </component>
   <component name="DBNavigator.Project.EditorStateManager">
     <last-used-providers />
   </component>
   <component name="DBNavigator.Project.FileConnectionMappingManager">
+    <mapping file-url="file://$PROJECT_DIR$/docs/schema/facility.seed_data.sql" connection-id="0b42631a-774e-4d7c-8cf1-f6f4a3a76644" session-id="MAIN" current-schema="public" />
     <mapping file-url="file://$PROJECT_DIR$/docs/schema/facility.schema.sql" connection-id="0b42631a-774e-4d7c-8cf1-f6f4a3a76644" session-id="MAIN" current-schema="public" />
   </component>
   <component name="DBNavigator.Project.MethodExecutionManager">
@@ -131,9 +322,7 @@ select * from room;</console>
     <filters />
   </component>
   <component name="DBNavigator.Project.ScriptExecutionManager" clear-outputs="true">
-    <recently-used-interfaces>
-      <mapping database-type="POSTGRES" interface-id="DEFAULT" />
-    </recently-used-interfaces>
+    <recently-used-interfaces />
   </component>
   <component name="DBNavigator.Project.Settings">
     <connections>
@@ -150,11 +339,11 @@ select * from room;</console>
           <url-type value="DATABASE" />
           <host value="localhost" />
           <port value="5432" />
-          <database value="facility" />
+          <database value="postgres" />
           <os-authentication value="false" />
-          <empty-password value="false" />
+          <empty-authentication value="false" />
           <user value="postgres" />
-          <password value="cG9zdGdyZXM=" />
+          <deprecated-pwd value="cG9zdGdyZXM=" />
         </database>
         <properties>
           <auto-commit value="false" />
@@ -164,7 +353,7 @@ select * from room;</console>
           <proxy-host value="" />
           <proxy-port value="22" />
           <proxy-user value="" />
-          <proxy-password value="" />
+          <deprecated-proxy-pwd value="" />
           <auth-type value="PASSWORD" />
           <key-file value="" />
           <key-passphrase value="" />
@@ -186,7 +375,7 @@ select * from room;</console>
           <environment-type value="default" />
           <idle-time-to-disconnect value="30" />
           <idle-time-to-disconnect-pool value="5" />
-          <password-expiry-time value="10" />
+          <credential-expiry-time value="10" />
           <max-connection-pool-size value="7" />
           <alternative-statement-delimiter value="" />
         </details>

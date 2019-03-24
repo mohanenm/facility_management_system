@@ -4,6 +4,17 @@
 # Ignore Gradle build output directory
 build
 
+out/**
+.idea/**
+
 /bin/
 
 .idea/dbnavigator.xml
+.idea/workspace.xml
+.idea/dataSources/**
+.idea/dataSources.local.xml
+src/.DS_Store
+.DS_Store
+.idea/dataSources.local.xml
+.idea/dataSources.local.xml
+.idea/workspace.xml

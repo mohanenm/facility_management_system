@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+
+    <context:component-scan base-package="com.fms" />
+
+    <bean id="secretOfUniverseRoom" class="com.fms.domainLayer.facility.Room" scope="prototype">
+        <constructor-arg index="0" value="42"/>   <!-- Extra constructor arg for 'id' param-->
+        <constructor-arg index="1" value="0"/>
+        <constructor-arg index="2" value="0"/>
+        <constructor-arg index="3" value="0"/>
+    </bean>
+
+    <bean id="building" class="com.fms.domainLayer.facility.Building" scope="prototype">
+        <constructor-arg type="int" value="0"/> <!-- Extra constructor for 'id' param-->
+        <constructor-arg type="java.lang.String" value="NULL"/>
+        <constructor-arg type="java.lang.String" value="NULL"/>
+        <constructor-arg type="java.lang.String" value="NULL"/>
+        <constructor-arg type="java.lang.String" value="NULL"/>
+        <constructor-arg type="int" value="0"/>
+        <!--Dependency injection of room into building-->
+        <property name="rooms">
+            <list>
+                <ref bean="secretOfUniverseRoom" />
+            </list>
+        </property>
+    </bean>
+
+    <bean id="facilityDetail" class="com.fms.domainLayer.facility.FacilityDetail" scope="prototype">
+        <property name="buildings">
+            <list>
+                <ref bean="building"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="facility" class="com.fms.domainLayer.facility.Facility" scope="prototype">
+        <constructor-arg index="0" value="0"/>
+        <constructor-arg type="java.lang.String" value="NULL"/>
+        <constructor-arg type="java.lang.String" value="NULL"/>
+        <property name="facilityDetail">
+                <ref bean="facilityDetail"/>
+        </property>
+    </bean>
+
+</beans>

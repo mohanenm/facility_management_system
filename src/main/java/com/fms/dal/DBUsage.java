@@ -1,232 +1,191 @@
 package com.fms.dal;
 
-import com.fms.model.*;
-
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import com.fms.domainLayer.usage.RoomSchedulingConflict;
+import com.fms.domainLayer.common.RoomSchedulingConflictException;
+import com.fms.domainLayer.inspection.FacilityInspection;
+import com.fms.domainLayer.usage.RoomReservation;
+import com.google.common.collect.Range;
+import java.sql.*;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
+import org.apache.logging.log4j.Level;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public class DBUsage {
 
-    private PreparedStatement preparedStatement;
-    private ResultSet resultSet;
-    private ResultSet facilityResultSet;
+  private PreparedStatement insertRoomReservation;
 
+  private PreparedStatement queryRoomRequest;
 
-    // private PreparedStatement insertFacilityMaintenanceRequest;
+  private PreparedStatement checkRoomAvailability;
 
-    public ArrayList<Facility> readAllFacilities() {
-        ArrayList<Facility> result = new ArrayList<>();
-        try {
+  private PreparedStatement insertFacilityInspection;
 
-            Statement st = DBConnection.getConnection().createStatement();
-            String query = "SELECT id, name, description  FROM facility";
-            facilityResultSet = st.executeQuery(query);
+  private PreparedStatement listInspections;
 
+  Logger logger = LogManager.getLogger();
 
-            while (facilityResultSet.next()) {
-                result.add(new Facility(facilityResultSet.getInt("id"),
-                        facilityResultSet.getString("name"),
-                        facilityResultSet.getString("description"))
-                );
+  public DBUsage() throws SQLException {
 
-            }
+    insertRoomReservation =
+        DBConnection.getConnection()
+            .prepareStatement(
+                "insert into room_reservation\n"
+                    + "(room_id, start, finish, maintenance_request_id) \n"
+                    + "values (?, ?, ?, ?) RETURNING id");
 
-            //close to manage resources
-            facilityResultSet.close();
-        } catch (SQLException e) {
-            System.out.println("caught exception: " + e.toString());
-        }
-        return result;
+    // Not necessarily a need to query a room request, if the request is successful it
+    // becomes a reservation which can be queried with checkRoomAvailability, if not
+    // it is thrown out
+    queryRoomRequest =
+        DBConnection.getConnection()
+            .prepareStatement(
+                ""
+                    + "select \n"
+                    + "    rr.id as room_reservation,\n"
+                    + "    (rr.room_id as room_id),\n"
+                    + "from \n"
+                    + "    (room_reservation) rr\n"
+                    + "where\n"
+                    + "    (rr.id = ?)");
+
+    checkRoomAvailability =
+        DBConnection.getConnection()
+            .prepareStatement(
+                ""
+                    + "select\n"
+                    + "    start, finish \n"
+                    + "from \n"
+                    + "    room_reservation as rr\n"
+                    + "    where room_id = ? and \n"
+                    + "    (? between rr.start and rr.finish) or\n"
+                    + "    (? between rr.start and rr.finish) or\n"
+                    + "    (\n"
+                    + "        (? < rr.start) and \n"
+                    + "        (? > rr.finish)\n"
+                    + "    )");
+
+    listInspections =
+        DBConnection.getConnection()
+            .prepareStatement(
+                "select\n"
+                    + "*\n"
+                    + "from \n"
+                    + "facility_inspection as fi\n"
+                    + "where (? < fi.completed) and \n"
+                    + "(? > fi.completed)");
+  }
+
+  private RoomReservation insertRoomReservation(RoomReservation roomRequest) throws SQLException {
+
+    try {
+
+      insertRoomReservation.setInt(1, roomRequest.getRoomId());
+
+      Timestamp start = Timestamp.valueOf(roomRequest.getStart());
+      Timestamp finish = Timestamp.valueOf(roomRequest.getFinish());
+
+      insertRoomReservation.setTimestamp(2, start);
+      insertRoomReservation.setTimestamp(3, finish);
+      Integer maintenanceRequestId = roomRequest.getMaintenanceRequestId();
+      if (maintenanceRequestId == null) {
+        insertRoomReservation.setNull(4, Types.INTEGER);
+      } else {
+        insertRoomReservation.setInt(4, maintenanceRequestId.intValue());
+      }
+
+      ResultSet resultSet = insertRoomReservation.executeQuery();
+      resultSet.next();
+      int resId = resultSet.getInt((1));
+
+      // TODO: That "constructor" is bogus?
+      return RoomReservation.withId(resId, roomRequest);
+
+    } catch (SQLException e) {
+      System.out.println("caught exception: " + e.toString());
+      throw e;
+    }
+  }
+
+  /**
+   * @param roomId - Id of room being reserved
+   * @param reservationPeriod Start/finish range for reservation
+   * @param maintenanceRequestId - If supplied implies reservation is for maintenance
+   * @return true if succeeded
+   * @throws SQLException
+   */
+  public RoomReservation scheduleRoomReservation(
+      int roomId, Range<LocalDateTime> reservationPeriod, Integer maintenanceRequestId)
+      throws SQLException, RoomSchedulingConflictException {
+
+    /// Look up RoomMaintenanceRequest
+
+    Timestamp start = Timestamp.valueOf(reservationPeriod.lowerEndpoint());
+    Timestamp finish = Timestamp.valueOf(reservationPeriod.upperEndpoint());
+
+    checkRoomAvailability.setInt(1, roomId);
+    checkRoomAvailability.setTimestamp(2, start);
+    checkRoomAvailability.setTimestamp(3, finish);
+    checkRoomAvailability.setTimestamp(4, start);
+    checkRoomAvailability.setTimestamp(5, finish);
+    ResultSet resultSet = checkRoomAvailability.executeQuery();
+
+    // If our query returns any records, its a conflict.
+    // If next is false, no records, no conflict.
+    boolean hasConflict = resultSet.next() != false;
+
+    if (hasConflict) {
+      LocalDateTime existingStart = resultSet.getTimestamp(1).toLocalDateTime();
+      LocalDateTime existingFinish = resultSet.getTimestamp(2).toLocalDateTime();
+
+      RoomSchedulingConflict conflict =
+          new RoomSchedulingConflict(reservationPeriod, Range.open(existingStart, existingFinish));
+
+      logger.log(Level.ERROR, "Scheduling conflict encountered: " + conflict);
+      throw new RoomSchedulingConflictException(roomId, conflict);
     }
 
+    return insertRoomReservation(
+        new RoomReservation(
+            roomId,
+            reservationPeriod.lowerEndpoint(),
+            reservationPeriod.upperEndpoint(),
+            maintenanceRequestId));
+  }
 
-    public Facility createFacility(String name, String description) throws SQLException {
-        preparedStatement = null;
-        try {
-            preparedStatement = DBConnection
-                    .getConnection()
-                    .prepareStatement("INSERT into facility (name, description) values (?,?) RETURNING id");
+  // ToDO: add test for this method.
+  public boolean queryUseDuringInterval(int roomId, Range<LocalDateTime> queryPeriod)
+      throws SQLException {
+    Timestamp start = Timestamp.valueOf(queryPeriod.lowerEndpoint());
+    Timestamp finish = Timestamp.valueOf(queryPeriod.upperEndpoint());
 
+    checkRoomAvailability.setInt(1, roomId);
+    checkRoomAvailability.setTimestamp(2, start);
+    checkRoomAvailability.setTimestamp(3, finish);
+    checkRoomAvailability.setTimestamp(4, start);
+    checkRoomAvailability.setTimestamp(5, finish);
 
-            preparedStatement.setString(1, name);
-            preparedStatement.setString(2, description);
-            resultSet = preparedStatement.executeQuery();
-            resultSet.next();
+    ResultSet resultSet = checkRoomAvailability.executeQuery();
 
-            return new Facility(resultSet.getInt(1), name, description);
-        } catch (SQLException e) {
-            System.out.println("caught exception: " + e.toString());
-            throw e;
-        }
-    }
+    // If our query returns any records, it is in use during the interval.
+    // If isInUse is false, no records, not in use.
+    boolean isInUse = resultSet.next() != false;
 
-    public boolean deleteFacility(int facilityId) {
+    return isInUse;
+  }
 
-        try {
-            preparedStatement = DBConnection
-                    .getConnection()
-                    .prepareStatement("delete from facility where id = ?");
-            preparedStatement.setInt(1, facilityId);
-            preparedStatement.executeUpdate();
-            return true;
-        } catch (SQLException e) {
-            return false;
-        }
-    }
+  public ArrayList<FacilityInspection> readAllInspections(
+      int facilityId, Range<LocalDateTime> inspectionsPeriod) throws SQLException {
+    ArrayList<FacilityInspection> inspectionsList = new ArrayList<>();
+    Timestamp start = Timestamp.valueOf(inspectionsPeriod.lowerEndpoint());
+    Timestamp finish = Timestamp.valueOf(inspectionsPeriod.upperEndpoint());
 
+    listInspections.setTimestamp(1, start);
+    listInspections.setTimestamp(2, finish);
+    ResultSet resultSet = listInspections.executeQuery();
 
-    public void addFacilityDetail(int facilityId, FacilityDetail facilityDetail) throws SQLException {
-        preparedStatement = DBConnection
-                .getConnection()
-                .prepareStatement("select id from facility where id = ?");
-        preparedStatement.setInt(1, facilityId);
-        resultSet = preparedStatement.executeQuery();
-        resultSet.next();
-
-        for(Building building: facilityDetail.getBuildings()) {
-            createBuilding(facilityId, building);
-        }
-    }
-
-    private Building createBuilding(int facilityId, Building building) throws SQLException {
-        preparedStatement = null;
-        try {
-            preparedStatement = DBConnection
-                    .getConnection()
-                    .prepareStatement("INSERT into building (facility_id, name, street_address, city, state, zip) values (?,?,?,?,?,?) RETURNING id");
-
-
-            preparedStatement.setInt(1, facilityId);
-            preparedStatement.setString(2, building.getName());
-            preparedStatement.setString(3, building.getStreetAddress());
-            preparedStatement.setString(4, building.getCity());
-            preparedStatement.setString(5, building.getState());
-            preparedStatement.setInt(6, building.getZip());
-            resultSet = preparedStatement.executeQuery();
-            resultSet.next();
-
-            int buildingId = resultSet.getInt(1);
-
-            for(Room room: building.getRooms()) {
-                createRoom(room);
-            }
-
-            // TODO: DB cleanup
-
-            return Building.buildingWithId(buildingId, building);
-        } catch (SQLException e) {
-            System.out.println("caught exception: " + e.toString());
-            throw e;
-        }
-    }
-
-
-    /**
-     * Inserts into database a new room as a record with a buildingId foreign key
-     * and a room number
-     * @param room without id
-     * @return room with id
-     * @throws SQLException
-     */
-    private Room createRoom(Room room) throws SQLException {
-        preparedStatement = null;
-        try {
-            preparedStatement = DBConnection
-                    .getConnection()
-                    .prepareStatement("INSERT into room (building_id, room_number, capacity) values (?,?,?) RETURNING id");
-
-
-            preparedStatement.setInt(1, room.getBuildingId());
-            preparedStatement.setInt(2, room.getRoomNumber());
-            preparedStatement.setInt(3, room.getCapacity());
-            resultSet = preparedStatement.executeQuery();
-            resultSet.next();
-
-            int roomId = resultSet.getInt(1);
-
-            // TODO: DB cleanup
-            return Room.roomWithId(roomId, room);
-        } catch (SQLException e) {
-            System.out.println("caught exception: " + e.toString());
-            throw e;
-        }
-    }
-
-    public GetFacilityDetailResult getFacilityInformation(int facilityId) throws SQLException {
-        preparedStatement = DBConnection
-                .getConnection()
-                .prepareStatement("" +
-                        "select \n" +
-                        "    f.id as facility_id,\n" +
-                        "    f.name as facility_name, \n" +
-                        "    f.description as description,\n" +
-                        "    b.id as building_id,\n" +
-                        "    b.name as building_name,\n" +
-                        "    b.street_address as street_address,\n" +
-                        "    b.city as city,\n" +
-                        "    b.state as state,\n" +
-                        "    b.zip as zip,\n" +
-                        "    r.id as room_id,\n" +
-                        "    r.room_number as room_number,\n" +
-                        "    r.capacity as capacity\n" +
-                        "from\n" +
-                        "    facility as f \n" +
-                        "    left join building as b on (b.facility_id = f.id)\n" +
-                        "    left join room as r on (r.building_id = b.id)" +
-                        "where f.id = ?");
-        preparedStatement.setInt(1, facilityId);
-        resultSet = preparedStatement.executeQuery();
-
-        ArrayList<Building> buildings = new ArrayList<>();
-        Building building = null;
-        Room room = null;
-        String facilityName = null;
-        String facilityDescription = null;
-
-        while(resultSet.next()) {
-
-            if(facilityName == null) {
-                facilityName = resultSet.getString("facility_name");
-                facilityDescription = resultSet.getString("description");
-            }
-
-            Integer buildingId = resultSet.getInt("building_id");
-            boolean hasBuilding = !resultSet.wasNull();
-            Integer roomId = resultSet.getInt("room_id");
-            boolean hasRoom = !resultSet.wasNull();
-
-            if(building == null || building.getId() != buildingId) {
-                if (hasBuilding) {
-                    building = new Building(buildingId,
-                            resultSet.getString("building_name"),
-                            resultSet.getString("street_address"),
-                            resultSet.getString("city"),
-                            resultSet.getString("state"),
-                            resultSet.getInt("zip"),
-                            new ArrayList<>());
-
-                    buildings.add(building);
-                }
-            }
-
-            if (room == null || room.getId() != roomId) {
-                if(hasRoom) {
-                    room = new Room(roomId,
-                            resultSet.getInt("building_id"),
-                            resultSet.getInt("room_number"),
-                            resultSet.getInt("capacity"));
-                    building.getRooms().add(room);
-                }
-            }
-        }
-
-        FacilityDetail facilityDetail = new FacilityDetail(buildings);
-        Facility facility = new Facility(facilityId, facilityName, facilityDescription,
-                facilityDetail);
-
-        return new GetFacilityDetailResult(null, facility);
-    }
+    System.out.println("Inspections List -> " + resultSet);
+    return inspectionsList;
+  }
 }
