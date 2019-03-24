@@ -7,6 +7,14 @@
 
     <context:component-scan base-package="com.fms" />
 
+    <bean id="room" class="com.fms.domainLayer.facility.Room" scope="prototype">
+        <constructor-arg index="0" value="0"/>   <!-- Extra constructor arg for 'id' param-->
+        <constructor-arg index="1" value="0"/>
+        <constructor-arg index="2" value="0"/>
+        <constructor-arg index="3" value="0"/>
+    </bean>
+
+<!--A specific bean for a room with a unique id, the answer to all of life's questions-->
     <bean id="secretOfUniverseRoom" class="com.fms.domainLayer.facility.Room" scope="prototype">
         <constructor-arg index="0" value="42"/>   <!-- Extra constructor arg for 'id' param-->
         <constructor-arg index="1" value="0"/>
@@ -15,7 +23,7 @@
     </bean>
 
     <bean id="building" class="com.fms.domainLayer.facility.Building" scope="prototype">
-        <constructor-arg type="int" value="0"/> <!-- Extra constructor for 'id' param-->
+        <constructor-arg type="int" value="1"/> <!-- Extra constructor for 'id' param-->
         <constructor-arg type="java.lang.String" value="NULL"/>
         <constructor-arg type="java.lang.String" value="NULL"/>
         <constructor-arg type="java.lang.String" value="NULL"/>
