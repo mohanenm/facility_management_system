@@ -1,16 +1,17 @@
 package com.fms.dal;
 
-import com.fms.domainLayer.usage.RoomSchedulingConflict;
 import com.fms.domainLayer.common.RoomSchedulingConflictException;
 import com.fms.domainLayer.inspection.FacilityInspection;
 import com.fms.domainLayer.usage.RoomReservation;
+import com.fms.domainLayer.usage.RoomSchedulingConflict;
 import com.google.common.collect.Range;
-import java.sql.*;
-import java.time.LocalDateTime;
-import java.util.ArrayList;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+
+import java.sql.*;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
 
 public class DBUsage {
 

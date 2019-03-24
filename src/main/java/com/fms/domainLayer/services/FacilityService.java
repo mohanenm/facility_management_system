@@ -40,8 +40,8 @@ public class FacilityService {
       // already in DB and our constraint was triggered. But maybe its a different error.
       // We could possibly interrogate the errorcode to see what the real db problem is
       // and not *ASS*ume its the constraint
-      throw new FMSException(FacilityErrorCode.NAMED_FACILITY_ALREADY_EXISTS,
-              "Facility Names Must Be Unique");
+      throw new FMSException(
+          FacilityErrorCode.NAMED_FACILITY_ALREADY_EXISTS, "Facility Names Must Be Unique");
     }
   }
 
@@ -49,8 +49,9 @@ public class FacilityService {
     try {
       dbFacility.deleteFacility(facilityId);
     } catch (SQLException e) {
-      throw new FMSException(FacilityErrorCode.UNABLE_TO_DELETE_REQUEST,
-              "Unable to delete facility: " + facilityId + "Exception: " + e);
+      throw new FMSException(
+          FacilityErrorCode.UNABLE_TO_DELETE_REQUEST,
+          "Unable to delete facility: " + facilityId + "Exception: " + e);
     }
   }
 
@@ -58,18 +59,19 @@ public class FacilityService {
   ///  - Buildings with same name
   ///  - If facility_id is a bad id not mapping to existing facility
   ///  - Any issues with insert into building, room,
-  public IFacility addFacilityDetail(int facilityId, List<IBuilding> buildings) throws FMSException {
+  public IFacility addFacilityDetail(int facilityId, List<IBuilding> buildings)
+      throws FMSException {
     if (validBuildingNames(buildings)) {
       try {
         return dbFacility.addFacilityDetail(facilityId, buildings);
       } catch (SQLException e) {
-        throw new FMSException(FacilityErrorCode.INSERT_FACILITY_DETAIL_FAILED,
-                "Unable to add facility detail for facility: " + facilityId +
-                "\nException: " + e);
+        throw new FMSException(
+            FacilityErrorCode.INSERT_FACILITY_DETAIL_FAILED,
+            "Unable to add facility detail for facility: " + facilityId + "\nException: " + e);
       }
     } else {
-      FMSException fmsException = new  FMSException(FacilityErrorCode.BUILDING_ALREADY_EXISTS,
-              "Building already exists");
+      FMSException fmsException =
+          new FMSException(FacilityErrorCode.BUILDING_ALREADY_EXISTS, "Building already exists");
       logger.log(Level.ERROR, fmsException.toString());
 
       throw fmsException;
@@ -109,9 +111,9 @@ public class FacilityService {
     try {
       return dbFacility.getFacilityInformation(facilityId);
     } catch (SQLException e) {
-      throw new FMSException(FacilityErrorCode.NO_FACILITY_INFORMATION,
-              "Could not get facility information for: "
-      + facilityId + " exception: " + e);
+      throw new FMSException(
+          FacilityErrorCode.NO_FACILITY_INFORMATION,
+          "Could not get facility information for: " + facilityId + " exception: " + e);
     }
   }
 }

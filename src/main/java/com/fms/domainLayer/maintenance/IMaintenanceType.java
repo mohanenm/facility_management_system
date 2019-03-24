@@ -1,11 +1,11 @@
 package com.fms.domainLayer.maintenance;
 
 public interface IMaintenanceType {
-    int getId();
+  int getId();
 
-    String getDescription();
+  String getDescription();
 
-    void setDescription(String description);
+  void setDescription(String description);
 
-    void setId(int id);
+  void setId(int id);
 }

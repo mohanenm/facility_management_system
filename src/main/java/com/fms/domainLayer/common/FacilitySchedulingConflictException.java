@@ -1,7 +1,6 @@
 package com.fms.domainLayer.common;
 
 import com.fms.domainLayer.usage.RoomSchedulingConflict;
-
 import java.util.ArrayList;
 
 public class FacilitySchedulingConflictException extends Exception {
