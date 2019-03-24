@@ -15,7 +15,7 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 
-public class FacilityService {
+public class FacilityService implements IFacilityService {
 
   Logger logger = LogManager.getLogger();
 

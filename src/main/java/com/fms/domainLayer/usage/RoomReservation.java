@@ -4,7 +4,9 @@ import com.google.gson.*;
 import java.io.IOException;
 import java.time.LocalDateTime;
 
-public class RoomReservation {
+public class RoomReservation implements IRoomReservation{
+
+  public RoomReservation() {}
 
   public RoomReservation(
       int id, int roomId, LocalDateTime start, LocalDateTime finish, Integer maintenanceRequestId) {
@@ -53,6 +55,26 @@ public class RoomReservation {
     return maintenanceRequestId;
   }
 
+  public void setId(int id) {
+    this.id = id;
+  }
+
+  public void setRoomId(int roomId) {
+    this.roomId = roomId;
+  }
+
+  public void setStart(LocalDateTime start) {
+    this.start = start;
+  }
+
+  public void setFinish(LocalDateTime finish) {
+    this.finish = finish;
+  }
+
+  public void setMaintenanceRequestId(Integer maintenanceRequestId) {
+    this.maintenanceRequestId = maintenanceRequestId;
+  }
+
   public String toString() {
     GsonBuilder builder =
         new GsonBuilder().setPrettyPrinting().setDateFormat("yyyy-MM-dd hh:mm:ss.SSS");
@@ -61,44 +83,8 @@ public class RoomReservation {
   }
 
   public static RoomReservation fromJson(String roomReservation) throws IOException {
-    JsonParser parser = new JsonParser();
-    JsonElement jsonTree = parser.parse(roomReservation);
-    JsonObject jsonObject = jsonTree.getAsJsonObject();
-
-    JsonObject startAsJsonObject = jsonObject.get("start").getAsJsonObject();
-    JsonObject startDateObject = startAsJsonObject.get("date").getAsJsonObject();
-    JsonObject startTimeObject = startAsJsonObject.get("time").getAsJsonObject();
-
-    JsonObject finishAsJsonObject = jsonObject.get("finish").getAsJsonObject();
-    JsonObject finishDateObject = finishAsJsonObject.get("date").getAsJsonObject();
-    JsonObject finishTimeObject = finishAsJsonObject.get("time").getAsJsonObject();
-
-    LocalDateTime start =
-        LocalDateTime.of(
-            startDateObject.get("year").getAsInt(),
-            startDateObject.get("month").getAsInt(),
-            startDateObject.get("day").getAsInt(),
-            startTimeObject.get("hour").getAsInt(),
-            startTimeObject.get("minute").getAsInt(),
-            startTimeObject.get("second").getAsInt(),
-            startTimeObject.get("nano").getAsInt());
-
-    LocalDateTime finish =
-        LocalDateTime.of(
-            finishDateObject.get("year").getAsInt(),
-            finishDateObject.get("month").getAsInt(),
-            finishDateObject.get("day").getAsInt(),
-            finishTimeObject.get("hour").getAsInt(),
-            finishTimeObject.get("minute").getAsInt(),
-            finishTimeObject.get("second").getAsInt(),
-            finishTimeObject.get("nano").getAsInt());
-
-    return new RoomReservation(
-        jsonObject.get("id").getAsInt(),
-        jsonObject.get("roomId").getAsInt(),
-        start,
-        finish,
-        jsonObject.get("maintenanceRequestId").getAsInt());
+    Gson gson = new GsonBuilder().serializeNulls().create();
+    return gson.fromJson(roomReservation, RoomReservation.class);
   }
 
   @Override

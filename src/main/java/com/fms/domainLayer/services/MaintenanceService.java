@@ -5,7 +5,6 @@ import com.fms.domainLayer.common.FMSException;
 import com.fms.domainLayer.common.FacilityErrorCode;
 import com.fms.domainLayer.maintenance.IFacilityMaintenanceRequest;
 import com.fms.domainLayer.maintenance.IMaintenanceRequest;
-import com.fms.domainLayer.maintenance.MaintenanceRequest;
 import com.fms.domainLayer.maintenance.RoomMaintenanceRequest;
 import com.google.common.collect.Range;
 import org.apache.logging.log4j.Level;
@@ -15,7 +14,7 @@ import org.apache.logging.log4j.Logger;
 import java.sql.SQLException;
 import java.time.LocalDateTime;
 
-public class MaintenanceService {
+public class MaintenanceService implements IMaintenanceService {
 
   DBMaintenance dbMaintenance;
 
@@ -40,7 +39,7 @@ public class MaintenanceService {
     }
   }
 
-  public void removeFacilityMaintRequest(int facilityMaintenanceRequestId) throws FMSException{
+  public void removeFacilityMaintRequest(int facilityMaintenanceRequestId) throws FMSException {
     try {
       dbMaintenance.removeFacilityMaintRequest(facilityMaintenanceRequestId);
     } catch (SQLException e) {
@@ -60,7 +59,7 @@ public class MaintenanceService {
     }
   }
 
-  public void removeRoomMaintRequest(int roomMaintenanceRequestId) throws FMSException{
+  public void removeRoomMaintRequest(int roomMaintenanceRequestId) throws FMSException {
     try {
       dbMaintenance.removeRoomMaintRequest(roomMaintenanceRequestId);
     } catch (SQLException e) {

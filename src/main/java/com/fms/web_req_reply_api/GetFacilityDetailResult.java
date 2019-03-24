@@ -22,7 +22,8 @@ public class GetFacilityDetailResult {
   }
 
   public String toString() {
-    GsonBuilder builder = new GsonBuilder()
+    GsonBuilder builder =
+        new GsonBuilder()
             .registerTypeAdapter(IBuilding.class, new InterfaceAdapter<IBuilding>())
             .registerTypeAdapter(IRoom.class, new InterfaceAdapter<IRoom>())
             .setPrettyPrinting();
@@ -32,7 +33,9 @@ public class GetFacilityDetailResult {
 
   public static GetFacilityDetailResult fromJson(String getFacilityDetailResult)
       throws IOException {
-    Gson gson = new GsonBuilder().serializeNulls()
+    Gson gson =
+        new GsonBuilder()
+            .serializeNulls()
             .registerTypeAdapter(IBuilding.class, new InterfaceAdapter<IBuilding>())
             .registerTypeAdapter(IRoom.class, new InterfaceAdapter<IRoom>())
             .create();

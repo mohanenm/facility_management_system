@@ -5,7 +5,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import java.time.LocalDateTime;
 
-public class RoomSchedulingConflict {
+public class RoomSchedulingConflict implements IRoomSchedulingConflict{
   public RoomSchedulingConflict(
       Range<LocalDateTime> requestedRange, Range<LocalDateTime> scheduledRange) {
     this.requestedRange = requestedRange;
@@ -18,6 +18,14 @@ public class RoomSchedulingConflict {
 
   public Range<LocalDateTime> getScheduledRange() {
     return scheduledRange;
+  }
+
+  public void setRequestedRange(Range<LocalDateTime> requestedRange) {
+    this.requestedRange = requestedRange;
+  }
+
+  public void setScheduledRange(Range<LocalDateTime> scheduledRange) {
+    this.scheduledRange = scheduledRange;
   }
 
   public String toString() {

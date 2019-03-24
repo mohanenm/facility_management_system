@@ -1,3 +1,3 @@
 package com.fms.domainLayer.usage;
 
-public class FacilityScheduler {}
+public class FacilityScheduler implements IFacilityScheduler{}

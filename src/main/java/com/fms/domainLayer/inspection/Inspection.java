@@ -1,6 +1,6 @@
 package com.fms.domainLayer.inspection;
 
-public class Inspection {
+public class Inspection implements IInspection{
 
     private int facilityID;
     private String inspectionType;

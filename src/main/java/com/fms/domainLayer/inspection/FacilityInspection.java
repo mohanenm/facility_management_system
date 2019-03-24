@@ -4,7 +4,7 @@ import com.google.gson.*;
 import java.io.IOException;
 import java.time.LocalDateTime;
 
-public class FacilityInspection {
+public class FacilityInspection implements IFacilityInspection{
 
   public FacilityInspection(int id, int facilityId, LocalDateTime completed, boolean passed) {
     this.id = id;
@@ -29,6 +29,22 @@ public class FacilityInspection {
     return passed;
   }
 
+  public void setId(int id) {
+    this.id = id;
+  }
+
+  public void setFacilityId(int facilityId) {
+    this.facilityId = facilityId;
+  }
+
+  public void setCompleted(LocalDateTime completed) {
+    this.completed = completed;
+  }
+
+  public void setPassed(boolean passed) {
+    this.passed = passed;
+  }
+
   public String toString() {
     GsonBuilder builder =
         new GsonBuilder().setPrettyPrinting().setDateFormat("yyyy-MM-dd hh:mm:ss.SSS");
@@ -37,29 +53,8 @@ public class FacilityInspection {
   }
 
   public static FacilityInspection fromJson(String facilityInspection) throws IOException {
-    JsonParser parser = new JsonParser();
-    JsonElement jsonTree = parser.parse(facilityInspection);
-    JsonObject jsonObject = jsonTree.getAsJsonObject();
-
-    JsonObject completedAsJsonObject = jsonObject.get("completed").getAsJsonObject();
-    JsonObject dateObject = completedAsJsonObject.get("date").getAsJsonObject();
-    JsonObject timeObject = completedAsJsonObject.get("time").getAsJsonObject();
-
-    LocalDateTime completed =
-        LocalDateTime.of(
-            dateObject.get("year").getAsInt(),
-            dateObject.get("month").getAsInt(),
-            dateObject.get("day").getAsInt(),
-            timeObject.get("hour").getAsInt(),
-            timeObject.get("minute").getAsInt(),
-            timeObject.get("second").getAsInt(),
-            timeObject.get("nano").getAsInt());
-
-    return new FacilityInspection(
-        jsonObject.get("id").getAsInt(),
-        jsonObject.get("facilityId").getAsInt(),
-        completed,
-        jsonObject.get("passed").getAsBoolean());
+    Gson gson = new GsonBuilder().serializeNulls().create();
+    return gson.fromJson(facilityInspection, FacilityInspection.class);
   }
 
   @Override

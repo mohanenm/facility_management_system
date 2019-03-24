@@ -4,14 +4,15 @@ import com.fms.dal.DBMaintenance;
 import com.fms.domainLayer.common.FMSException;
 import com.fms.domainLayer.common.FacilityErrorCode;
 import com.google.common.collect.Range;
-import java.sql.SQLException;
-import java.time.LocalDateTime;
-import java.util.HashMap;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-public class MaintenanceCostCalculator {
+import java.sql.SQLException;
+import java.time.LocalDateTime;
+import java.util.HashMap;
+
+public class MaintenanceCostCalculator implements IMaintenanceCostCalculator {
   DBMaintenance dbMaintenance;
 
   Logger logger = LogManager.getLogger();

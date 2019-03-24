@@ -35,12 +35,8 @@ public class MaintenanceType implements IMaintenanceType {
   }
 
   public static MaintenanceType fromJson(String maintenanceType) throws IOException {
-    JsonParser parser = new JsonParser();
-    JsonElement jsonTree = parser.parse(maintenanceType);
-    JsonObject jsonObject = jsonTree.getAsJsonObject();
-
-    return new MaintenanceType(
-        jsonObject.get("id").getAsInt(), jsonObject.get("description").getAsString());
+    Gson gson = new GsonBuilder().serializeNulls().create();
+    return gson.fromJson(maintenanceType, MaintenanceType.class);
   }
 
   @Override
