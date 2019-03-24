@@ -16,5 +16,4 @@ public interface IRoom {
   void setRoomNumber(int roomNumber);
 
   void setCapacity(int capacity);
-  // public static Room fromJson(String room) throws IOException;
 }

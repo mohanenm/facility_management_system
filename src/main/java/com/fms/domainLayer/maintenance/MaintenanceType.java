@@ -3,7 +3,9 @@ package com.fms.domainLayer.maintenance;
 import com.google.gson.*;
 import java.io.IOException;
 
-public class MaintenanceType {
+public class MaintenanceType implements IMaintenanceType {
+
+  public MaintenanceType() {}
 
   public MaintenanceType(int id, String description) {
     this.id = id;
@@ -16,6 +18,14 @@ public class MaintenanceType {
 
   public String getDescription() {
     return description;
+  }
+
+  public void setDescription(String description) {
+    this.description = description;
+  }
+
+  public void setId(int id) {
+    this.id = id;
   }
 
   public String toString() {

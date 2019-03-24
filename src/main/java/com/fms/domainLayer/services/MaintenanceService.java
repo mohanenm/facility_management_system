@@ -1,9 +1,10 @@
 package com.fms.domainLayer.services;
 
+import com.fms.dal.DBMaintenance;
 import com.fms.domainLayer.common.FMSException;
 import com.fms.domainLayer.common.FacilityErrorCode;
-import com.fms.dal.DBMaintenance;
-import com.fms.domainLayer.maintenance.FacilityMaintenanceRequest;
+import com.fms.domainLayer.maintenance.IFacilityMaintenanceRequest;
+import com.fms.domainLayer.maintenance.IMaintenanceRequest;
 import com.fms.domainLayer.maintenance.MaintenanceRequest;
 import com.fms.domainLayer.maintenance.RoomMaintenanceRequest;
 import com.google.common.collect.Range;
@@ -28,8 +29,8 @@ public class MaintenanceService {
     }
   }
 
-  public FacilityMaintenanceRequest makeFacilityMaintRequest(
-      int facilityId, MaintenanceRequest maintenanceRequest) throws FMSException {
+  public IFacilityMaintenanceRequest makeFacilityMaintRequest(
+      int facilityId, IMaintenanceRequest maintenanceRequest) throws FMSException {
     try {
       return
           dbMaintenance.makeFacilityMaintRequest(facilityId, maintenanceRequest);

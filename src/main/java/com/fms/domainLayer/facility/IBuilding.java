@@ -30,5 +30,4 @@ public interface IBuilding {
   void setZip(int zip);
 
   void setRooms(List<IRoom> rooms);
-  // public static Building fromJson(String building) throws IOException;
 }

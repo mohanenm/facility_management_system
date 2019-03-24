@@ -3,7 +3,9 @@ package com.fms.domainLayer.maintenance;
 import com.google.gson.*;
 import java.io.IOException;
 
-public class MaintenanceRequest {
+public class MaintenanceRequest implements IMaintenanceRequest {
+
+  public MaintenanceRequest() {}
 
   public MaintenanceRequest(
       int id,
@@ -44,6 +46,26 @@ public class MaintenanceRequest {
 
   public boolean isRoutine() {
     return isRoutine;
+  }
+
+  public void setId(int id) {
+    this.id = id;
+  }
+
+  public void setMaintenanceTypeId(int maintenanceTypeId) {
+    this.maintenanceTypeId = maintenanceTypeId;
+  }
+
+  public void setDescription(String description) {
+    this.description = description;
+  }
+
+  public void setVacateRequired(boolean vacateRequired) {
+    isVacateRequired = vacateRequired;
+  }
+
+  public void setRoutine(boolean routine) {
+    isRoutine = routine;
   }
 
   public String toString() {

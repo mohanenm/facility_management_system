@@ -46,17 +46,22 @@ public class MaintenanceServiceTest {
       IFacility facility = null;
       try {
           facility = testData.prepFacilityInDb();
-          MaintenanceRequest maintenanceRequest = testData.sampleMaintenanceRequest();
+          IMaintenanceRequest maintenanceRequest = testData.sampleMaintenanceRequest();
 
-          FacilityMaintenanceRequest facilityMaintenanceRequest =
+          IFacilityMaintenanceRequest facilityMaintenanceRequest =
                   maintenanceService.makeFacilityMaintRequest(facility.getId(), maintenanceRequest);
 
           int fmrId = facilityMaintenanceRequest.getId();
 
           assert (fmrId > 0);
 
-          MaintenanceRequest fromDb = facilityMaintenanceRequest.getMaintenanceRequest();
-          MaintenanceRequest patchedId = new MaintenanceRequest(-1, fromDb);
+          IMaintenanceRequest fromDb = facilityMaintenanceRequest.getMaintenanceRequest();
+          IMaintenanceRequest patchedId = new MaintenanceRequest();
+          patchedId.setId(-1);
+          patchedId.setDescription(fromDb.getDescription());
+          patchedId.setMaintenanceTypeId(fromDb.getMaintenanceTypeId());
+          patchedId.setRoutine(fromDb.isRoutine());
+          patchedId.setVacateRequired(fromDb.isVacateRequired());
 
           assert (patchedId.equals(maintenanceRequest));
 
@@ -100,7 +105,7 @@ public class MaintenanceServiceTest {
 
   @Test
   public void scheduleFacilityMaintenance() throws FMSException {
-
+//ToDo:
 //      IFacility facility = null;
 //      try {
 //          facility = testData.prepFacilityInDb();

@@ -1,15 +1,17 @@
 package com.fms.dal;
 
 import com.fms.domainLayer.maintenance.FacilityMaintenanceRequest;
+import com.fms.domainLayer.maintenance.IMaintenanceRequest;
 import com.fms.domainLayer.maintenance.MaintenanceRequest;
 import com.fms.domainLayer.maintenance.RoomMaintenanceRequest;
 import com.google.common.collect.Range;
-import java.sql.*;
-import java.time.LocalDateTime;
-import java.util.HashMap;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+
+import java.sql.*;
+import java.time.LocalDateTime;
+import java.util.HashMap;
 
 public class DBMaintenance {
 
@@ -268,7 +270,7 @@ public class DBMaintenance {
 
   // Returns the maintenance request with the associated database id for the request
   public FacilityMaintenanceRequest makeFacilityMaintRequest(
-      int facilityId, MaintenanceRequest maintenanceRequest) throws SQLException {
+      int facilityId, IMaintenanceRequest maintenanceRequest) throws SQLException {
 
     try {
 
@@ -293,7 +295,10 @@ public class DBMaintenance {
       int facilityMaintenanceRequestId = resultSet.getInt((1));
       System.out.println("Insert of facility maint req id -> " + facilityMaintenanceRequestId);
 
-      return new FacilityMaintenanceRequest(facilityMaintenanceRequestId, maintenanceRequest);
+      FacilityMaintenanceRequest result = new FacilityMaintenanceRequest();
+      result.setId(facilityMaintenanceRequestId);
+      result.setMaintenanceRequest(maintenanceRequest);
+      return result;
 
     } catch (SQLException e) {
       System.out.println("caught exception: " + e.toString());

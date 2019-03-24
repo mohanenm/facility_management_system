@@ -1,9 +1,14 @@
 package com.fms.domainLayer.maintenance;
 
-import com.google.gson.*;
+import com.fms.domainLayer.common.InterfaceAdapter;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+
 import java.io.IOException;
 
-public class FacilityMaintenanceRequest {
+public class FacilityMaintenanceRequest implements IFacilityMaintenanceRequest{
+
+  public FacilityMaintenanceRequest() {}
 
   public FacilityMaintenanceRequest(int id, MaintenanceRequest maintenanceRequest) {
     this.id = id;
@@ -15,18 +20,30 @@ public class FacilityMaintenanceRequest {
   }
 
   public String toString() {
-    GsonBuilder builder = new GsonBuilder().setPrettyPrinting();
+    GsonBuilder builder = new GsonBuilder()
+            .registerTypeAdapter(IMaintenanceRequest.class, new InterfaceAdapter<IMaintenanceRequest>())
+            .setPrettyPrinting();
     Gson gson = builder.create();
     return gson.toJson(this);
   }
 
-  public MaintenanceRequest getMaintenanceRequest() {
+  public IMaintenanceRequest getMaintenanceRequest() {
     return maintenanceRequest;
+  }
+
+  public void setId(int id) {
+    this.id = id;
+  }
+
+  public void setMaintenanceRequest(IMaintenanceRequest maintenanceRequest) {
+    this.maintenanceRequest = maintenanceRequest;
   }
 
   public static FacilityMaintenanceRequest fromJson(String facilityMaintenanceRequest)
       throws IOException {
-    Gson gson = new GsonBuilder().serializeNulls().create();
+    Gson gson = new GsonBuilder().serializeNulls()
+            .registerTypeAdapter(IMaintenanceRequest.class, new InterfaceAdapter<IMaintenanceRequest>())
+            .create();
     return gson.fromJson(facilityMaintenanceRequest, FacilityMaintenanceRequest.class);
   }
 
@@ -40,5 +57,5 @@ public class FacilityMaintenanceRequest {
   }
 
   private int id;
-  private MaintenanceRequest maintenanceRequest;
+  private IMaintenanceRequest maintenanceRequest;
 }

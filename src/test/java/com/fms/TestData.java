@@ -65,7 +65,10 @@ public class TestData {
   }
 
   public static FacilityMaintenanceRequest sampleFacilityMaintenanceRequest() {
-    return new FacilityMaintenanceRequest(-1, sampleMaintenanceRequest());
+    FacilityMaintenanceRequest facilityMaintenanceRequest = new FacilityMaintenanceRequest();
+    facilityMaintenanceRequest.setMaintenanceRequest(sampleMaintenanceRequest());
+    facilityMaintenanceRequest.setId(-1);
+    return facilityMaintenanceRequest;
   }
 
   public static FacilityInspection sampleFacilityInspection() {
@@ -73,7 +76,10 @@ public class TestData {
   }
 
   public static MaintenanceType sampleMaintenanceType() {
-    return new MaintenanceType(-1, "Sample maintenance type");
+    MaintenanceType maintenanceType = new MaintenanceType();
+    maintenanceType.setId(-1);
+    maintenanceType.setDescription("Sample maintenance type. ");
+    return maintenanceType;
   }
 
   public static MaintenanceHourlyRate sampleMaintenanceHourlyRate() {
@@ -81,7 +87,13 @@ public class TestData {
   }
 
   public static MaintenanceRequest sampleMaintenanceRequest() {
-    return new MaintenanceRequest(-1, 1, "The sink is broken, plz fix.", false, false);
+    MaintenanceRequest maintenanceRequest = new MaintenanceRequest();
+    maintenanceRequest.setId(-1);
+    maintenanceRequest.setDescription("The sink is broken, plz fix.");
+    maintenanceRequest.setMaintenanceTypeId(1);
+    maintenanceRequest.setVacateRequired(false);
+    maintenanceRequest.setRoutine(false);
+    return maintenanceRequest;
   }
 
   public static Range<LocalDateTime> sampleRange() {
@@ -149,8 +161,9 @@ public class TestData {
         room.getId(), TestData.sampleMaintenanceRequest());
   }
 
-  public FacilityMaintenanceRequest prepFacilityMaintenanceRequest(Facility facility)
+  public IFacilityMaintenanceRequest prepFacilityMaintenanceRequest(IFacility facility)
       throws FMSException {
+
     return maintenanceService.makeFacilityMaintRequest(
         facility.getId(), TestData.sampleMaintenanceRequest());
   }
