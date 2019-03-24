@@ -79,14 +79,16 @@ public class MaintenanceService implements IMaintenanceService {
     }
   }
 
-  public boolean scheduleFacilityMaintenance
+  public int scheduleFacilityMaintenance
           (int facilityRequestId, boolean vacancyRequired, boolean isRoutine,
            Range<LocalDateTime> maintenancePeriod) throws FMSException {
     try {
       return dbMaintenance.scheduleFacilityMaintenance(facilityRequestId, vacancyRequired, isRoutine, maintenancePeriod);
     } catch (SQLException e) {
       //ToDo:
-      return false;
+      logger.log(Level.ERROR, "Schedule facility maintenance failed, excp: " + e);
+      throw new FMSException(FacilityErrorCode.SCHEDULE_FACILITY_MAINTENANCE_FAILED,
+              "Failed to schedule maintenance on room, excp ->: " + e.toString());
     }
   }
 

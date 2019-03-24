@@ -120,7 +120,7 @@ public class JsonMarshallingTest {
 
   @Test
   public void RoomMaintenanceRequestMarshalling() throws IOException {
-    RoomMaintenanceRequest roomMaintenanceRequest = TestData.sampleRoomMaintenanceRequest();
+    IRoomMaintenanceRequest roomMaintenanceRequest = TestData.sampleRoomMaintenanceRequest();
     RoomMaintenanceRequest again =
         RoomMaintenanceRequest.fromJson(roomMaintenanceRequest.toString());
     assertEquals (roomMaintenanceRequest, again);

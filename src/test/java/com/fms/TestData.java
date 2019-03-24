@@ -8,9 +8,8 @@ import com.fms.domainLayer.services.FacilityService;
 import com.fms.domainLayer.services.MaintenanceService;
 import com.fms.domainLayer.services.UsageService;
 import com.fms.domainLayer.usage.RoomReservation;
-import com.fms.web_req_reply_api.FacilityMaintenanceRequestResult;
-import com.fms.web_req_reply_api.RoomMaintenanceRequestResult;
 import com.google.common.collect.Range;
+
 import java.sql.SQLException;
 import java.time.LocalDateTime;
 import java.time.Month;
@@ -121,8 +120,8 @@ public class TestData {
     return facilityMaintenanceSchedule;
   }
 
-  public static RoomMaintenanceRequest sampleRoomMaintenanceRequest() {
-    RoomMaintenanceRequest roomMaintenanceRequest = new RoomMaintenanceRequest();
+  public static IRoomMaintenanceRequest sampleRoomMaintenanceRequest() {
+    IRoomMaintenanceRequest roomMaintenanceRequest = new RoomMaintenanceRequest();
     roomMaintenanceRequest.setMaintenanceRequest(sampleMaintenanceRequest());
     roomMaintenanceRequest.setId(-1);
     return roomMaintenanceRequest;
@@ -147,17 +146,17 @@ public class TestData {
     return roomMaintenanceSchedule;
   }
 
-  public static FacilityMaintenanceRequestResult sampleFacilityMaintenanceRequestResult() {
-    return new FacilityMaintenanceRequestResult(
-        sampleFacilityMaintenanceRequest(),
-        "The Facility Maintenance Request you have submitted does not correctly reference an existing facility ");
-  }
-
-  public static RoomMaintenanceRequestResult sampleRoomMaintenanceRequestResult() {
-    return new RoomMaintenanceRequestResult(
-        sampleRoomMaintenanceRequest(),
-        "The Room Maintenance Request does not correctly reference an existing room ");
-  }
+//  public static FacilityMaintenanceRequestResult sampleFacilityMaintenanceRequestResult() {
+//    return new FacilityMaintenanceRequestResult(
+//        sampleFacilityMaintenanceRequest(),
+//        "The Facility Maintenance Request you have submitted does not correctly reference an existing facility ");
+//  }
+//
+//  public static RoomMaintenanceRequestResult sampleRoomMaintenanceRequestResult() {
+//    return new RoomMaintenanceRequestResult(
+//        sampleRoomMaintenanceRequest(),
+//        "The Room Maintenance Request does not correctly reference an existing room ");
+//  }
 
   public IFacility prepFacilityInDb() throws FMSException {
     IFacility facility = facilityService.addNewFacility("Test Facility", "Healthcare Facility");

@@ -2,13 +2,13 @@ package com.fms.domainLayer.maintenance;
 
 import com.fms.TestData;
 import com.fms.domainLayer.common.FMSException;
+import com.fms.domainLayer.common.RoomSchedulingConflictException;
 import com.fms.domainLayer.facility.IBuilding;
 import com.fms.domainLayer.facility.IFacility;
 import com.fms.domainLayer.facility.IRoom;
 import com.fms.domainLayer.services.FacilityService;
 import com.fms.domainLayer.services.MaintenanceService;
 import com.fms.domainLayer.services.UsageService;
-import com.fms.domainLayer.common.RoomSchedulingConflictException;
 import com.fms.domainLayer.usage.RoomReservation;
 import com.google.common.collect.Range;
 import org.junit.Rule;
@@ -20,6 +20,7 @@ import java.time.LocalDateTime;
 import java.util.HashMap;
 
 import static com.fms.TestData.sampleRange;
+import static junit.framework.TestCase.assertEquals;
 
 public class MaintenanceServiceTest {
 
@@ -40,6 +41,9 @@ public class MaintenanceServiceTest {
   @Rule
   public ExpectedException maintenanceException = ExpectedException.none();
 
+  @Rule
+  public ExpectedException scheduleConflictException = ExpectedException.none();
+
   @Test
   public void CRUDFacilityMaintenanceRequest() throws FMSException {
 
@@ -51,21 +55,10 @@ public class MaintenanceServiceTest {
           IFacilityMaintenanceRequest facilityMaintenanceRequest =
                   maintenanceService.makeFacilityMaintRequest(facility.getId(), maintenanceRequest);
 
-          int fmrId = facilityMaintenanceRequest.getId();
-
-          assert (fmrId > 0);
-
-          IMaintenanceRequest fromDb = facilityMaintenanceRequest.getMaintenanceRequest();
-          IMaintenanceRequest patchedId = new MaintenanceRequest();
-          patchedId.setId(-1);
-          patchedId.setDescription(fromDb.getDescription());
-          patchedId.setMaintenanceTypeId(fromDb.getMaintenanceTypeId());
-          patchedId.setRoutine(fromDb.isRoutine());
-          patchedId.setVacateRequired(fromDb.isVacateRequired());
-
-          assert (patchedId.equals(maintenanceRequest));
-
-          assert (facilityMaintenanceRequest.getMaintenanceRequest() == maintenanceRequest);
+          IMaintenanceRequest returned = facilityMaintenanceRequest.getMaintenanceRequest();
+          assertEquals(maintenanceRequest.getMaintenanceTypeId(),
+                  returned.getMaintenanceTypeId());
+          assertEquals(maintenanceRequest.getDescription(), returned.getDescription());
       } finally {
           if(facility != null) {
               facilityService.removeFacility(facility.getId());
@@ -135,6 +128,8 @@ public class MaintenanceServiceTest {
 
       IFacility facility = null;
 
+      schedulingConflictExpected.expect(FMSException.class);
+
       try {
           facility = testData.prepFacilityInDb();
           IBuilding building = facility.getBuildings().get(0);
@@ -143,14 +138,22 @@ public class MaintenanceServiceTest {
 
           // Reserve our new room for some sample time range
           RoomReservation roomReservation = usageService.scheduleRoomReservation(room.getId(), sampleRange);
-          assert (roomReservation.getId() > 0);
+          assert roomReservation.getId() > 0;
+
+
+          IFacilityMaintenanceRequest facilityMaintenanceRequest = TestData.sampleFacilityMaintenanceRequest();
+
+          facilityMaintenanceRequest = maintenanceService
+                  .makeFacilityMaintRequest(facility.getId(),
+                          facilityMaintenanceRequest.getMaintenanceRequest());
+
+          assert(facilityMaintenanceRequest.getId() > 0);
+
 
           // Now with our room scheduled, create the conflict by scheduling maintenance
           // for the same time
-          assert (false == maintenanceService.scheduleFacilityMaintenance(facility.getId(),
-                  true, true, sampleRange));
-
-          // System.out.println("Facility maintenance schedule ID: " + fmsId);
+          maintenanceService.scheduleFacilityMaintenance(facilityMaintenanceRequest.getId(),
+                  true, true, sampleRange);
       } finally {
           facilityService.removeFacility(facility.getId());
       }
@@ -194,15 +197,15 @@ public class MaintenanceServiceTest {
           RoomReservation roomReservation = usageService.scheduleRoomReservation(room.getId(), sampleRange);
           assert (roomReservation.getId() > 0);
 
-          RoomMaintenanceSchedule roomMaintenanceSchedule = TestData.sampleRoomMaintenanceSchedule();
-          int rmsId = roomMaintenanceSchedule.getId();
+          IRoomMaintenanceRequest roomMaintenanceRequest = TestData.sampleRoomMaintenanceRequest();
 
-          int roomMaintenanceRequestId = roomMaintenanceSchedule.getRoomMaintenanceRequestId();
+          roomMaintenanceRequest = maintenanceService
+                  .makeRoomMaintRequest(room.getId(), roomMaintenanceRequest.getMaintenanceRequest());
 
-          // Now with our room scheduled, create the conflict by scheduling maintenance
-          // for the same time
-          maintenanceService.scheduleRoomMaintenance(roomMaintenanceRequestId,
-                  TestData.sampleRange());
+          assert(roomMaintenanceRequest.getId() > 0);
+
+          maintenanceService
+                  .scheduleRoomMaintenance(roomMaintenanceRequest.getId(), sampleRange);
 
       } finally {
             if(facility != null) {
@@ -214,8 +217,7 @@ public class MaintenanceServiceTest {
     @Test
     public void calcMaintenanceCost() throws SQLException, FMSException {
         IFacility facility = null;
-//ToDo: this test works, and we checked the print statement by calculating the result manually,
-// but replicate the calculations in java that we performed in SQL to really prove this
+
         try {
             facility = testData.prepFacilityInDb();
             testData.prepMaintenanceHourlyRate(facility);

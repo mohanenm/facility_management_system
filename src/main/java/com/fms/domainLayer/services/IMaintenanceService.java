@@ -23,7 +23,7 @@ public interface IMaintenanceService {
     int scheduleRoomMaintenance (
             int roomMaintenanceRequestId, Range<LocalDateTime> maintenancePeriod) throws FMSException;
 
-    boolean scheduleFacilityMaintenance
+    int scheduleFacilityMaintenance
             (int facilityRequestId, boolean vacancyRequired, boolean isRoutine,
              Range<LocalDateTime> maintenancePeriod) throws FMSException;
 

@@ -64,8 +64,7 @@
     <bean id="maintenanceRequestFac" class="com.fms.domainLayer.maintenance.MaintenanceRequest" scope="prototype">
         <constructor-arg index="0" value="-1"/>
         <constructor-arg index="1" value="6"/>
-        <constructor-arg index="2" value="Electrical sparks and smoke emanating from the basement resulting in
-            Facility-wide power outage"/>
+        <constructor-arg index="2" value="Electrical sparks and smoke emanating from the basement resulting in a facility-wide power outage"/>
         <constructor-arg index="3" value="true"/>
         <constructor-arg index="4" value="false"/>
     </bean>

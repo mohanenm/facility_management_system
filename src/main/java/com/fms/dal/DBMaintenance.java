@@ -1,9 +1,12 @@
 package com.fms.dal;
 
+import com.fms.domainLayer.common.FMSException;
+import com.fms.domainLayer.common.FacilityErrorCode;
 import com.fms.domainLayer.maintenance.FacilityMaintenanceRequest;
 import com.fms.domainLayer.maintenance.IMaintenanceRequest;
 import com.fms.domainLayer.maintenance.MaintenanceRequest;
 import com.fms.domainLayer.maintenance.RoomMaintenanceRequest;
+import com.fms.domainLayer.usage.RoomReservation;
 import com.google.common.collect.Range;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
@@ -11,7 +14,9 @@ import org.apache.logging.log4j.Logger;
 
 import java.sql.*;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 public class DBMaintenance {
 
@@ -29,7 +34,9 @@ public class DBMaintenance {
   private PreparedStatement queryMaintenanceIdFromRoomId;
   private PreparedStatement queryRoomMaintenanceRequest;
   private PreparedStatement checkRoomAvailability;
-  private PreparedStatement roomReservationConflict;
+  private PreparedStatement roomIdFromRoomMaintenanceRequestId;
+  private PreparedStatement facilityIdFromFacilityMaintenanceRequestId;
+  private PreparedStatement facilityAnyRoomReservationConflict;
   private PreparedStatement queryFacilityMaintenanceRequest;
   private PreparedStatement insertFacilityMaintenanceSchedule;
   private PreparedStatement insertRoomMaintenanceSchedule;
@@ -135,30 +142,60 @@ public class DBMaintenance {
                     + "select\n"
                     + "    *\n"
                     + "from \n"
-                    + "    facility_maintenance_schedule as fms\n"
+                    + "    room_reservation as fms\n"
                     + "    where \n"
+                    + "       room_id = ? and ("
                     + "    (? between fms.start and fms.finish) or\n"
                     + "    (? between fms.start and fms.finish) or\n"
                     + "    (\n"
                     + "        (? <= fms.start) and \n"
                     + "        (? >= fms.finish)\n"
-                    + "    )");
+                    + "    ))");
 
-    roomReservationConflict =
+    roomIdFromRoomMaintenanceRequestId =
+            DBConnection.getConnection()
+                    .prepareStatement(
+                            ""
+                                    + "select\n"
+                                    + "    room_id\n"
+                                    + "from \n"
+                                    + "    room_maintenance_request\n"
+                                    + "where\n"
+                                    + " id = ?");
+
+    facilityIdFromFacilityMaintenanceRequestId =
+            DBConnection.getConnection()
+                    .prepareStatement(
+                            ""
+                                    + "select\n"
+                                    + "    facility_id\n"
+                                    + "from \n"
+                                    + "    facility_maintenance_request\n"
+                                    + "where\n"
+                                    + " id = ?");
+
+    facilityAnyRoomReservationConflict =
         DBConnection.getConnection()
             .prepareStatement(
                 ""
-                    + "select\n"
-                    + "    *\n"
-                    + "from \n"
-                    + "    room_reservation as rr\n"
-                    + "    where \n"
-                    + "    (? between rr.start and rr.finish) or\n"
-                    + "    (? between rr.start and rr.finish) or\n"
-                    + "    (\n"
-                    + "        (? <= rr.start) and \n"
-                    + "        (? >= rr.finish)\n"
-                    + "    )");
+                    + "select\n" +
+                    "  r.id as room_id,\n" +
+                    "  rr.start as start,\n" +
+                    "  rr.finish as finish,\n" +
+                    "  rr.maintenance_request_id as maintenance_request_id\n" +
+                    "from\n" +
+                    "  room_reservation as rr\n" +
+                    "  inner join building b on (b.facility_id = ?)\n" +
+                    "  inner join room r on (r.building_id = b.id)\n" +
+                    "where\n" +
+                    "  facility_id = ? and\n" +
+                    "  (\n" +
+                    "  (? between rr.start and rr.finish) or\n" +
+                    "  (? between rr.start and rr.finish) or\n" +
+                    "  (\n" +
+                    "    (? <= rr.start) and\n" +
+                    "    (? >= rr.finish)\n" +
+                    "  ))");
 
     insertFacilityMaintenanceSchedule =
         DBConnection.getConnection()
@@ -286,18 +323,23 @@ public class DBMaintenance {
       int maintenanceRequestId = resultSet.getInt(1);
       System.out.println("Insert of maint req id -> " + maintenanceRequestId);
 
+      MaintenanceRequest resultMaintenanceRequest = new MaintenanceRequest(maintenanceRequestId,
+              maintenanceRequest.getMaintenanceTypeId(), maintenanceRequest.getDescription(),
+              maintenanceRequest.isVacateRequired(), maintenanceRequest.isRoutine());
+
+
       ///// Insert facility maintenance request
       insertFacilityMaintenanceRequest.setInt(1, maintenanceRequestId);
       insertFacilityMaintenanceRequest.setInt(2, facilityId);
       resultSet = insertFacilityMaintenanceRequest.executeQuery();
       resultSet.next();
 
-      int facilityMaintenanceRequestId = resultSet.getInt((1));
+      int facilityMaintenanceRequestId = resultSet.getInt(1);
       System.out.println("Insert of facility maint req id -> " + facilityMaintenanceRequestId);
 
       FacilityMaintenanceRequest result = new FacilityMaintenanceRequest();
       result.setId(facilityMaintenanceRequestId);
-      result.setMaintenanceRequest(maintenanceRequest);
+      result.setMaintenanceRequest(resultMaintenanceRequest);
       return result;
 
     } catch (SQLException e) {
@@ -389,26 +431,52 @@ public class DBMaintenance {
     }
   }
 
+  public List<RoomReservation> checkForRoomScheduleConflict(int roomId, Timestamp start, Timestamp finish)
+          throws SQLException {
+    checkRoomAvailability.setInt(1, roomId);
+    checkRoomAvailability.setTimestamp(2, start);
+    checkRoomAvailability.setTimestamp(3, finish);
+    checkRoomAvailability.setTimestamp(4, start);
+    checkRoomAvailability.setTimestamp(5, finish);
+    ResultSet resultSet = checkRoomAvailability.executeQuery();
+
+    List<RoomReservation> result = new ArrayList<>();
+    while(resultSet.next()) {
+      result.add(new RoomReservation(resultSet.getInt("id"),
+              resultSet.getTimestamp("start").toLocalDateTime(),
+              resultSet.getTimestamp("finish").toLocalDateTime(),
+              resultSet.getInt("room_id")));
+    }
+
+    return result;
+  }
+
   public int scheduleRoomMaintenance(
-      int roomMaintenanceRequestId, Range<LocalDateTime> maintenancePeriod) throws SQLException {
+      int roomMaintenanceRequestId, Range<LocalDateTime> maintenancePeriod) throws FMSException, SQLException {
+
+    roomIdFromRoomMaintenanceRequestId.setInt(1, roomMaintenanceRequestId);
+    ResultSet resultSet = roomIdFromRoomMaintenanceRequestId.executeQuery();
+    int roomId = -1;
+    if(resultSet.next()) {
+      roomId = resultSet.getInt(1);
+    } else {
+      throw new FMSException(FacilityErrorCode.UNABLE_TO_DELETE_REQUEST,
+              "No room for room maintenance request " + roomMaintenanceRequestId);
+    }
 
     Timestamp start = Timestamp.valueOf(maintenancePeriod.lowerEndpoint());
     Timestamp finish = Timestamp.valueOf(maintenancePeriod.upperEndpoint());
+    List<RoomReservation> conflicts = checkForRoomScheduleConflict(roomId, start, finish);
+    if(conflicts.size() > 0) {
+      System.out.println("Requested schedule found conflicts: " + conflicts.toString());
 
-    /// Look up RoomMaintenanceRequest
+      String message = "Found room conflicts on " + roomMaintenanceRequestId
+              + "\nFor maintenance period -> " +
+              maintenancePeriod.toString() +
+              "\nConflicts -> " + conflicts.toString();
 
-    checkRoomAvailability.setTimestamp(1, start);
-    checkRoomAvailability.setTimestamp(2, finish);
-    checkRoomAvailability.setTimestamp(3, start);
-    checkRoomAvailability.setTimestamp(4, finish);
-    ResultSet resultSet = checkRoomAvailability.executeQuery();
-
-    // If our query returns any records, its a conflict.
-    // If next is false, no records, no conflict.
-    boolean hasConflict = resultSet.next() != false;
-
-    System.out.println("Has conflict ->" + hasConflict);
-    /// See if requested maintenancePeriod available for room
+      throw new FMSException(FacilityErrorCode.ROOM_CONFLICTS_EXIST, message);
+    }
 
     /// If so attempt insert of maintenancePeriod
     insertRoomMaintenanceSchedule.setInt(1, roomMaintenanceRequestId);
@@ -420,62 +488,84 @@ public class DBMaintenance {
     return resultSet.getInt(1);
   }
 
-  public boolean scheduleFacilityMaintenance(
-      int facilityRequestId,
+  public int scheduleFacilityMaintenance(
+      int facilityMaintenanceRequestId,
       boolean vacateRequired,
       boolean isRoutine,
       Range<LocalDateTime> maintenancePeriod)
-      throws SQLException {
+      throws SQLException, FMSException {
 
     if (vacateRequired) {
       return scheduleFacilityMaintenanceVacateRequired(
-          facilityRequestId, isRoutine, maintenancePeriod);
+          facilityMaintenanceRequestId, isRoutine, maintenancePeriod);
     } else {
-      scheduleFacilityMaintenanceVacateNotRequired(facilityRequestId, isRoutine, maintenancePeriod);
-      // this method will always succeed, we aren't checking for conflicts
-      return true;
+      return scheduleFacilityMaintenanceVacateNotRequired(
+              facilityMaintenanceRequestId, isRoutine, maintenancePeriod);
     }
   }
 
-  private boolean scheduleFacilityMaintenanceVacateRequired(
-      int facilityRequestId, boolean isRoutine, Range<LocalDateTime> maintenancePeriod)
-      throws SQLException {
+  public List<RoomReservation> checkFacilityWideRoomScheduleConflict(int facilityId, Timestamp start, Timestamp finish)
+          throws SQLException {
+    facilityAnyRoomReservationConflict.setInt(1, facilityId);
+    facilityAnyRoomReservationConflict.setInt(2, facilityId);
+    facilityAnyRoomReservationConflict.setTimestamp(3, start);
+    facilityAnyRoomReservationConflict.setTimestamp(4, finish);
+    facilityAnyRoomReservationConflict.setTimestamp(5, start);
+    facilityAnyRoomReservationConflict.setTimestamp(6, finish);
+    ResultSet resultSet = facilityAnyRoomReservationConflict.executeQuery();
 
-    Connection conn = DBConnection.getConnection();
+    List<RoomReservation> result = new ArrayList<>();
+    while(resultSet.next()) {
+      result.add(new RoomReservation(resultSet.getInt("room_id"),
+              resultSet.getTimestamp("start").toLocalDateTime(),
+              resultSet.getTimestamp("finish").toLocalDateTime(),
+              resultSet.getInt("maintenance_request_id")));
+    }
 
-    try {
-      // Begins the complex transaction
+    return result;
+  }
 
-      // First see if conflict
+  private int scheduleFacilityMaintenanceVacateRequired (
+      int facilityMaintenanceRequestId, boolean isRoutine, Range<LocalDateTime> maintenancePeriod)
+      throws SQLException, FMSException {
+
+
+    facilityIdFromFacilityMaintenanceRequestId.setInt(1, facilityMaintenanceRequestId);
+    ResultSet resultSet =facilityIdFromFacilityMaintenanceRequestId.executeQuery();
+    int facilityId = -1;
+
+    if(resultSet.next()) {
+      facilityId = resultSet.getInt(1);
       Timestamp start = Timestamp.valueOf(maintenancePeriod.lowerEndpoint());
       Timestamp finish = Timestamp.valueOf(maintenancePeriod.upperEndpoint());
+      List<RoomReservation> conflicts = checkFacilityWideRoomScheduleConflict(facilityId, start, finish);
 
-      roomReservationConflict.setTimestamp(1, start);
-      roomReservationConflict.setTimestamp(2, finish);
-      roomReservationConflict.setTimestamp(3, start);
-      roomReservationConflict.setTimestamp(4, finish);
-
-      ResultSet resultSet = roomReservationConflict.executeQuery();
-
-      if (resultSet.next()) {
-        return false;
-      } else {
-        // TODO:
+      if(conflicts.size() > 0) {
+        String message =  "Room conflicts exist on facility " + facilityId +
+                " conflicts: " + conflicts.toString();
+        logger.log(Level.ERROR, message);
+        throw new FMSException(FacilityErrorCode.ROOM_CONFLICTS_EXIST,
+               message);
       }
 
-      conn.commit();
+      insertFacilityMaintenanceSchedule.setInt(1, facilityMaintenanceRequestId);
+      insertFacilityMaintenanceSchedule.setTimestamp(2, start);
+      insertFacilityMaintenanceSchedule.setTimestamp(3, finish);
+      resultSet = insertFacilityMaintenanceSchedule.executeQuery();
+      resultSet.next();
+      return resultSet.getInt(1);
 
-    } catch (SQLException e) {
-      // TODO Log exception
-      conn.rollback();
+    } else {
+      String message = "Unable to get facility ID from facility maintenance request ID -> " +
+              facilityMaintenanceRequestId;
+      logger.log(Level.ERROR, message);
+
+      throw new FMSException(FacilityErrorCode.COULD_NOT_GET_FACILITY_ID_FROM_FACILITY_MAINTENANCE_REQUEST_ID,
+              message);
     }
-
-    Timestamp start = Timestamp.valueOf(maintenancePeriod.lowerEndpoint());
-    Timestamp finish = Timestamp.valueOf(maintenancePeriod.upperEndpoint());
-    return true;
   }
 
-  private void scheduleFacilityMaintenanceVacateNotRequired(
+  private int scheduleFacilityMaintenanceVacateNotRequired(
       int facilityRequestId, boolean isRoutine, Range<LocalDateTime> maintenancePeriod)
       throws SQLException {
     Timestamp start = Timestamp.valueOf(maintenancePeriod.lowerEndpoint());
@@ -484,7 +574,9 @@ public class DBMaintenance {
     insertFacilityMaintenanceSchedule.setInt(1, facilityRequestId);
     insertFacilityMaintenanceSchedule.setTimestamp(2, start);
     insertFacilityMaintenanceSchedule.setTimestamp(3, finish);
-    insertFacilityMaintenanceSchedule.executeQuery();
+    ResultSet resultSet = insertFacilityMaintenanceSchedule.executeQuery();
+    resultSet.next();
+    return resultSet.getInt(1);
   }
 
   public int setMaintenanceHourlyRate(int facilityId, int maintenanceTypeId, double hourlyRate)
