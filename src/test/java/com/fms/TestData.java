@@ -129,20 +129,22 @@ public class TestData {
   }
 
   public static RoomReservation sampleRoomReservation() {
-    return new RoomReservation(
-        -1,
-        -1,
-        LocalDateTime.of(1984, Month.DECEMBER, 17, 15, 30),
-        LocalDateTime.of(2010, Month.SEPTEMBER, 17, 4, 10),
-        -1);
+    RoomReservation roomReservation = new RoomReservation();
+    roomReservation.setId(-1);
+    roomReservation.setRoomId(-1);
+    roomReservation.setMaintenanceRequestId(-1);
+    roomReservation.setStart(LocalDateTime.of(1984, Month.DECEMBER, 17, 15, 30));
+    roomReservation.setFinish(LocalDateTime.of(2010, Month.SEPTEMBER, 17, 4, 10));
+    return roomReservation;
   }
 
   public static RoomMaintenanceSchedule sampleRoomMaintenanceSchedule() {
-    return new RoomMaintenanceSchedule(
-        -1,
-        -1,
-        LocalDateTime.of(2019, Month.JANUARY, 13, 20, 8),
-        LocalDateTime.of(2019, Month.JANUARY, 13, 21, 8));
+    RoomMaintenanceSchedule roomMaintenanceSchedule = new RoomMaintenanceSchedule();
+    roomMaintenanceSchedule.setId(-1);
+    roomMaintenanceSchedule.setRoomMaintenanceRequestId(-1);
+    roomMaintenanceSchedule.setStart(LocalDateTime.of(2019, Month.JANUARY, 13, 20, 8));
+    roomMaintenanceSchedule.setFinish(LocalDateTime.of(2019, Month.JANUARY, 13, 21, 8));
+    return roomMaintenanceSchedule;
   }
 
   public static FacilityMaintenanceRequestResult sampleFacilityMaintenanceRequestResult() {

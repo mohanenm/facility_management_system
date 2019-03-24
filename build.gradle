@@ -51,7 +51,7 @@ dependencies {
 
 jar {
 //baseName = 'analytics'
-   from('../src/META_INF/') {
+   from('src/main/java/META_INF/') {
       include 'Spring_config.xml'
    }
 

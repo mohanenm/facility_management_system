@@ -1,7 +1,5 @@
 package com.fms.domainLayer.usage;
 
-import static com.fms.TestData.sampleRange;
-
 import com.fms.TestData;
 import com.fms.domainLayer.common.FMSException;
 import com.fms.domainLayer.common.RoomSchedulingConflictException;
@@ -12,11 +10,14 @@ import com.fms.domainLayer.inspection.FacilityInspection;
 import com.fms.domainLayer.services.FacilityService;
 import com.fms.domainLayer.services.UsageService;
 import com.google.common.collect.Range;
+import org.junit.Test;
+
 import java.sql.SQLException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import org.junit.Test;
+
+import static com.fms.TestData.sampleRange;
 
 public class UsageServiceTest {
 
@@ -30,15 +31,14 @@ public class UsageServiceTest {
     testData = new TestData();
   }
 
-  @Test
-  public void roomRequest() throws SQLException {
-    /* TODO
-    RoomRequestResult roomRequestResult =
-        usageService.roomRequestResult(1, TestData.sampleRoomReservation());
-
-    System.out.println("room request -> " + roomRequestResult.toString());
-    */
-  }
+//  @Test
+//  public void roomRequest() throws SQLException {
+//    RoomRequestResult roomRequestResult =
+//        usageService.roomRequestResult(1, TestData.sampleRoomReservation());
+//
+//    System.out.println("room request -> " + roomRequestResult.toString());
+//
+//  }
 
   public IFacility prepFacilityInDb() throws FMSException {
     IFacility facility = facilityService.addNewFacility("Test Facility", "Healthcare Facility");

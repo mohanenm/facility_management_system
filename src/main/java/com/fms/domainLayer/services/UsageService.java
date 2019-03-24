@@ -5,6 +5,7 @@ import com.fms.domainLayer.common.RoomSchedulingConflictException;
 import com.fms.domainLayer.inspection.FacilityInspection;
 import com.fms.domainLayer.usage.RoomReservation;
 import com.google.common.collect.Range;
+
 import java.sql.SQLException;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -44,6 +45,9 @@ public class UsageService implements IUsageService {
     }
     return false;
   }
+
+//  public RoomRequest roomRequestResult(int roomReservationId, ) {
+//  }
 
   public ArrayList<FacilityInspection> listInspections(
       int facilityId, Range<LocalDateTime> inspectionsPeriod) {

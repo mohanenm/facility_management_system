@@ -68,6 +68,10 @@ public class DBUsage {
                     + "        (? > rr.finish)\n"
                     + "    )");
 
+//    insertFacilityInspection =
+//            DBConnection.getConnection()
+//                    .prepareStatement();
+
     listInspections =
         DBConnection.getConnection()
             .prepareStatement(
