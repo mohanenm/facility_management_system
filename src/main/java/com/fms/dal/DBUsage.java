@@ -2,15 +2,17 @@ package com.fms.dal;
 
 import com.fms.domainLayer.common.RoomSchedulingConflictException;
 import com.fms.domainLayer.inspection.FacilityInspection;
+import com.fms.domainLayer.inspection.Inspection;
 import com.fms.domainLayer.usage.RoomReservation;
 import com.fms.domainLayer.usage.RoomSchedulingConflict;
 import com.google.common.collect.Range;
-import java.sql.*;
-import java.time.LocalDateTime;
-import java.util.ArrayList;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+
+import java.sql.*;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
 
 public class DBUsage {
 
@@ -75,6 +77,40 @@ public class DBUsage {
                     + "facility_inspection as fi\n"
                     + "where (? < fi.completed) and \n"
                     + "(? > fi.completed)");
+  }
+  public ArrayList<Inspection> listInspections(Inspection fac) {
+
+    ArrayList<Inspection> listOfInspec = new ArrayList<Inspection>();
+
+    try {
+
+      Statement st = DBConnection.getConnection().createStatement();
+      String listInspectionsQuery = "SELECT * FROM inspection WHERE "
+              + "facility_id = '" + fac.getFacilityID() + "'";
+
+      ResultSet useRS = st.executeQuery(listInspectionsQuery);
+      System.out.println("*************** Query " + listInspectionsQuery + "\n");
+
+      while ( useRS.next() ) {
+        Inspection inspec = new Inspection();
+        inspec.setInspectionType(useRS.getString("inspection_type"));
+        inspec.setInspectionDetail(useRS.getString("inspection_detail"));
+        inspec.setFacilityID(fac.getFacilityID());
+        listOfInspec.add(inspec);
+      }
+      useRS.close();
+      st.close();
+
+    }
+    catch (SQLException se) {
+      System.err.println("UseDAO: Threw a SQLException retreiving "
+              + "inspections from Inspections table.");
+      System.err.println(se.getMessage());
+      se.printStackTrace();
+    }
+
+    return listOfInspec;
+
   }
 
   private RoomReservation insertRoomReservation(RoomReservation roomRequest) throws SQLException {
