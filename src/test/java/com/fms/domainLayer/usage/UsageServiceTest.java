@@ -79,6 +79,17 @@ public class UsageServiceTest {
         "Inspections of facility within given range -> " + listOfInspections.toString());
   }
 
+  @Test // currently just testing listing inspections, will add insert functionality once passes
+  public void addInspectionResult() throws SQLException {
+   FacilityInspection inspection =
+            usageService.addCompletedInspection(
+                    1,
+                    LocalDateTime.of(2019, 10, 1, 1, 1, 0, 0),
+                    true);
+    System.out.println(
+            "InspectionResult -> " + inspection.toString());
+  }
+
 
   @Test
   public void inUseDuringInterval() throws SQLException, FMSException {

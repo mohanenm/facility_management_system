@@ -46,6 +46,18 @@ public class UsageService implements IUsageService {
     return false;
   }
 
+    /*
+  Corresponds to addInspectionResults
+  Given the facility_id, time_completed,
+  and passed indicating whether it passed
+  the inspection, saves the inspection results.
+      */
+
+  public FacilityInspection addCompletedInspection(
+          int facilityId, LocalDateTime completed, boolean passed) throws SQLException {
+    return dbUsage.addInspectionResult(facilityId, completed, passed);
+  }
+
 //  public RoomRequest roomRequestResult(int roomReservationId, ) {
 //  }
 
@@ -59,21 +71,6 @@ public class UsageService implements IUsageService {
     return null;
   }
 
-  /*
-  Corresponds to addInspectionResults
-  Given the facility_id, time_completed,
-  and passed indicating whether it passed
-  the inspection, saves the inspection results.
-      */
-
-  public ArrayList<FacilityInspection> addCompletedInspection(int facilityId, LocalDateTime timeCompleted, boolean passed) {
-    try {
-      return dbUsage.addInspectionResults(facilityId, timeCompleted, passed);
-    } catch (SQLException e) {
-      e.printStackTrace();
-    }
-    return null;
-  }
 }
 
 
