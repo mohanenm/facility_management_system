@@ -24,6 +24,8 @@ public class DBUsage {
 
   private PreparedStatement insertFacilityInspection;
 
+  private PreparedStatement addInspectionResults;
+
   private PreparedStatement listInspections;
 
   Logger logger = LogManager.getLogger();
@@ -93,9 +95,9 @@ public class DBUsage {
               + "facility_id = '" + fac.getFacilityID() + "'";
 
       ResultSet useRS = st.executeQuery(listInspectionsQuery);
-      System.out.println("*************** Query " + listInspectionsQuery + "\n");
+      System.out.println("**************" + listInspectionsQuery + "\n");
 
-      while ( useRS.next() ) {
+      while (useRS.next() ) {
         Inspection inspec = new Inspection();
         inspec.setInspectionType(useRS.getString("inspection_type"));
         inspec.setInspectionDetail(useRS.getString("inspection_detail"));
@@ -107,8 +109,8 @@ public class DBUsage {
 
     }
     catch (SQLException se) {
-      System.err.println("UseDAO: Threw a SQLException retreiving "
-              + "inspections from Inspections table.");
+      System.err.println(" Threw a SQLException retreiving "
+              + "inspections");
       System.err.println(se.getMessage());
       se.printStackTrace();
     }
@@ -228,4 +230,37 @@ public class DBUsage {
     System.out.println("Inspections List -> " + resultSet);
     return inspectionsList;
   }
+
+  /*
+  Corresponds to addInspectionResults
+  Given the facility_id, time_completed,
+  and passed indicating whether it passed
+  the inspection, saves the inspection results.
+      */
+
+  private FacilityInspection addInspectionResults(FacilityInspection addInspection) throws SQLException {
+
+    try {
+      insertFacilityInspection.setInt(1, addInspection.getFacilityId());
+      Timestamp completed = Timestamp.valueOf(addInspection.getCompleted());
+      boolean isPassed = addInspection.isPassed();
+
+      if (isPassed) {
+        insertFacilityInspection.setNull(4, Types.INTEGER);
+      } else {
+        insertFacilityInspection.setInt(4, );
+      }
+
+      ResultSet resultSet = insertFacilityInspection.executeQuery();
+      resultSet.next();
+      int resId = resultSet.getInt((1));
+
+      return FacilityInspection.
+
+    } catch (SQLException e) {
+      System.out.println("caught exception: " + e.toString());
+      throw e;
+    }
+  }
+
 }

@@ -58,4 +58,12 @@ public class UsageService implements IUsageService {
     }
     return null;
   }
+  /* facility_id, time_completed,
+  and passed */
+
+  public FacilityInspection addInspectionResults(
+          int facility_id, LocalDateTime time_completed, boolean passed)
+          throws SQLException, RoomSchedulingConflictException {
+    return dbUsage.addInpsectionResults(facility_id, time_completed, passed);
+  }
 }

@@ -79,6 +79,7 @@ public class UsageServiceTest {
         "Inspections of facility within given range -> " + listOfInspections.toString());
   }
 
+
   @Test
   public void inUseDuringInterval() throws SQLException, FMSException {
 
