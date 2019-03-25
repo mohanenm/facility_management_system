@@ -26,7 +26,7 @@ public class MaintenanceCostCalculator implements IMaintenanceCostCalculator {
   }
 
   public HashMap<String, Double> calcMaintenanceCostForFacility(
-      int facilityId, Range<LocalDateTime> costPeriod) throws FMSException, SQLException {
+      int facilityId, Range<LocalDateTime> costPeriod) throws FMSException {
     try {
       return dbMaintenance.calcMaintenanceCostForFacility(facilityId, costPeriod);
     } catch (SQLException e) {

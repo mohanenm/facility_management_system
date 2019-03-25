@@ -12,6 +12,7 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import java.time.LocalDateTime;
 import java.time.Month;
+import java.util.HashMap;
 
 public class FacilityApp {
 
@@ -80,9 +81,6 @@ public class FacilityApp {
         //setting null request and schedule objects
         IRoomMaintenanceRequest roomMaintenanceRequest = null;
         IFacilityMaintenanceRequest facilityMaintenanceRequest = null;
-        IRoomMaintenanceSchedule roomMaintenanceSchedule = null;
-        IFacilityMaintenanceSchedule facilityMaintenanceSchedule = null;
-
         //CRUD for maintenance service
         try {
             //adding detailed facility for maintenance service CRUD test
@@ -95,14 +93,31 @@ public class FacilityApp {
 
             System.out.println("Room maintenance request -> " + roomMaintenanceRequest.toString());
 
+            //setting hourly rate of room maintenance request to $25.00/hr
+            int roomMaintenanceHourlyRateId = maintenanceService.insertMaintenanceHourlyRate(persistedFacility.getId(),
+                    roomMaintenanceRequest.getMaintenanceRequest().getMaintenanceTypeId(), 25.00);
+
+
             facilityMaintenanceRequest = maintenanceService.makeFacilityMaintRequest(persistedFacility.getId(),
                     maintenanceRequestFac);
 
             System.out.println("Facility maintenance request -> " + facilityMaintenanceRequest.toString());
 
-            int roomMaintenanceScheduleId = maintenanceService.scheduleRoomMaintenance(roomMaintenanceRequest.getId(), sampleRange());
-            System.out.println("ID of sch");
+            int facilityMaintenanceHourlyRateId = maintenanceService.insertMaintenanceHourlyRate(persistedFacility.getId(),
+                    facilityMaintenanceRequest.getMaintenanceRequest().getMaintenanceTypeId(), 45.00);
 
+            int roomMaintenanceScheduleId = maintenanceService.scheduleRoomMaintenance(roomMaintenanceRequest.getId(), sampleRange());
+            System.out.println("ID of roomMaintenanceSchedule confirming successful no-conflict reservation -> " + roomMaintenanceScheduleId);
+
+            int facilityMaintenanceScheduleId = maintenanceService.scheduleFacilityMaintenance(facilityMaintenanceRequest.getId(),
+                    facilityMaintenanceRequest.getMaintenanceRequest().isVacateRequired(),
+                    facilityMaintenanceRequest.getMaintenanceRequest().isRoutine(),
+                    sampleRange());
+            System.out.println("ID of facilityMaintenanceSchedule confirming successful no-conflict reservation -> " + facilityMaintenanceScheduleId);
+
+            MaintenanceCostCalculator maintenanceCostCalculator = new MaintenanceCostCalculator();
+            HashMap<String, Double> totalCost = maintenanceCostCalculator.calcMaintenanceCostForFacility(persistedFacility.getId(), sampleRange());
+            System.out.println("Total cost of scheduled maintenance: " + totalCost);
 
 
         } catch (FMSException e) {
@@ -114,7 +129,7 @@ public class FacilityApp {
         }
 
         IUsageService usageService = (IUsageService) serviceContext.getBean("usageService");
-        System.out.println("Loaded Usage Service\n----------\n");
+        System.out.println("\nLoaded Usage Service\n----------\n");
 
 
     }
