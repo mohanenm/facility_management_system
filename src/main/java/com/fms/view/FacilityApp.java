@@ -17,13 +17,13 @@ import java.util.HashMap;
 public class FacilityApp {
 
     public static Range<LocalDateTime> sampleRange() {
-        LocalDateTime lower = LocalDateTime.of(1984, Month.DECEMBER, 17, 15, 30);
-        LocalDateTime upper = LocalDateTime.of(2010, Month.SEPTEMBER, 17, 4, 10);
+        LocalDateTime lower = LocalDateTime.of(1984, Month.SEPTEMBER, 17, 3, 30);
+        LocalDateTime upper = LocalDateTime.of(1984, Month.SEPTEMBER, 17, 4, 00);
         return Range.open(lower, upper);
     }
 
     public static Range<LocalDateTime> sampleRangeConflicting() {
-        LocalDateTime lower = LocalDateTime.of(1984, Month.DECEMBER, 17, 15, 30);
+        LocalDateTime lower = LocalDateTime.of(1984, Month.DECEMBER, 10, 15, 30);
         LocalDateTime upper = LocalDateTime.of(2010, Month.SEPTEMBER, 17, 4, 10);
         return Range.open(lower, upper);
     }
@@ -130,6 +130,21 @@ public class FacilityApp {
 
         IUsageService usageService = (IUsageService) serviceContext.getBean("usageService");
         System.out.println("\nLoaded Usage Service\n----------\n");
+
+        //CRUD for usage service
+        try {
+            //adding detailed facility for maintenance service CRUD test
+            persistedFacility = facilityService.addNewFacility(facility.getName(), facility.getDescription());
+            persistedFacility = facilityService.addFacilityDetail(persistedFacility.getId(), facility.getBuildings());
+
+
+        } catch (FMSException e) {
+            e.printStackTrace();
+        } finally {
+            if (persistedFacility != null || roomMaintenanceRequest != null || facilityMaintenanceRequest != null) {
+                facilityService.removeFacility(persistedFacility.getId());
+            }
+        }
 
 
     }

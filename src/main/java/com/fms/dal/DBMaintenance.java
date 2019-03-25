@@ -42,7 +42,8 @@ public class DBMaintenance {
   private PreparedStatement insertRoomMaintenanceSchedule;
   private PreparedStatement insertMaintenanceHourlyRate;
   private PreparedStatement deleteMaintenanceHourlyRate;
-  private PreparedStatement calcMaintenanceCostForFacility;
+  private PreparedStatement calcRoomMaintenanceCostForFacility;
+  private PreparedStatement calcFacilityMaintenanceCostForFacility;
 
   public DBMaintenance() throws SQLException {
     insertMaintenanceRequest =
@@ -234,9 +235,10 @@ public class DBMaintenance {
     // entire facility
     // within a specified time range
 
-    calcMaintenanceCostForFacility =
+    calcRoomMaintenanceCostForFacility =
         DBConnection.getConnection()
             .prepareStatement(
+
                 "select \n"
                     + "   F.id facility_id,\n"
                     + "   MT.description,\n"
@@ -303,6 +305,45 @@ public class DBMaintenance {
                     + "    F.id, \n"
                     + "    MT.id,\n"
                     + "    MHR.hourly_rate");
+      calcFacilityMaintenanceCostForFacility =
+              DBConnection.getConnection()
+                      .prepareStatement("" +
+                              "select\n" +
+                              "\n" +
+                              "     f.id facility_id,\n" +
+                              "     mt.description,\n" +
+                              "     COALESCE(mhr.hourly_rate, 15) hourly_rate,\n" +
+                              "      SUM(EXTRACT(EPOCH FROM (\n" +
+                              "        least(?, fms.finish) -\n" +
+                              "          greatest(?, fms.start)\n" +
+                              "            )))/3600\n" +
+                              "          total_hours,\n" +
+                              "\n" +
+                              "       COALESCE(MHR.hourly_rate, 15) *\n" +
+                              "           SUM(EXTRACT(EPOCH FROM (\n" +
+                              "               least(?, fms.finish) -\n" +
+                              "               greatest(?, fms.start)\n" +
+                              "           )))/3600\n" +
+                              "       partial_cost_of_type\n" +
+                              "\n" +
+                              "from\n" +
+                              "     facility_maintenance_schedule fms\n" +
+                              "    JOIN facility_maintenance_request fmr on (fms.facility_maintenance_request_id = fmr.id)\n" +
+                              "    JOIN maintenance_request mr on (fmr.maintenance_request_id = mr.id)\n" +
+                              "    JOIN facility f on (f.id = fmr.facility_id)\n" +
+                              "    JOIN maintenance_type mt on (mt.id = mr.maintenance_type_id)\n" +
+                              "    JOIN maintenance_hourly_rate mhr on (f.id = mhr.facility_id)\n" +
+                              "where\n" +
+                              "  f.id = ? and\n" +
+                              "  ? between fms.start and fms.finish or\n" +
+                              "  ? between fms.start and fms.finish or\n" +
+                              "  (? <= fms.start and\n" +
+                              "  ? >= fms.finish)\n" +
+                              "  group by\n" +
+                              "  f.id,\n" +
+                              "  mt.id,\n" +
+                              "  mhr.hourly_rate;");
+
   }
 
   // Returns the maintenance request with the associated database id for the request
@@ -609,20 +650,36 @@ public class DBMaintenance {
     Timestamp finish = Timestamp.valueOf(calculationPeriod.upperEndpoint());
 
     try {
-      calcMaintenanceCostForFacility.setTimestamp(1, finish);
-      calcMaintenanceCostForFacility.setTimestamp(2, start);
-      calcMaintenanceCostForFacility.setTimestamp(3, finish);
-      calcMaintenanceCostForFacility.setTimestamp(4, start);
-      calcMaintenanceCostForFacility.setInt(5, facilityId);
-      calcMaintenanceCostForFacility.setTimestamp(6, start);
-      calcMaintenanceCostForFacility.setTimestamp(7, finish);
-      calcMaintenanceCostForFacility.setTimestamp(8, start);
-      calcMaintenanceCostForFacility.setTimestamp(9, finish);
-      ResultSet resultSet = calcMaintenanceCostForFacility.executeQuery();
+        //Calculating facility-wide room maintenance costs
+      calcRoomMaintenanceCostForFacility.setTimestamp(1, finish);
+      calcRoomMaintenanceCostForFacility.setTimestamp(2, start);
+      calcRoomMaintenanceCostForFacility.setTimestamp(3, finish);
+      calcRoomMaintenanceCostForFacility.setTimestamp(4, start);
+      calcRoomMaintenanceCostForFacility.setInt(5, facilityId);
+      calcRoomMaintenanceCostForFacility.setTimestamp(6, start);
+      calcRoomMaintenanceCostForFacility.setTimestamp(7, finish);
+      calcRoomMaintenanceCostForFacility.setTimestamp(8, start);
+      calcRoomMaintenanceCostForFacility.setTimestamp(9, finish);
+      ResultSet resultSet = calcRoomMaintenanceCostForFacility.executeQuery();
       HashMap<String, Double> totals = new HashMap<>();
       while (resultSet.next()) {
         totals.put(resultSet.getString(2), resultSet.getDouble(5));
       }
+
+      //Calculating facilityMaintenance costs
+        calcFacilityMaintenanceCostForFacility.setTimestamp(1, finish);
+        calcFacilityMaintenanceCostForFacility.setTimestamp(2, start);
+        calcFacilityMaintenanceCostForFacility.setTimestamp(3, finish);
+        calcFacilityMaintenanceCostForFacility.setTimestamp(4, start);
+        calcFacilityMaintenanceCostForFacility.setInt(5, facilityId);
+        calcFacilityMaintenanceCostForFacility.setTimestamp(6, start);
+        calcFacilityMaintenanceCostForFacility.setTimestamp(7, finish);
+        calcFacilityMaintenanceCostForFacility.setTimestamp(8, start);
+        calcFacilityMaintenanceCostForFacility.setTimestamp(9, finish);
+        resultSet = calcFacilityMaintenanceCostForFacility.executeQuery();
+        while (resultSet.next()) {
+            totals.put(resultSet.getString(2), resultSet.getDouble(5));
+        }
       return totals;
     } catch (SQLException e) {
       logger.log(Level.ERROR, "Caught exception: " + e);
