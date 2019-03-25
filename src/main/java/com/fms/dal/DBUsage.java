@@ -22,68 +22,69 @@ public class DBUsage {
 
   private PreparedStatement checkRoomAvailability;
 
-  private PreparedStatement insertFacilityInspection;
-
-  private PreparedStatement addInspectionResults;
+  //private PreparedStatement insertFacilityInspection;
 
   private PreparedStatement listInspections;
+
+  private PreparedStatement addCompletedInspection;
 
   Logger logger = LogManager.getLogger();
 
   public DBUsage() throws SQLException {
 
     insertRoomReservation =
-        DBConnection.getConnection()
-            .prepareStatement(
-                "insert into room_reservation\n"
-                    + "(room_id, start, finish, maintenance_request_id) \n"
-                    + "values (?, ?, ?, ?) RETURNING id");
+            DBConnection.getConnection()
+                    .prepareStatement(
+                            "insert into room_reservation\n"
+                                    + "(room_id, start, finish, maintenance_request_id) \n"
+                                    + "values (?, ?, ?, ?) RETURNING id");
 
     // Not necessarily a need to query a room request, if the request is successful it
     // becomes a reservation which can be queried with checkRoomAvailability, if not
     // it is thrown out
     queryRoomRequest =
-        DBConnection.getConnection()
-            .prepareStatement(
-                ""
-                    + "select \n"
-                    + "    rr.id as room_reservation,\n"
-                    + "    (rr.room_id as room_id),\n"
-                    + "from \n"
-                    + "    (room_reservation) rr\n"
-                    + "where\n"
-                    + "    (rr.id = ?)");
+            DBConnection.getConnection()
+                    .prepareStatement(
+                            ""
+                                    + "select \n"
+                                    + "    rr.id as room_reservation,\n"
+                                    + "    (rr.room_id as room_id),\n"
+                                    + "from \n"
+                                    + "    (room_reservation) rr\n"
+                                    + "where\n"
+                                    + "    (rr.id = ?)");
 
     checkRoomAvailability =
-        DBConnection.getConnection()
-            .prepareStatement(
-                ""
-                    + "select\n"
-                    + "    start, finish \n"
-                    + "from \n"
-                    + "    room_reservation as rr\n"
-                    + "    where room_id = ? and \n"
-                    + "    (? between rr.start and rr.finish) or\n"
-                    + "    (? between rr.start and rr.finish) or\n"
-                    + "    (\n"
-                    + "        (? < rr.start) and \n"
-                    + "        (? > rr.finish)\n"
-                    + "    )");
+            DBConnection.getConnection()
+                    .prepareStatement(
+                            ""
+                                    + "select\n"
+                                    + "    start, finish \n"
+                                    + "from \n"
+                                    + "    room_reservation as rr\n"
+                                    + "    where room_id = ? and \n"
+                                    + "    (? between rr.start and rr.finish) or\n"
+                                    + "    (? between rr.start and rr.finish) or\n"
+                                    + "    (\n"
+                                    + "        (? < rr.start) and \n"
+                                    + "        (? > rr.finish)\n"
+                                    + "    )");
 
 //    insertFacilityInspection =
 //            DBConnection.getConnection()
 //                    .prepareStatement();
 
     listInspections =
-        DBConnection.getConnection()
-            .prepareStatement(
-                "select\n"
-                    + "*\n"
-                    + "from \n"
-                    + "facility_inspection as fi\n"
-                    + "where (? < fi.completed) and \n"
-                    + "(? > fi.completed)");
+            DBConnection.getConnection()
+                    .prepareStatement(
+                            "select\n"
+                                    + "*\n"
+                                    + "from \n"
+                                    + "facility_inspection as fi\n"
+                                    + "where (? < fi.completed) and \n"
+                                    + "(? > fi.completed)");
   }
+
   public ArrayList<Inspection> listInspections(Inspection fac) {
 
     ArrayList<Inspection> listOfInspec = new ArrayList<Inspection>();
@@ -97,7 +98,7 @@ public class DBUsage {
       ResultSet useRS = st.executeQuery(listInspectionsQuery);
       System.out.println("**************" + listInspectionsQuery + "\n");
 
-      while (useRS.next() ) {
+      while (useRS.next()) {
         Inspection inspec = new Inspection();
         inspec.setInspectionType(useRS.getString("inspection_type"));
         inspec.setInspectionDetail(useRS.getString("inspection_detail"));
@@ -107,8 +108,7 @@ public class DBUsage {
       useRS.close();
       st.close();
 
-    }
-    catch (SQLException se) {
+    } catch (SQLException se) {
       System.err.println(" Threw a SQLException retreiving "
               + "inspections");
       System.err.println(se.getMessage());
@@ -151,15 +151,15 @@ public class DBUsage {
   }
 
   /**
-   * @param roomId - Id of room being reserved
-   * @param reservationPeriod Start/finish range for reservation
+   * @param roomId               - Id of room being reserved
+   * @param reservationPeriod    Start/finish range for reservation
    * @param maintenanceRequestId - If supplied implies reservation is for maintenance
    * @return true if succeeded
    * @throws SQLException
    */
   public RoomReservation scheduleRoomReservation(
-      int roomId, Range<LocalDateTime> reservationPeriod, Integer maintenanceRequestId)
-      throws SQLException, RoomSchedulingConflictException {
+          int roomId, Range<LocalDateTime> reservationPeriod, Integer maintenanceRequestId)
+          throws SQLException, RoomSchedulingConflictException {
 
     /// Look up RoomMaintenanceRequest
 
@@ -182,23 +182,23 @@ public class DBUsage {
       LocalDateTime existingFinish = resultSet.getTimestamp(2).toLocalDateTime();
 
       RoomSchedulingConflict conflict =
-          new RoomSchedulingConflict(reservationPeriod, Range.open(existingStart, existingFinish));
+              new RoomSchedulingConflict(reservationPeriod, Range.open(existingStart, existingFinish));
 
       logger.log(Level.ERROR, "Scheduling conflict encountered: " + conflict);
       throw new RoomSchedulingConflictException(roomId, conflict);
     }
 
     return insertRoomReservation(
-        new RoomReservation(
-            roomId,
-            reservationPeriod.lowerEndpoint(),
-            reservationPeriod.upperEndpoint(),
-            maintenanceRequestId));
+            new RoomReservation(
+                    roomId,
+                    reservationPeriod.lowerEndpoint(),
+                    reservationPeriod.upperEndpoint(),
+                    maintenanceRequestId));
   }
 
   // ToDO: add test for this method.
   public boolean queryUseDuringInterval(int roomId, Range<LocalDateTime> queryPeriod)
-      throws SQLException {
+          throws SQLException {
     Timestamp start = Timestamp.valueOf(queryPeriod.lowerEndpoint());
     Timestamp finish = Timestamp.valueOf(queryPeriod.upperEndpoint());
 
@@ -218,7 +218,7 @@ public class DBUsage {
   }
 
   public ArrayList<FacilityInspection> readAllInspections(
-      int facilityId, Range<LocalDateTime> inspectionsPeriod) throws SQLException {
+          int facilityId, Range<LocalDateTime> inspectionsPeriod) throws SQLException {
     ArrayList<FacilityInspection> inspectionsList = new ArrayList<>();
     Timestamp start = Timestamp.valueOf(inspectionsPeriod.lowerEndpoint());
     Timestamp finish = Timestamp.valueOf(inspectionsPeriod.upperEndpoint());
@@ -238,29 +238,22 @@ public class DBUsage {
   the inspection, saves the inspection results.
       */
 
-  private FacilityInspection addInspectionResults(FacilityInspection addInspection) throws SQLException {
+  public ArrayList<FacilityInspection> addInspectionResults(
+          int facilityId, LocalDateTime timeCompleted, boolean passed) throws SQLException {
 
-    try {
-      insertFacilityInspection.setInt(1, addInspection.getFacilityId());
-      Timestamp completed = Timestamp.valueOf(addInspection.getCompleted());
-      boolean isPassed = addInspection.isPassed();
+    ArrayList<FacilityInspection> inspection = new ArrayList<>();
+    Timestamp time_completed = Timestamp.valueOf(timeCompleted);
 
-      if (isPassed) {
-        insertFacilityInspection.setNull(4, Types.INTEGER);
-      } else {
-        insertFacilityInspection.setInt(4, );
-      }
+    addCompletedInspection.setInt(2, facilityId);
+    addCompletedInspection.setTimestamp(3, time_completed);
+    addCompletedInspection.setBoolean(4, passed);
 
-      ResultSet resultSet = insertFacilityInspection.executeQuery();
-      resultSet.next();
-      int resId = resultSet.getInt((1));
+    ResultSet resultSet = addCompletedInspection.executeQuery();
+    System.out.println("Inspection Result -> " + resultSet);
 
-      return FacilityInspection.
+    return inspection;
 
-    } catch (SQLException e) {
-      System.out.println("caught exception: " + e.toString());
-      throw e;
     }
   }
 
-}
+

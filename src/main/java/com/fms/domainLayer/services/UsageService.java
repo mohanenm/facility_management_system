@@ -23,13 +23,13 @@ public class UsageService implements IUsageService {
   }
 
   public RoomReservation scheduleRoomReservation(int roomId, Range<LocalDateTime> duration)
-      throws SQLException, RoomSchedulingConflictException {
+          throws SQLException, RoomSchedulingConflictException {
     return dbUsage.scheduleRoomReservation(roomId, duration, null);
   }
 
   public RoomReservation scheduleRoomReservationForMaintenance(
-      int roomId, Range<LocalDateTime> reservationPeriod, int maintenanceId)
-      throws SQLException, RoomSchedulingConflictException {
+          int roomId, Range<LocalDateTime> reservationPeriod, int maintenanceId)
+          throws SQLException, RoomSchedulingConflictException {
     return dbUsage.scheduleRoomReservation(roomId, reservationPeriod, maintenanceId);
   }
 
@@ -50,7 +50,7 @@ public class UsageService implements IUsageService {
 //  }
 
   public ArrayList<FacilityInspection> listInspections(
-      int facilityId, Range<LocalDateTime> inspectionsPeriod) {
+          int facilityId, Range<LocalDateTime> inspectionsPeriod) {
     try {
       return dbUsage.readAllInspections(facilityId, inspectionsPeriod);
     } catch (SQLException e) {
@@ -58,12 +58,22 @@ public class UsageService implements IUsageService {
     }
     return null;
   }
-  /* facility_id, time_completed,
-  and passed */
 
-  public FacilityInspection addInspectionResults(
-          int facility_id, LocalDateTime time_completed, boolean passed)
-          throws SQLException, RoomSchedulingConflictException {
-    return dbUsage.addInpsectionResults(facility_id, time_completed, passed);
+  /*
+  Corresponds to addInspectionResults
+  Given the facility_id, time_completed,
+  and passed indicating whether it passed
+  the inspection, saves the inspection results.
+      */
+
+  public ArrayList<FacilityInspection> addCompletedInspection(int facilityId, LocalDateTime timeCompleted, boolean passed) {
+    try {
+      return dbUsage.addInspectionResults(facilityId, timeCompleted, passed);
+    } catch (SQLException e) {
+      e.printStackTrace();
+    }
+    return null;
   }
 }
+
+
