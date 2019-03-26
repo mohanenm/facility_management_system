@@ -23,4 +23,6 @@ public interface IUsageService {
     ArrayList<FacilityInspection> listInspections(
             int facilityId, Range<LocalDateTime> inspectionsPeriod);
 
+    FacilityInspection addCompletedInspection(FacilityInspection facilityInspection) throws SQLException;
+
 }

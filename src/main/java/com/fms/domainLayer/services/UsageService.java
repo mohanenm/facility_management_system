@@ -54,14 +54,14 @@ public class UsageService implements IUsageService {
       */
 
 
-  public FacilityInspection addCompletedInspection(
-          int facilityId, LocalDateTime completed, boolean passed) throws SQLException {
-    return dbUsage.addInspectionResult(facilityId, completed, passed);
+  public FacilityInspection addCompletedInspection(FacilityInspection facilityInspection) {
+    try {
+      return dbUsage.addInspectionResult(facilityInspection);
+    } catch (SQLException e) {
+      e.printStackTrace();
+    }
+    return null;
   }
-
-//  public RoomRequest roomRequestResult(int roomReservationId, ) {
-//  }
-
 
   public ArrayList<FacilityInspection> listInspections(
           int facilityId, Range<LocalDateTime> inspectionsPeriod) {

@@ -77,11 +77,25 @@
         <constructor-arg index="4" value="false"/>
     </bean>
 
+    <bean id="facilityInspection" class="com.fms.domainLayer.inspection.FacilityInspection" scope="prototype">
+        <constructor-arg index="0" value="-1"/>
+        <constructor-arg index="1" value="-1"/>
+        <constructor-arg index="2" value="MAX"/>
+        <constructor-arg index="3" value="true"/>
+    </bean>
+
+    <bean id="inspection" class="com.fms.domainLayer.inspection.Inspection" scope="prototype">
+    </bean>
 
 
     <bean id="maintenanceService" class="com.fms.domainLayer.services.MaintenanceService" scope="prototype">
 
     </bean>
+
+    <bean id="maintenanceCostCalculator" class="com.fms.domainLayer.maintenance.MaintenanceCostCalculator" scope="prototype">
+
+    </bean>
+
 
     <bean id="usageService" class="com.fms.domainLayer.services.UsageService" scope="prototype">
 

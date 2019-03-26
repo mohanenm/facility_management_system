@@ -70,7 +70,9 @@ public class DBUsage {
                                     + "        (? > rr.finish)\n"
                                     + "    )");
 
-
+//    insertFacilityInspection =
+//            DBConnection.getConnection()
+//                    .prepareStatement();
 
     listInspections =
             DBConnection.getConnection()
@@ -81,13 +83,6 @@ public class DBUsage {
                                     + "facility_inspection as fi\n"
                                     + "where (? < fi.completed) and \n"
                                     + "(? > fi.completed)");
-
-    addCompletedInspection =
-            DBConnection.getConnection()
-                    .prepareStatement( "insert into facility_inspection\n"
-                            + "(facility_id, completed, passed) \n"
-                            + "values(?, ?, ?) RETURNING id");
-
   }
 
   public ArrayList<Inspection> listInspections(Inspection fac) {
@@ -114,7 +109,7 @@ public class DBUsage {
       st.close();
 
     } catch (SQLException se) {
-      System.err.println(" Threw a SQLException retreiving "
+      System.err.println(" Threw a SQLException retrieving "
               + "inspections");
       System.err.println(se.getMessage());
       se.printStackTrace();
@@ -225,20 +220,20 @@ public class DBUsage {
   Corresponds to addInspectionResults
   Given the facility_id, time_completed,
   and passed indicating whether it passed
-  the inspection, saves the inspection results.s
+  the inspection, saves the inspection results.
       */
 
-  public FacilityInspection addInspectionResult(
-          int facilityId, LocalDateTime timeCompleted, boolean passed) throws SQLException {
-    Timestamp time_completed = Timestamp.valueOf(timeCompleted);
+  public FacilityInspection addInspectionResult(FacilityInspection facilityInspection) throws SQLException {
+    Timestamp time_completed = Timestamp.valueOf(facilityInspection.getCompleted());
 
-    addCompletedInspection.setInt(1, facilityId);
-    addCompletedInspection.setTimestamp(2, time_completed);
-    addCompletedInspection.setBoolean(3, passed);
+    addCompletedInspection.setInt(2, facilityInspection.getFacilityId());
+    addCompletedInspection.setTimestamp(3, time_completed);
+    addCompletedInspection.setBoolean(4, facilityInspection.isPassed());
+
     ResultSet resultSet = addCompletedInspection.executeQuery();
     System.out.println("Inspection Result -> " + resultSet);
 
-    return null;
+    return facilityInspection;
 
   }
   public ArrayList<FacilityInspection> readAllInspections(

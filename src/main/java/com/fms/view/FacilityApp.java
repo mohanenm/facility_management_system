@@ -2,6 +2,7 @@ package com.fms.view;
 
 import com.fms.domainLayer.common.FMSException;
 import com.fms.domainLayer.facility.IFacility;
+import com.fms.domainLayer.inspection.FacilityInspection;
 import com.fms.domainLayer.maintenance.*;
 import com.fms.domainLayer.services.IFacilityService;
 import com.fms.domainLayer.services.IMaintenanceService;
@@ -10,8 +11,10 @@ import com.google.common.collect.Range;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
+import java.sql.SQLException;
 import java.time.LocalDateTime;
 import java.time.Month;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 public class FacilityApp {
@@ -115,7 +118,7 @@ public class FacilityApp {
                     sampleRange());
             System.out.println("ID of facilityMaintenanceSchedule confirming successful no-conflict reservation -> " + facilityMaintenanceScheduleId);
 
-            MaintenanceCostCalculator maintenanceCostCalculator = new MaintenanceCostCalculator();
+            MaintenanceCostCalculator maintenanceCostCalculator = (MaintenanceCostCalculator) serviceContext.getBean("maintenanceCostCalculator");
             HashMap<String, Double> totalCost = maintenanceCostCalculator.calcMaintenanceCostForFacility(persistedFacility.getId(), sampleRange());
             System.out.println("Total cost of scheduled maintenance: " + totalCost);
 
@@ -133,15 +136,44 @@ public class FacilityApp {
 
         //CRUD for usage service
         try {
-            //adding detailed facility for maintenance service CRUD test
+            //adding detailed facility for usage service CRUD test
             persistedFacility = facilityService.addNewFacility(facility.getName(), facility.getDescription());
             persistedFacility = facilityService.addFacilityDetail(persistedFacility.getId(), facility.getBuildings());
 
+            boolean isInUse = usageService.isInUseDuringInterval(persistedFacility.getBuildings().get(0).getRooms().get(1).getId(), sampleRange());
+            System.out.println("Facility is in use during interval (should return false, we haven't scheduled anything in this block) : " + isInUse);
 
-        } catch (FMSException e) {
+            System.out.println(persistedFacility.getBuildings().get(0).getRooms().get(1).getId());
+            //using maintenance service to make a room request
+            IMaintenanceRequest maintenanceRequest = new MaintenanceRequest(-1, 1, "Please schedule maintenance during X conflicting time... ", true, false);
+            roomMaintenanceRequest = maintenanceService.makeRoomMaintRequest(persistedFacility.getBuildings().get(0).getRooms().get(1).getId(), maintenanceRequest);
+            maintenanceService.scheduleRoomMaintenance(roomMaintenanceRequest.getId(), sampleRange());
+            System.out.println("Schedule a room maintenance that would conflict with isInUseDuringInterval method -> " + roomMaintenanceRequest.toString());
+
+            isInUse = usageService.isInUseDuringInterval(persistedFacility.getBuildings().get(0).getRooms().get(0).getId(), sampleRange());
+            System.out.println("Facility is in use during interval (should return true, we haven't scheduled anything in this block) : " + isInUse);
+
+            ArrayList<FacilityInspection> inspections = usageService.listInspections(persistedFacility.getId(), sampleRange());
+            System.out.println("Listing Facility Inspections (should return empty, we haven't added any) : " + inspections.toString());
+
+            FacilityInspection facilityInspection = (FacilityInspection) serviceContext.getBean("facilityInspection");
+            facilityInspection.setFacilityId(persistedFacility.getId());
+            facilityInspection.setCompleted(sampleRange().lowerEndpoint());
+            facilityInspection.setPassed(true);
+            usageService.addCompletedInspection(facilityInspection);
+            System.out.println("");
+
+            inspections = usageService.listInspections(persistedFacility.getId(), sampleRange());
+            System.out.println("Listing Facility Inspections (should with newly scheduled inspections) : " + inspections.toString());
+
+
+
+
+
+        } catch (FMSException | SQLException e) {
             e.printStackTrace();
         } finally {
-            if (persistedFacility != null || roomMaintenanceRequest != null || facilityMaintenanceRequest != null) {
+            if (persistedFacility != null) {
                 facilityService.removeFacility(persistedFacility.getId());
             }
         }

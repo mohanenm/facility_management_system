@@ -75,4 +75,5 @@ insert into facility_inspection (facility_id, completed, passed) values
 (1, '2019-01-30 06:00:00', true),
 (2, '2019-01-30 06:00:00', false);
 
+
 commit;
