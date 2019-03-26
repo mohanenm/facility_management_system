@@ -70,9 +70,7 @@ public class DBUsage {
                                     + "        (? > rr.finish)\n"
                                     + "    )");
 
-//    insertFacilityInspection =
-//            DBConnection.getConnection()
-//                    .prepareStatement();
+
 
     listInspections =
             DBConnection.getConnection()
@@ -83,6 +81,13 @@ public class DBUsage {
                                     + "facility_inspection as fi\n"
                                     + "where (? < fi.completed) and \n"
                                     + "(? > fi.completed)");
+
+    addCompletedInspection =
+            DBConnection.getConnection()
+                    .prepareStatement( "insert into facility_inspection\n"
+                            + "(facility_id, completed, passed) \n"
+                            + "values(?, ?, ?) RETURNING id");
+
   }
 
   public ArrayList<Inspection> listInspections(Inspection fac) {
@@ -220,17 +225,16 @@ public class DBUsage {
   Corresponds to addInspectionResults
   Given the facility_id, time_completed,
   and passed indicating whether it passed
-  the inspection, saves the inspection results.
+  the inspection, saves the inspection results.s
       */
 
   public FacilityInspection addInspectionResult(
           int facilityId, LocalDateTime timeCompleted, boolean passed) throws SQLException {
     Timestamp time_completed = Timestamp.valueOf(timeCompleted);
 
-    addCompletedInspection.setInt(2, facilityId);
-    addCompletedInspection.setTimestamp(3, time_completed);
-    addCompletedInspection.setBoolean(4, passed);
-
+    addCompletedInspection.setInt(1, facilityId);
+    addCompletedInspection.setTimestamp(2, time_completed);
+    addCompletedInspection.setBoolean(3, passed);
     ResultSet resultSet = addCompletedInspection.executeQuery();
     System.out.println("Inspection Result -> " + resultSet);
 

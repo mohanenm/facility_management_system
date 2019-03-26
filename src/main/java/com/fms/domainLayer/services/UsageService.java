@@ -53,6 +53,7 @@ public class UsageService implements IUsageService {
   the inspection, saves the inspection results.
       */
 
+
   public FacilityInspection addCompletedInspection(
           int facilityId, LocalDateTime completed, boolean passed) throws SQLException {
     return dbUsage.addInspectionResult(facilityId, completed, passed);
@@ -60,6 +61,7 @@ public class UsageService implements IUsageService {
 
 //  public RoomRequest roomRequestResult(int roomReservationId, ) {
 //  }
+
 
   public ArrayList<FacilityInspection> listInspections(
           int facilityId, Range<LocalDateTime> inspectionsPeriod) {

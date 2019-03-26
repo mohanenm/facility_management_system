@@ -81,14 +81,14 @@ public class UsageServiceTest {
 
   @Test // currently just testing listing inspections, will add insert functionality once passes
   public void addInspectionResult() throws SQLException {
-   FacilityInspection inspection =
+   FacilityInspection addCompletedInspection =
             usageService.addCompletedInspection(
                     1,
-                    LocalDateTime.of(2019, 10, 1, 1, 1, 0, 0),
+                    LocalDateTime.of(2019, 1,30, 6,0,0,0),
                     true);
-    System.out.println(
-            "InspectionResult -> " + inspection.toString());
-  }
+   System.out.println(
+           "Inspections of facility within given range -> " + addCompletedInspection.toString());
+}
 
 
   @Test
