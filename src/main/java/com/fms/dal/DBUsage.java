@@ -212,7 +212,7 @@ public class DBUsage {
 
     // If our query returns any records, it is in use during the interval.
     // If isInUse is false, no records, not in use.
-    boolean isInUse = resultSet.next() != false;
+    boolean isInUse = resultSet.next();
 
     return isInUse;
   }

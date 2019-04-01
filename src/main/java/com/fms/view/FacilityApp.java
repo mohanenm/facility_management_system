@@ -139,19 +139,20 @@ public class FacilityApp {
             //adding detailed facility for usage service CRUD test
             persistedFacility = facilityService.addNewFacility(facility.getName(), facility.getDescription());
             persistedFacility = facilityService.addFacilityDetail(persistedFacility.getId(), facility.getBuildings());
+            int testRoomId = persistedFacility.getBuildings().get(0).getRooms().get(1).getId();
+            System.out.println("Test room ID: " + testRoomId);
 
-            boolean isInUse = usageService.isInUseDuringInterval(persistedFacility.getBuildings().get(0).getRooms().get(1).getId(), sampleRange());
+            boolean isInUse = usageService.isInUseDuringInterval(testRoomId, sampleRange());
             System.out.println("Facility is in use during interval (should return false, we haven't scheduled anything in this block) : " + isInUse);
 
-            System.out.println(persistedFacility.getBuildings().get(0).getRooms().get(1).getId());
             //using maintenance service to make a room request
-            IMaintenanceRequest maintenanceRequest = new MaintenanceRequest(-1, 1, "Please schedule maintenance during X conflicting time... ", true, false);
-            roomMaintenanceRequest = maintenanceService.makeRoomMaintRequest(persistedFacility.getBuildings().get(0).getRooms().get(1).getId(), maintenanceRequest);
+            MaintenanceRequest maintenanceRequest = (MaintenanceRequest) serviceContext.getBean("maintenanceRequest");
+            roomMaintenanceRequest = maintenanceService.makeRoomMaintRequest(testRoomId, maintenanceRequest);
             maintenanceService.scheduleRoomMaintenance(roomMaintenanceRequest.getId(), sampleRange());
             System.out.println("Schedule a room maintenance that would conflict with isInUseDuringInterval method -> " + roomMaintenanceRequest.toString());
 
-            isInUse = usageService.isInUseDuringInterval(persistedFacility.getBuildings().get(0).getRooms().get(0).getId(), sampleRange());
-            System.out.println("Facility is in use during interval (should return true, we haven't scheduled anything in this block) : " + isInUse);
+            isInUse = usageService.isInUseDuringInterval(testRoomId, sampleRange());
+            System.out.println("Facility is in use during interval (should return true, we have scheduled a use during this range) : " + isInUse);
 
             ArrayList<FacilityInspection> inspections = usageService.listInspections(persistedFacility.getId(), sampleRange());
             System.out.println("Listing Facility Inspections (should return empty, we haven't added any) : " + inspections.toString());
