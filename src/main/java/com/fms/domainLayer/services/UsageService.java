@@ -56,7 +56,7 @@ public class UsageService implements IUsageService {
 
   public FacilityInspection addCompletedInspection(FacilityInspection facilityInspection) {
     try {
-      return dbUsage.addInspectionResult(facilityInspection);
+      return dbUsage.addInspection(facilityInspection);
     } catch (SQLException e) {
       e.printStackTrace();
     }

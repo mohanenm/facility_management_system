@@ -9,6 +9,8 @@ public interface IRoom {
 
   int getCapacity();
 
+  RoomState getRoomState();
+
   void setId(int id);
 
   void setBuildingId(int buildingId);
@@ -16,4 +18,11 @@ public interface IRoom {
   void setRoomNumber(int roomNumber);
 
   void setCapacity(int capacity);
+
+  void setRoomState(RoomState roomState);
+
+  void attach(Observer roomObserver);
+
+  void notifyAllRoomObservers();
+
 }

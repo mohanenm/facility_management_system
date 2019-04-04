@@ -2,6 +2,8 @@ package com.fms.view;
 
 import com.fms.domainLayer.common.FMSException;
 import com.fms.domainLayer.facility.IFacility;
+import com.fms.domainLayer.facility.IRoom;
+import com.fms.domainLayer.facility.RoomObserver;
 import com.fms.domainLayer.inspection.FacilityInspection;
 import com.fms.domainLayer.maintenance.*;
 import com.fms.domainLayer.services.IFacilityService;
@@ -60,13 +62,7 @@ public class FacilityApp {
             System.out.println("\n\n-------- LISTING FACILITIES --------\n");
 
             System.out.println(facilityService.getFacilityInformation(persistedFacility.getId()));
-        } catch (FMSException e) {
-            e.printStackTrace();
-        } finally {
-            if (persistedFacility != null) {
-                facilityService.removeFacility(persistedFacility.getId());
-            }
-        }
+
 
         IMaintenanceService maintenanceService = (IMaintenanceService) serviceContext.getBean("maintenanceService");
         System.out.println("Loaded Maintenance Service\n----------\n");
@@ -81,14 +77,11 @@ public class FacilityApp {
         System.out.println("Loaded Maintenance Request (for facility) From FacilityAppBeans Config -> "
                 + maintenanceRequestFac + "\n----------\n");
 
-        //setting null request and schedule objects
-        IRoomMaintenanceRequest roomMaintenanceRequest = null;
-        IFacilityMaintenanceRequest facilityMaintenanceRequest = null;
+        //setting (default) null request and schedule objects
+        IRoomMaintenanceRequest roomMaintenanceRequest;
+        IFacilityMaintenanceRequest facilityMaintenanceRequest;
+
         //CRUD for maintenance service
-        try {
-            //adding detailed facility for maintenance service CRUD test
-            persistedFacility = facilityService.addNewFacility(facility.getName(), facility.getDescription());
-            persistedFacility = facilityService.addFacilityDetail(persistedFacility.getId(), facility.getBuildings());
 
             //creating a room maintenance request
             roomMaintenanceRequest = maintenanceService.makeRoomMaintRequest(persistedFacility.getBuildings()
@@ -122,24 +115,12 @@ public class FacilityApp {
             HashMap<String, Double> totalCost = maintenanceCostCalculator.calcMaintenanceCostForFacility(persistedFacility.getId(), sampleRange());
             System.out.println("Total cost of scheduled maintenance: " + totalCost);
 
-
-        } catch (FMSException e) {
-            e.printStackTrace();
-        } finally {
-            if (persistedFacility != null || roomMaintenanceRequest != null || facilityMaintenanceRequest != null) {
-                facilityService.removeFacility(persistedFacility.getId());
-            }
-        }
-
         IUsageService usageService = (IUsageService) serviceContext.getBean("usageService");
         System.out.println("\nLoaded Usage Service\n----------\n");
 
-        //CRUD for usage service
-        try {
-            //adding detailed facility for usage service CRUD test
-            persistedFacility = facilityService.addNewFacility(facility.getName(), facility.getDescription());
-            persistedFacility = facilityService.addFacilityDetail(persistedFacility.getId(), facility.getBuildings());
-            int testRoomId = persistedFacility.getBuildings().get(0).getRooms().get(1).getId();
+            //CRUD for usage service
+            IRoom testRoom = persistedFacility.getBuildings().get(0).getRooms().get(0);
+            int testRoomId = testRoom.getId();
             System.out.println("Test room ID: " + testRoomId);
 
             boolean isInUse = usageService.isInUseDuringInterval(testRoomId, sampleRange());
@@ -151,12 +132,14 @@ public class FacilityApp {
             maintenanceService.scheduleRoomMaintenance(roomMaintenanceRequest.getId(), sampleRange());
             System.out.println("Schedule a room maintenance that would conflict with isInUseDuringInterval method -> " + roomMaintenanceRequest.toString());
 
+            //ToDo: figure out why this ain't returning true
             isInUse = usageService.isInUseDuringInterval(testRoomId, sampleRange());
             System.out.println("Facility is in use during interval (should return true, we have scheduled a use during this range) : " + isInUse);
 
             ArrayList<FacilityInspection> inspections = usageService.listInspections(persistedFacility.getId(), sampleRange());
             System.out.println("Listing Facility Inspections (should return empty, we haven't added any) : " + inspections.toString());
 
+            //ToDo: add listed inspections which should display below
             FacilityInspection facilityInspection = (FacilityInspection) serviceContext.getBean("facilityInspection");
             facilityInspection.setFacilityId(persistedFacility.getId());
             facilityInspection.setCompleted(sampleRange().lowerEndpoint());
@@ -165,8 +148,16 @@ public class FacilityApp {
             System.out.println("");
 
             inspections = usageService.listInspections(persistedFacility.getId(), sampleRange());
-            System.out.println("Listing Facility Inspections (should with newly scheduled inspections) : " + inspections.toString());
+            System.out.println("Listing Facility Inspections (should with newly scheduled inspections) : "
+                    + inspections.toString() + "\n----------\n");
 
+        //Testing observer pattern
+            //RoomObserver test
+            System.out.println(" Observer for test room #101\n----------\n");
+            RoomObserver roomObserver = (RoomObserver) serviceContext.getBean("roomAObserver");
+            System.out.println("Initial Room toString (should return with vacant state): " + testRoom.getRoomState());
+            roomObserver.update();
+            System.out.println("Initial Room toString (should return with vacant state): " + testRoom.getRoomState());
 
 
 
@@ -178,7 +169,5 @@ public class FacilityApp {
                 facilityService.removeFacility(persistedFacility.getId());
             }
         }
-
-
     }
 }

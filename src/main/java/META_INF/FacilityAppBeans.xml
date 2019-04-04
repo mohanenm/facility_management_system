@@ -28,6 +28,11 @@
         <constructor-arg index="3" value="35"/>
     </bean>
 
+
+    <bean id="roomAObserver" class="com.fms.domainLayer.facility.RoomObserver" scope="prototype">
+        <constructor-arg index="0" name="iRoom" ref="roomA"/>
+    </bean>
+
     <bean id="corboy" class="com.fms.domainLayer.facility.Building" scope="prototype">
         <constructor-arg type="int" value="-1"/> <!-- Extra constructor for 'id' param-->
         <constructor-arg type="java.lang.String" value="Corboy Law Center"/>
@@ -119,6 +124,5 @@
     <bean id="usageService" class="com.fms.domainLayer.services.UsageService" scope="prototype">
 
     </bean>
-
 
 </beans>

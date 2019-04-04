@@ -22,11 +22,9 @@ public class DBUsage {
 
   private PreparedStatement checkRoomAvailability;
 
-  //private PreparedStatement insertFacilityInspection;
+  private PreparedStatement insertFacilityInspection;
 
   private PreparedStatement listInspections;
-
-  private PreparedStatement addCompletedInspection;
 
   Logger logger = LogManager.getLogger();
 
@@ -70,9 +68,12 @@ public class DBUsage {
                                     + "        (? > rr.finish)\n"
                                     + "    )");
 
-//    insertFacilityInspection =
-//            DBConnection.getConnection()
-//                    .prepareStatement();
+    insertFacilityInspection =
+            DBConnection.getConnection()
+                    .prepareStatement(
+                            "INSERT into facility_inspection (id, facility_id, completed, passed)\n" +
+                            "values (?, ?, ?, ?)\n" +
+                            "  RETURNING id;");
 
     listInspections =
             DBConnection.getConnection()
@@ -223,14 +224,15 @@ public class DBUsage {
   the inspection, saves the inspection results.
       */
 
-  public FacilityInspection addInspectionResult(FacilityInspection facilityInspection) throws SQLException {
+  public FacilityInspection addInspection(FacilityInspection facilityInspection) throws SQLException {
     Timestamp time_completed = Timestamp.valueOf(facilityInspection.getCompleted());
 
-    addCompletedInspection.setInt(2, facilityInspection.getFacilityId());
-    addCompletedInspection.setTimestamp(3, time_completed);
-    addCompletedInspection.setBoolean(4, facilityInspection.isPassed());
+    insertFacilityInspection.setInt(1, facilityInspection.getId());
+    insertFacilityInspection.setInt(2, facilityInspection.getFacilityId());
+    insertFacilityInspection.setTimestamp(3, time_completed);
+    insertFacilityInspection.setBoolean(4, facilityInspection.isPassed());
 
-    ResultSet resultSet = addCompletedInspection.executeQuery();
+    ResultSet resultSet = insertFacilityInspection.executeQuery();
     System.out.println("Inspection Result -> " + resultSet);
 
     return facilityInspection;

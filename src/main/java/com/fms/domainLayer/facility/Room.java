@@ -3,7 +3,10 @@ package com.fms.domainLayer.facility;
 import com.fms.domainLayer.common.InterfaceAdapter;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Room implements IRoom {
 
@@ -14,18 +17,16 @@ public class Room implements IRoom {
     this.buildingId = buildingId;
     this.roomNumber = roomNumber;
     this.capacity = capacity;
-  }
+    this.roomState = RoomState.Vacant;
 
+  }
+  //Separate constructors for Room to set custom id or default -1 id
   public Room(int buildingId, int roomNumber, int capacity) {
     this.id = -1;
     this.buildingId = buildingId;
     this.roomNumber = roomNumber;
     this.capacity = capacity;
-  }
-
-  public static Room roomWithId(int id, Room room) {
-    room.id = id;
-    return room;
+    this.roomState = RoomState.Vacant;
   }
 
   public int getId() {
@@ -44,6 +45,8 @@ public class Room implements IRoom {
     return capacity;
   }
 
+  public RoomState getRoomState() { return roomState;}
+
   public void setId(int id) {
     this.id = id;
   }
@@ -60,6 +63,17 @@ public class Room implements IRoom {
     this.capacity = capacity;
   }
 
+  public void setRoomState(RoomState roomState) { this.roomState = roomState; }
+
+  public void attach(Observer roomObserver) {
+    roomObservers.add(roomObserver);
+  }
+
+  public void notifyAllRoomObservers() {
+    for (Observer roomObserver : roomObservers) {
+      roomObserver.update();;
+    }
+  }
   public String toString() {
     GsonBuilder builder = new GsonBuilder().setPrettyPrinting();
     Gson gson = builder.create();
@@ -92,4 +106,6 @@ public class Room implements IRoom {
   private int buildingId;
   private int roomNumber;
   private int capacity;
+  private RoomState roomState;
+  private List<Observer> roomObservers= new ArrayList<>();
 }
