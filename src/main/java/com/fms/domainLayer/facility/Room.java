@@ -10,7 +10,10 @@ import java.util.List;
 
 public class Room implements IRoom {
 
-  public Room() {}
+  public Room() {
+    this.roomState = RoomState.Vacant;
+
+  }
 
   public Room(int id, int buildingId, int roomNumber, int capacity) {
     this.id = id;
@@ -63,7 +66,8 @@ public class Room implements IRoom {
     this.capacity = capacity;
   }
 
-  public void setRoomState(RoomState roomState) { this.roomState = roomState; }
+  public void setRoomState(RoomState roomState) { this.roomState = roomState;
+    notifyAllRoomObservers(); }
 
   public void attach(Observer roomObserver) {
     roomObservers.add(roomObserver);

@@ -17,6 +17,7 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
+import static com.fms.TestData.sampleFacilityInspection;
 import static com.fms.TestData.sampleRange;
 
 public class UsageServiceTest {
@@ -67,7 +68,7 @@ public class UsageServiceTest {
     }
   }
 
-  @Test // currently just testing listing inspections, will add insert functionality once passes
+  @Test
   public void addInspectionToList() throws SQLException {
     ArrayList<FacilityInspection> listOfInspections =
         usageService.listInspections(
@@ -79,13 +80,10 @@ public class UsageServiceTest {
         "Inspections of facility within given range -> " + listOfInspections.toString());
   }
 
-  @Test // currently just testing listing inspections, will add insert functionality once passes
+  @Test
   public void addInspectionResult() throws SQLException {
    FacilityInspection addCompletedInspection =
-            usageService.addCompletedInspection(
-                    1,
-                    LocalDateTime.of(2019, 1,30, 6,0,0,0),
-                    true);
+            usageService.addCompletedInspection(sampleFacilityInspection());
    System.out.println(
            "Inspections of facility within given range -> " + addCompletedInspection.toString());
 }

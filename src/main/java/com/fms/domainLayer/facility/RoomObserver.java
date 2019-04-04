@@ -12,6 +12,6 @@ public class RoomObserver implements Observer {
         System.out.println("Room info -> " + iRoom.toString());
     }
 
-    protected IRoom iRoom;
+    private IRoom iRoom;
 
 }

@@ -3,7 +3,8 @@ package com.fms.view;
 import com.fms.domainLayer.common.FMSException;
 import com.fms.domainLayer.facility.IFacility;
 import com.fms.domainLayer.facility.IRoom;
-import com.fms.domainLayer.facility.RoomObserver;
+import com.fms.domainLayer.facility.Observer;
+import com.fms.domainLayer.facility.RoomState;
 import com.fms.domainLayer.inspection.FacilityInspection;
 import com.fms.domainLayer.maintenance.*;
 import com.fms.domainLayer.services.IFacilityService;
@@ -154,10 +155,10 @@ public class FacilityApp {
         //Testing observer pattern
             //RoomObserver test
             System.out.println(" Observer for test room #101\n----------\n");
-            RoomObserver roomObserver = (RoomObserver) serviceContext.getBean("roomAObserver");
-            System.out.println("Initial Room toString (should return with vacant state): " + testRoom.getRoomState());
-            roomObserver.update();
-            System.out.println("Initial Room toString (should return with vacant state): " + testRoom.getRoomState());
+            Observer roomObserver = (Observer) serviceContext.getBean("roomAObserver");
+            System.out.println("Initial Room state (should return with vacant state): " + testRoom.getRoomState());
+            testRoom.setRoomState(RoomState.UnderMaintenance);
+            System.out.println("Updated Room state (should return with  state): " + testRoom.toString());
 
 
 

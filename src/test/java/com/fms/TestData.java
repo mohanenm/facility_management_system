@@ -70,7 +70,7 @@ public class TestData {
   }
 
   public static FacilityInspection sampleFacilityInspection() {
-    return new FacilityInspection(-1, -1, LocalDateTime.of(1990, Month.JANUARY, 8, 12, 30), false);
+    return new FacilityInspection(-1, 1, LocalDateTime.of(1990, Month.JANUARY, 8, 12, 30), false);
   }
 
   public static MaintenanceType sampleMaintenanceType() {
