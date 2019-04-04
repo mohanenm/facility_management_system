@@ -278,5 +278,29 @@ Corresponds to _listMaintenance_
 
 Given a _facility_id_ and _timeRange_, list all 
 
+## Observer pattern implementation
+
+Corresponds to interface _Observer_ and subclasses _RoomObserver_ & _FacilityObserver_
+
+Given a _Room_ object with a given _RoomState_ enum, use the _RoomObserver_ class to read a change of state
+
+Given a _Facility_ object with a given _FacilityState_ enum, use the _FacilityObserver_ class to read a change of state, and update the state of all _Room_ objects in the _Facility_ accordingly
+
+## Bridge pattern implementation
+
+Use case: We currently have a separate _FacilityMaintenanceRequest_ -> _FacilityMaintenanceSchedule_ pipeline and _RoomMaintenanceRequest_ -> _RoomMaintenanceSchedule pipeline.
+
+We could use the bridge pattern to decouple the interfaces from implementation, and allow the FacilityMaintenance pipeline to access properties of the RoomMaintenance pipeline.
+
+(Brainstormed idea, needs more fleshing out)
+
+## Visitor pattern implementation
+
+Details TBD for project 4
+
+## Decorator pattern implementation
+
+Details TBD for project 4
+
 
 
