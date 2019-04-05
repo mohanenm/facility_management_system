@@ -6,6 +6,7 @@ import com.fms.domainLayer.facility.IRoom;
 import com.fms.domainLayer.facility.Observer;
 import com.fms.domainLayer.facility.RoomState;
 import com.fms.domainLayer.inspection.FacilityInspection;
+import com.fms.domainLayer.inspection.IFacilityInspection;
 import com.fms.domainLayer.maintenance.*;
 import com.fms.domainLayer.services.IFacilityService;
 import com.fms.domainLayer.services.IMaintenanceService;
@@ -17,8 +18,8 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 import java.sql.SQLException;
 import java.time.LocalDateTime;
 import java.time.Month;
-import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 public class FacilityApp {
 
@@ -137,7 +138,7 @@ public class FacilityApp {
             isInUse = usageService.isInUseDuringInterval(testRoomId, sampleRange());
             System.out.println("Facility is in use during interval (should return true, we have scheduled a use during this range) : " + isInUse);
 
-            ArrayList<FacilityInspection> inspections = usageService.listInspections(persistedFacility.getId(), sampleRange());
+            List<IFacilityInspection> inspections = usageService.listInspections(persistedFacility.getId(), sampleRange());
             System.out.println("Listing Facility Inspections (should return empty, we haven't added any) : " + inspections.toString());
 
             //ToDo: add listed inspections which should display below
@@ -159,7 +160,6 @@ public class FacilityApp {
             System.out.println("Initial Room state (should return with vacant state): " + testRoom.getRoomState());
             testRoom.setRoomState(RoomState.UnderMaintenance);
             System.out.println("Updated Room state (should return with  state): " + testRoom.toString());
-
 
 
 

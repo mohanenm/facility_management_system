@@ -101,7 +101,8 @@
 
     <bean id="facilityInspection" class="com.fms.domainLayer.inspection.FacilityInspection" scope="prototype">
         <constructor-arg index="0" value="-1"/>
-        <constructor-arg index="1" value="-1"/>
+        <constructor-arg index="1" value="-1">
+        </constructor-arg>
         <constructor-arg index="2" type="java.time.LocalDateTime">
             <value>'2019-01-30 9:30:00'</value>
         </constructor-arg>

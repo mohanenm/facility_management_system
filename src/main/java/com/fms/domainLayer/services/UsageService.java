@@ -3,12 +3,13 @@ package com.fms.domainLayer.services;
 import com.fms.dal.DBUsage;
 import com.fms.domainLayer.common.RoomSchedulingConflictException;
 import com.fms.domainLayer.inspection.FacilityInspection;
+import com.fms.domainLayer.inspection.IFacilityInspection;
 import com.fms.domainLayer.usage.RoomReservation;
 import com.google.common.collect.Range;
 
 import java.sql.SQLException;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
+import java.util.List;
 
 public class UsageService implements IUsageService {
 
@@ -63,7 +64,7 @@ public class UsageService implements IUsageService {
     return null;
   }
 
-  public ArrayList<FacilityInspection> listInspections(
+  public List<IFacilityInspection> listInspections(
           int facilityId, Range<LocalDateTime> inspectionsPeriod) {
     try {
       return dbUsage.readAllInspections(facilityId, inspectionsPeriod);

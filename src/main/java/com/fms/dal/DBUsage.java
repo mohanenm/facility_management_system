@@ -2,6 +2,7 @@ package com.fms.dal;
 
 import com.fms.domainLayer.common.RoomSchedulingConflictException;
 import com.fms.domainLayer.inspection.FacilityInspection;
+import com.fms.domainLayer.inspection.IFacilityInspection;
 import com.fms.domainLayer.inspection.Inspection;
 import com.fms.domainLayer.usage.RoomReservation;
 import com.fms.domainLayer.usage.RoomSchedulingConflict;
@@ -13,6 +14,7 @@ import org.apache.logging.log4j.Logger;
 import java.sql.*;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.List;
 
 public class DBUsage {
 
@@ -238,9 +240,9 @@ public class DBUsage {
     return facilityInspection;
 
   }
-  public ArrayList<FacilityInspection> readAllInspections(
+  public List<IFacilityInspection> readAllInspections(
           int facilityId, Range<LocalDateTime> inspectionsPeriod) throws SQLException {
-    ArrayList<FacilityInspection> inspectionsList = new ArrayList<>();
+    List<IFacilityInspection> inspectionsList = new ArrayList<>();
     Timestamp start = Timestamp.valueOf(inspectionsPeriod.lowerEndpoint());
     Timestamp finish = Timestamp.valueOf(inspectionsPeriod.upperEndpoint());
 
