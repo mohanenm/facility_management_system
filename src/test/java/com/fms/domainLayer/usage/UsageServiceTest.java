@@ -6,7 +6,6 @@ import com.fms.domainLayer.common.RoomSchedulingConflictException;
 import com.fms.domainLayer.facility.IBuilding;
 import com.fms.domainLayer.facility.IFacility;
 import com.fms.domainLayer.facility.IRoom;
-import com.fms.domainLayer.inspection.FacilityInspection;
 import com.fms.domainLayer.inspection.IFacilityInspection;
 import com.fms.domainLayer.services.FacilityService;
 import com.fms.domainLayer.services.UsageService;
@@ -32,15 +31,6 @@ public class UsageServiceTest {
     facilityService = new FacilityService();
     testData = new TestData();
   }
-
-//  @Test
-//  public void roomRequest() throws SQLException {
-//    RoomRequestResult roomRequestResult =
-//        usageService.roomRequestResult(1, TestData.sampleRoomReservation());
-//
-//    System.out.println("room request -> " + roomRequestResult.toString());
-//
-//  }
 
   public IFacility prepFacilityInDb() throws FMSException {
     IFacility facility = facilityService.addNewFacility("Test Facility", "Healthcare Facility");
@@ -70,7 +60,7 @@ public class UsageServiceTest {
   }
 
   @Test
-  public void addInspectionToList() throws SQLException {
+  public void listInspectionsTest() throws SQLException {
     List<IFacilityInspection> listOfInspections =
         usageService.listInspections(
             1,
@@ -83,7 +73,7 @@ public class UsageServiceTest {
 
   @Test
   public void addInspectionResult() throws SQLException {
-   FacilityInspection addCompletedInspection =
+   IFacilityInspection addCompletedInspection =
             usageService.addCompletedInspection(sampleFacilityInspection());
    System.out.println(
            "Inspections of facility within given range -> " + addCompletedInspection.toString());

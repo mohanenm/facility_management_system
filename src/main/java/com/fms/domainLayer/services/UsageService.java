@@ -61,7 +61,7 @@ public class UsageService implements IUsageService {
     } catch (SQLException e) {
       e.printStackTrace();
     }
-    return null;
+    return facilityInspection;
   }
 
   public List<IFacilityInspection> listInspections(

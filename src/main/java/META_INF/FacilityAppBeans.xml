@@ -109,10 +109,6 @@
         <constructor-arg index="3" value="true"/>
     </bean>
 
-    <bean id="inspection" class="com.fms.domainLayer.inspection.Inspection" scope="prototype">
-    </bean>
-
-
     <bean id="maintenanceService" class="com.fms.domainLayer.services.MaintenanceService" scope="prototype">
 
     </bean>

@@ -3,7 +3,6 @@ package com.fms.dal;
 import com.fms.domainLayer.common.RoomSchedulingConflictException;
 import com.fms.domainLayer.inspection.FacilityInspection;
 import com.fms.domainLayer.inspection.IFacilityInspection;
-import com.fms.domainLayer.inspection.Inspection;
 import com.fms.domainLayer.usage.RoomReservation;
 import com.fms.domainLayer.usage.RoomSchedulingConflict;
 import com.google.common.collect.Range;
@@ -73,8 +72,8 @@ public class DBUsage {
     insertFacilityInspection =
             DBConnection.getConnection()
                     .prepareStatement(
-                            "INSERT into facility_inspection (id, facility_id, completed, passed)\n" +
-                            "values (?, ?, ?, ?)\n" +
+                            "INSERT into facility_inspection (facility_id, completed, passed)\n" +
+                            "values (?, ?, ?)\n" +
                             "  RETURNING id;");
 
     listInspections =
@@ -86,40 +85,6 @@ public class DBUsage {
                                     + "facility_inspection as fi\n"
                                     + "where (? < fi.completed) and \n"
                                     + "(? > fi.completed)");
-  }
-
-  public ArrayList<Inspection> listInspections(Inspection fac) {
-
-    ArrayList<Inspection> listOfInspec = new ArrayList<Inspection>();
-
-    try {
-
-      Statement st = DBConnection.getConnection().createStatement();
-      String listInspectionsQuery = "SELECT * FROM inspection WHERE "
-              + "facility_id = '" + fac.getFacilityID() + "'";
-
-      ResultSet useRS = st.executeQuery(listInspectionsQuery);
-      System.out.println("**************" + listInspectionsQuery + "\n");
-
-      while (useRS.next()) {
-        Inspection inspec = new Inspection();
-        inspec.setInspectionType(useRS.getString("inspection_type"));
-        inspec.setInspectionDetail(useRS.getString("inspection_detail"));
-        inspec.setFacilityID(fac.getFacilityID());
-        listOfInspec.add(inspec);
-      }
-      useRS.close();
-      st.close();
-
-    } catch (SQLException se) {
-      System.err.println(" Threw a SQLException retrieving "
-              + "inspections");
-      System.err.println(se.getMessage());
-      se.printStackTrace();
-    }
-
-    return listOfInspec;
-
   }
 
   private RoomReservation insertRoomReservation(RoomReservation roomRequest) throws SQLException {
@@ -229,10 +194,9 @@ public class DBUsage {
   public FacilityInspection addInspection(FacilityInspection facilityInspection) throws SQLException {
     Timestamp time_completed = Timestamp.valueOf(facilityInspection.getCompleted());
 
-    insertFacilityInspection.setInt(1, facilityInspection.getId());
-    insertFacilityInspection.setInt(2, facilityInspection.getFacilityId());
-    insertFacilityInspection.setTimestamp(3, time_completed);
-    insertFacilityInspection.setBoolean(4, facilityInspection.isPassed());
+    insertFacilityInspection.setInt(1, facilityInspection.getFacilityId());
+    insertFacilityInspection.setTimestamp(2, time_completed);
+    insertFacilityInspection.setBoolean(3, facilityInspection.isPassed());
 
     ResultSet resultSet = insertFacilityInspection.executeQuery();
     System.out.println("Inspection Result -> " + resultSet);

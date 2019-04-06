@@ -6,8 +6,16 @@ import java.time.LocalDateTime;
 
 public class FacilityInspection implements IFacilityInspection{
 
+  public FacilityInspection() {}
+
   public FacilityInspection(int id, int facilityId, LocalDateTime completed, boolean passed) {
     this.id = id;
+    this.facilityId = facilityId;
+    this.completed = completed;
+    this.passed = passed;
+  }
+
+  public FacilityInspection(int facilityId, LocalDateTime completed, boolean passed) {
     this.facilityId = facilityId;
     this.completed = completed;
     this.passed = passed;
