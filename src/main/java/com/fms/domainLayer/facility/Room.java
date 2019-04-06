@@ -1,6 +1,7 @@
 package com.fms.domainLayer.facility;
 
 import com.fms.domainLayer.common.InterfaceAdapter;
+import com.fms.domainLayer.util.Observable;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
@@ -8,7 +9,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Room implements IRoom {
+public class Room extends Observable<RoomState> implements IRoom {
 
   public Room() {
     this.roomState = RoomState.Vacant;
@@ -66,18 +67,11 @@ public class Room implements IRoom {
     this.capacity = capacity;
   }
 
-  public void setRoomState(RoomState roomState) { this.roomState = roomState;
-    notifyAllRoomObservers(); }
-
-  public void attach(Observer roomObserver) {
-    roomObservers.add(roomObserver);
+  public void setRoomState(RoomState roomState) {
+    this.roomState = roomState;
+    notifyObservers(roomState);
   }
 
-  public void notifyAllRoomObservers() {
-    for (Observer roomObserver : roomObservers) {
-      roomObserver.update();;
-    }
-  }
   public String toString() {
     GsonBuilder builder = new GsonBuilder().setPrettyPrinting();
     Gson gson = builder.create();

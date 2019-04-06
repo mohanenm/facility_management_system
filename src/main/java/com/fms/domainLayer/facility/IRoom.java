@@ -1,6 +1,8 @@
 package com.fms.domainLayer.facility;
 
-public interface IRoom {
+import com.fms.domainLayer.util.IObservable;
+
+public interface IRoom extends IObservable <RoomState> {
   int getId();
 
   int getBuildingId();
@@ -20,9 +22,5 @@ public interface IRoom {
   void setCapacity(int capacity);
 
   void setRoomState(RoomState roomState);
-
-  void attach(Observer roomObserver);
-
-  void notifyAllRoomObservers();
 
 }

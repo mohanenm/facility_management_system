@@ -29,8 +29,8 @@
     </bean>
 
 
-    <bean id="roomAObserver" class="com.fms.domainLayer.facility.RoomObserver" scope="prototype">
-        <constructor-arg index="0" name="iRoom" ref="roomA"/>
+    <bean id="roomAObserver" class="com.fms.domainLayer.util.RoomObserver" scope="prototype">
+        <constructor-arg index="0" name="room" ref="roomA"/>
     </bean>
 
     <bean id="corboy" class="com.fms.domainLayer.facility.Building" scope="prototype">

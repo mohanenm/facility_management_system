@@ -7,6 +7,7 @@ import com.fms.domainLayer.facility.IBuilding;
 import com.fms.domainLayer.facility.IFacility;
 import com.fms.domainLayer.facility.IRoom;
 import com.fms.domainLayer.inspection.FacilityInspection;
+import com.fms.domainLayer.inspection.IFacilityInspection;
 import com.fms.domainLayer.services.FacilityService;
 import com.fms.domainLayer.services.UsageService;
 import com.google.common.collect.Range;
@@ -15,7 +16,7 @@ import org.junit.Test;
 import java.sql.SQLException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
+import java.util.List;
 
 import static com.fms.TestData.sampleFacilityInspection;
 import static com.fms.TestData.sampleRange;
@@ -70,7 +71,7 @@ public class UsageServiceTest {
 
   @Test
   public void addInspectionToList() throws SQLException {
-    ArrayList<FacilityInspection> listOfInspections =
+    List<IFacilityInspection> listOfInspections =
         usageService.listInspections(
             1,
             Range.closed(
