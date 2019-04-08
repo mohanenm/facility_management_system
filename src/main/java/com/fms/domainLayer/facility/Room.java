@@ -9,7 +9,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Room extends Observable<RoomState> implements IRoom {
+public class Room extends Observable<RoomState> implements IRoom{
 
   public Room() {
     this.roomState = RoomState.Vacant;

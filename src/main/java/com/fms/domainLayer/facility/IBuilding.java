@@ -30,4 +30,5 @@ public interface IBuilding {
   void setZip(int zip);
 
   void setRooms(List<IRoom> rooms);
+
 }
