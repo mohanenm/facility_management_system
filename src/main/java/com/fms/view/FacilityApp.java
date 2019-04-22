@@ -1,16 +1,17 @@
 package com.fms.view;
 
 import com.fms.domainLayer.common.FMSException;
-import com.fms.domainLayer.facility.IFacility;
-import com.fms.domainLayer.facility.IRoom;
-import com.fms.domainLayer.facility.RoomState;
+import com.fms.domainLayer.facility.*;
 import com.fms.domainLayer.inspection.FacilityInspection;
 import com.fms.domainLayer.inspection.IFacilityInspection;
 import com.fms.domainLayer.maintenance.*;
 import com.fms.domainLayer.services.IFacilityService;
 import com.fms.domainLayer.services.IMaintenanceService;
 import com.fms.domainLayer.services.IUsageService;
+import com.fms.domainLayer.util.DecorateRoomVisitor;
 import com.fms.domainLayer.util.IObserver;
+import com.fms.domainLayer.util.RoomVisitor;
+import com.fms.domainLayer.util.UtilizeRoomVisitor;
 import com.google.common.collect.Range;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
@@ -18,6 +19,7 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 import java.sql.SQLException;
 import java.time.LocalDateTime;
 import java.time.Month;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
@@ -161,6 +163,23 @@ public class FacilityApp {
             System.out.println("Initial Room state (should return with vacant state): " + testRoom.getRoomState());
             testRoom.setRoomState(RoomState.UnderMaintenance);
             System.out.println("Updated Room state (should return with  state & listed observer): " + testRoom.toString());
+
+        //Testing Visitor pattern
+
+            System.out.println("Visitor pattern test for Special Rooms\n----------\n");
+            ISpecialRoom ballRoom = new BallRoom();
+            ISpecialRoom classRoom = new ClassRoom();
+            ISpecialRoom boardRoom = new BoardRoom();
+            RoomVisitor decorateRoomVisitor = new DecorateRoomVisitor();
+            RoomVisitor utilizeRoomVisitor = new UtilizeRoomVisitor();
+            List<ISpecialRoom> rooms = Arrays.asList(ballRoom, classRoom, boardRoom);
+
+            for(ISpecialRoom room : rooms) {
+                room.accept(decorateRoomVisitor);
+                room.accept(utilizeRoomVisitor);
+            }
+
+
 
 
 
