@@ -4,6 +4,7 @@ import com.fms.domainLayer.common.FMSException;
 import com.fms.domainLayer.facility.*;
 import com.fms.domainLayer.inspection.FacilityInspection;
 import com.fms.domainLayer.inspection.IFacilityInspection;
+import com.fms.domainLayer.inspection.VerboseInspection;
 import com.fms.domainLayer.maintenance.*;
 import com.fms.domainLayer.services.IFacilityService;
 import com.fms.domainLayer.services.IMaintenanceService;
@@ -190,5 +191,31 @@ public class FacilityApp {
                 facilityService.removeFacility(persistedFacility.getId());
             }
         }
+
+        //test decorator
+
+        System.out.println("Decorator pattern for verbose output \n----------\n");
+        IFacilityInspection inspection = new VerboseInspection(new FacilityInspection(1, 1, LocalDateTime.now(), false));
+        int inspectionId = inspection.getId();
+        System.out.println(inspectionId);
+        int facilityId = inspection.getFacilityId();
+        System.out.println(facilityId);
+        LocalDateTime completed = inspection.getCompleted();
+        System.out.println(completed);
+        boolean passed = inspection.isPassed();
+        System.out.println(passed);
+
+        //check setters
+        inspection.setId(2);
+        System.out.println(inspection.getId());
+
+        inspection.setFacilityId(3);
+        System.out.println(inspection.getFacilityId());
+
+        inspection.setCompleted(LocalDateTime.now());
+        System.out.println(inspection.getCompleted());
+
+        inspection.setPassed(true);
+        System.out.println(inspection.isPassed());
     }
 }
