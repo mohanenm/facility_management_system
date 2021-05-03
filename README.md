@@ -3,7 +3,7 @@
 ```
 Facility Management System
 
-@authors: Ethan Davidson, Ethan Mohan
+@authors: Ethan Davidson, Ethan Mohan, Chicago, IL
 
 A project for Objects, Frameworks & Patterns
 to design a scaleable system for managing facilities
